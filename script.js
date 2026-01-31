@@ -68,37 +68,40 @@ document.addEventListener('DOMContentLoaded', () => {
     // 4. Render Gallery (With Image Logic)
     function renderGallery(cars) {
         gallery.innerHTML = '';
-        
+        if (cars.length === 0) {
+            gallery.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:50px; color:#999;">No cars found.</div>';
+            return;
+        }
+
         cars.forEach((car, index) => {
             const card = document.createElement('div');
             card.className = 'card';
-            // Stagger animation delay based on index (0.05s per item)
-            card.style.animationDelay = `${index * 0.05}s`; 
+            // 即使有懒加载，保留这个交错动画也很棒
+            card.style.animationDelay = `${Math.min(index * 0.05, 1.0)}s`; 
             card.onclick = () => openModal(car);
 
-            const tagsList = car.tags ? car.tags.split(';') : [];
-            const tagsHTML = tagsList.slice(0, 3).map(t => `<span class="mini-tag">${t}</span>`).join('');
+            const tagsList = (car.tags || '').split(';').filter(t => t.trim() !== '');
+            const tagsHTML = tagsList.slice(0, 5).map(t => `<span class="mini-tag">${t}</span>`).join('');
 
-            // IMAGE LOGIC:
-            // Determine source. If Mode is Real AND url exists, use real. Else Model.
-            let imgSrc = car.imagePath;
-            if (showRealCar && car.realCarImage && car.realCarImage.trim() !== "") {
-                imgSrc = car.realCarImage;
-            }
+            let imgSrc = car.imagePath || 'images/placeholder.jpg'; 
+            if (showRealCar && car.realCarImage) imgSrc = car.realCarImage;
+
+            const title = `${car.modelName || 'Unknown'}`;
 
             card.innerHTML = `
                 <div class="card-image-wrapper">
                     <img 
                         src="${imgSrc}" 
-                        alt="${car.modelName}" 
-                        loading="lazy"
+                        alt="${title}" 
+                        loading="lazy" 
+                        decoding="async"
                         onload="this.classList.add('loaded')"
-                        onerror="this.onerror=null; this.src='${car.imagePath}'"
+                        onerror="this.onerror=null; this.src='${car.imagePath || ''}'; if(this.src==window.location.href) this.style.display='none';" 
                     >
                 </div>
                 <div class="card-info">
-                    <div class="card-brand">${car.modelBrand}</div>
-                    <h3 class="card-title">${car.carBrand} ${car.modelName}</h3>
+                    <div class="card-brand">${car.modelBrand || ''}</div>
+                    <h3 class="card-title">${title}</h3>
                     <div class="card-tags">${tagsHTML}</div>
                 </div>
             `;

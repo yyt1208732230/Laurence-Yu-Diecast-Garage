@@ -20,7 +20,7 @@
 
         body { font-family: var(--font-main); background-color: var(--bg-color); color: var(--text-primary); margin: 0; padding: 0; overflow-x: hidden; }
         
-        /* Header & Hero (保持不变) */
+        /* Header & Hero */
         header { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 5%; background: #fff; border-bottom: 1px solid #f0f0f0; }
         .brand-area { display: flex; align-items: center; gap: 15px; }
         .site-logo { width: 45px; height: 45px; border-radius: 50%; object-fit: cover; border: 1px solid #eee; background: #eee; }
@@ -75,7 +75,7 @@
         .card-tags { display: flex; flex-wrap: wrap; gap: 6px; }
         .mini-tag { font-size: 0.7rem; background: #ebebeb; padding: 3px 8px; border-radius: 4px; color: #555; }
 
-        /* ==================== Pagination Style ==================== */
+        /* Pagination */
         .pagination-container {
             display: flex;
             justify-content: center;
@@ -102,7 +102,7 @@
         .page-btn.active { background: #000; color: #fff; border-color: #000; }
         .page-btn:disabled { color: #ccc; cursor: not-allowed; border-color: #eee; }
 
-        /* Modal (保持不变) */
+        /* Modal */
         .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.92); backdrop-filter: blur(4px); overflow-y: auto; }
         .modal-content { background: #fff; margin: 40px auto; padding: 40px; width: 90%; max-width: 900px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15); border-radius: 8px; position: relative; animation: slideUp 0.3s ease-out; border: 1px solid #f0f0f0; }
         .close-btn { position: absolute; top: 15px; right: 20px; font-size: 2rem; cursor: pointer; color: #aaa; transition: color 0.2s; line-height: 1; }
@@ -154,9 +154,6 @@
 
     <section class="hero-section">
         <img src="images/banner.jpg" alt="Collection Banner" class="hero-img" onerror="this.style.display='none'; this.parentElement.style.backgroundColor='#444'">
-        <!-- <div class="hero-overlay">
-            <h3 data-en="“Beyond my means, never beyond memory.”" data-cn="“如未能拥有则怀念。”"><span>“Beyond my means, never beyond my memory.”</span></h3>
-        </div> -->
     </section>
 
     <nav class="tabs">
@@ -228,7 +225,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             
             // Config
-            const ITEMS_PER_PAGE = 23; // 分页限制
+            const ITEMS_PER_PAGE = 15; // 分页限制
             let currentPage = 1;
             
             let currentLang = 'en';
@@ -306,7 +303,7 @@
                 }
             }
 
-            // 3. Render Gallery (No Lazy Load Attribute)
+            // 3. Render Gallery (启用懒加载 + 异步解码)
             function renderGallery(cars) {
                 gallery.innerHTML = '';
                 if (cars.length === 0) {
@@ -317,6 +314,7 @@
                 cars.forEach((car, index) => {
                     const card = document.createElement('div');
                     card.className = 'card';
+                    // 即使有懒加载，保留这个交错动画也很棒
                     card.style.animationDelay = `${Math.min(index * 0.05, 1.0)}s`; 
                     card.onclick = () => openModal(car);
 
@@ -326,7 +324,6 @@
                     let imgSrc = car.imagePath || 'images/placeholder.jpg'; 
                     if (showRealCar && car.realCarImage) imgSrc = car.realCarImage;
 
-                    // const title = `${car.carBrand || ''} ${car.modelName || 'Unknown'}`;
                     const title = `${car.modelName || 'Unknown'}`;
 
                     card.innerHTML = `
@@ -334,6 +331,8 @@
                             <img 
                                 src="${imgSrc}" 
                                 alt="${title}" 
+                                loading="lazy" 
+                                decoding="async"
                                 onload="this.classList.add('loaded')"
                                 onerror="this.onerror=null; this.src='${car.imagePath || ''}'; if(this.src==window.location.href) this.style.display='none';" 
                             >
