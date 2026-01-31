@@ -161,8 +161,8 @@
 
     <nav class="tabs">
         <button class="tab-btn active" data-filter="BMW">BMW Garage</button>
-        <button class="tab-btn" data-filter="Hotwheels">Hotwheels Garage</button>
-        <button class="tab-btn" data-filter="all">Whole Garage</button>
+        <button class="tab-btn" data-filter="Hotwheels">Hotwheels Collection</button>
+        <button class="tab-btn" data-filter="all">All On Track</button>
     </nav>
 
     <div class="controls-bar">
@@ -321,7 +321,7 @@
                     card.onclick = () => openModal(car);
 
                     const tagsList = (car.tags || '').split(';').filter(t => t.trim() !== '');
-                    const tagsHTML = tagsList.slice(0, 3).map(t => `<span class="mini-tag">${t}</span>`).join('');
+                    const tagsHTML = tagsList.slice(0, 5).map(t => `<span class="mini-tag">${t}</span>`).join('');
 
                     let imgSrc = car.imagePath || 'images/placeholder.jpg'; 
                     if (showRealCar && car.realCarImage) imgSrc = car.realCarImage;
