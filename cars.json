@@ -1,0 +1,51 @@
+[
+    {
+      "id": "1",
+      "visible": true,
+      "category": "BMW",
+      "modelBrand": "MINI GT",
+      "carBrand": "BMW",
+      "modelName": "BMW M3 KAIDO GT V1 (KHMG 162)",
+      "seriesNum": "E30",
+      "price": "-",
+      "tags": "E30;Red;1986",
+      "color": "Red",
+      "color_cn": "红",
+      "description_en": "",
+      "description_cn": "",
+      "imagePath": "images/diecast/IMG_0401.webp",
+      "realCarImage": "images/diecast/IMG_0581.webp", 
+      "realCarUrl": "https://www.bmw-m.com/en/topics/magazine-article-pool/bmw-m3-e30-portraet.html"
+    },
+    {
+      "id": "2",
+      "visible": true,
+      "category": "BMW",
+      "modelBrand": "MINI GT",
+      "carBrand": "BMW",
+      "modelName": "BMW M3 KAIDO WORKS V1 (KHMG 154)",
+      "seriesNum": "E30",
+      "price": "-",
+      "tags": "E30;Red;1986",
+      "color": "Blue",
+      "color_cn": "蓝",
+      "description_en": "",
+      "description_cn": "",
+      "imagePath": "images/diecast/IMG_0444.webp",
+      "realCarImage": "images/diecast/IMG_0584-1.webp", 
+      "realCarUrl": "https://www.bmw-m.com/en/topics/magazine-article-pool/bmw-m3-e30-portraet.html"
+    },
+    {
+      "id": "hw_r34",
+      "visible": true,
+      "category": "Hotwheels",
+      "modelBrand": "Hot Wheels",
+      "carBrand": "Nissan",
+      "modelName": "Skyline GT-R R34",
+      "price": "$5.00",
+      "tags": "JDM;Rare",
+      "imagePath": "images/r34_model.jpg",
+      "realCarImage": "", 
+      "realCarUrl": ""
+    }
+  ]

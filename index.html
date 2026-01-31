@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>My Diecast Collection</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ==================== CSS 样式区域 ==================== */
+        :root {
+            --bg-color: #ffffff;
+            --text-primary: #1a1a1a;
+            --text-secondary: #666666;
+            --accent-color: #000000;
+            --card-bg: #f9f9f9;
+            --font-main: 'Inter', sans-serif;
+            --font-display: 'Playfair Display', serif;
+        }
+
+        body { font-family: var(--font-main); background-color: var(--bg-color); color: var(--text-primary); margin: 0; padding: 0; overflow-x: hidden; }
+        
+        /* Header & Hero (保持不变) */
+        header { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 5%; background: #fff; border-bottom: 1px solid #f0f0f0; }
+        .brand-area { display: flex; align-items: center; gap: 15px; }
+        .site-logo { width: 45px; height: 45px; border-radius: 50%; object-fit: cover; border: 1px solid #eee; background: #eee; }
+        .logo-text { font-family: var(--font-display); font-size: 1.4rem; font-weight: 700; color: #000; }
+        .logo-text span { font-weight: 400; font-style: italic; color: #555; }
+        .lang-switch button { background: none; border: none; cursor: pointer; font-size: 0.9rem; color: var(--text-secondary); transition: color 0.2s;}
+        .lang-switch button.active { color: var(--accent-color); font-weight: bold; text-decoration: underline; }
+
+        .hero-section { width: 100%; height: 35vh; min-height: 220px; position: relative; overflow: hidden; margin-bottom: 2rem; background: #333; }
+        .hero-img { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; }
+        .hero-overlay { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-family: var(--font-display); font-size: 2.5rem; text-shadow: 0 4px 15px rgba(0,0,0,0.5); width: 100%; text-align: center; pointer-events: none; }
+
+        /* Tabs */
+        .tabs { display: flex; justify-content: center; gap: 1.5rem; margin-bottom: 2rem; flex-wrap: wrap; padding: 0 1rem; }
+        .tab-btn { background: none; border: none; font-size: 1rem; cursor: pointer; color: var(--text-secondary); padding-bottom: 5px; transition: all 0.2s; border-bottom: 2px solid transparent;}
+        .tab-btn:hover { color: var(--accent-color); }
+        .tab-btn.active { color: var(--accent-color); border-bottom: 2px solid var(--accent-color); font-weight: 600; }
+
+        /* Controls Bar */
+        .controls-bar { display: flex; justify-content: space-between; align-items: center; padding: 0 5%; max-width: 1600px; margin: 0 auto 2rem auto; flex-wrap: wrap; gap: 15px; }
+        .controls-left { display: flex; gap: 12px; align-items: center; }
+        
+        .dropdown { position: relative; display: inline-block; min-width: 140px; }
+        .dropdown-btn { background-color: #fff; border: 1px solid #ddd; color: var(--text-primary); padding: 8px 12px; font-size: 0.85rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; width: 100%; border-radius: 4px; transition: border 0.2s; }
+        .dropdown-btn:hover { border-color: #999; }
+        .dropdown-content { display: none; position: absolute; background-color: #fff; min-width: 100%; box-shadow: 0 8px 16px rgba(0,0,0,0.1); z-index: 20; border: 1px solid #eee; border-radius: 4px; margin-top: 5px; max-height: 250px; overflow-y: auto; }
+        .dropdown-content div { color: var(--text-primary); padding: 10px 15px; cursor: pointer; font-size: 0.85rem; border-bottom: 1px solid #f9f9f9; }
+        .dropdown-content div:hover { background-color: #f5f5f5; }
+        .dropdown-content div.selected { font-weight: bold; background-color: #f0f0f0; }
+        .show { display: block; animation: slideDown 0.2s ease; }
+
+        .icon-btn { background: #fff; border: 1px solid #ddd; border-radius: 4px; padding: 8px 12px; cursor: pointer; display: flex; align-items: center; gap: 6px; color: var(--text-secondary); transition: all 0.2s; height: 38px; }
+        .icon-btn:hover { border-color: #666; color: #000; }
+        .icon-btn.active { background-color: #000; color: #fff; border-color: #000; }
+        .icon-btn svg { width: 18px; height: 18px; }
+        .toggle-text { font-size: 0.85rem; font-weight: 600; }
+        .item-count { font-size: 0.85rem; color: #888; margin-left: auto; }
+
+        /* Gallery Grid */
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 2rem; padding: 0 5% 40px 5%; max-width: 1600px; margin: 0 auto; min-height: 300px; }
+        
+        .card { background: var(--card-bg); border-radius: 6px; overflow: hidden; cursor: pointer; transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s; border: 1px solid transparent; opacity: 0; animation: cardFadeIn 0.6s ease forwards; }
+        .card:hover { transform: translateY(-6px); box-shadow: 0 12px 30px rgba(0,0,0,0.06); background: #fff; border-color: #eee; }
+        
+        .card-image-wrapper { width: 100%; padding-top: 60%; position: relative; background: #eee; overflow: hidden; }
+        .card-image-wrapper img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.5s ease-in; }
+        .card-image-wrapper img.loaded { opacity: 1; }
+        
+        .card-info { padding: 1.2rem; }
+        .card-brand { font-size: 0.7rem; color: #888; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+        .card-title { font-size: 1rem; font-weight: 600; margin: 6px 0 10px 0; line-height: 1.4; }
+        .card-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+        .mini-tag { font-size: 0.7rem; background: #ebebeb; padding: 3px 8px; border-radius: 4px; color: #555; }
+
+        /* ==================== Pagination Style ==================== */
+        .pagination-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            padding: 20px 0 60px 0;
+            width: 100%;
+        }
+        .page-btn {
+            background: #fff;
+            border: 1px solid #ddd;
+            color: #333;
+            min-width: 36px;
+            height: 36px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .page-btn:hover:not(:disabled) { border-color: #000; color: #000; }
+        .page-btn.active { background: #000; color: #fff; border-color: #000; }
+        .page-btn:disabled { color: #ccc; cursor: not-allowed; border-color: #eee; }
+
+        /* Modal (保持不变) */
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.92); backdrop-filter: blur(4px); overflow-y: auto; }
+        .modal-content { background: #fff; margin: 40px auto; padding: 40px; width: 90%; max-width: 900px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15); border-radius: 8px; position: relative; animation: slideUp 0.3s ease-out; border: 1px solid #f0f0f0; }
+        .close-btn { position: absolute; top: 15px; right: 20px; font-size: 2rem; cursor: pointer; color: #aaa; transition: color 0.2s; line-height: 1; }
+        .close-btn:hover { color: #000; }
+        .modal-body { display: flex; gap: 40px; align-items: flex-start; }
+        .modal-image { flex: 1.4; border-radius: 6px; overflow: hidden; background: #f9f9f9; }
+        .modal-image img { width: 100%; height: auto; display: block; }
+        .modal-info { flex: 1; display: flex; flex-direction: column; }
+        .details-list { margin: 25px 0; border-top: 1px solid #eee; border-bottom: 1px solid #eee; padding: 20px 0; }
+        .detail-item { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 0.95rem; }
+        .detail-item .label { color: #888; }
+        .detail-item .value { font-weight: 600; text-align: right; }
+        .action-btn { display: block; background: #111; color: #fff; padding: 14px; text-decoration: none; text-align: center; border-radius: 4px; margin-top: 10px; transition: opacity 0.2s; font-size: 0.9rem; }
+        .action-btn:hover { opacity: 0.85; }
+
+        footer { text-align: center; padding: 40px; color: #ccc; font-size: 0.8rem; border-top: 1px solid #fafafa; margin-top: auto;}
+
+        /* Animations */
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes cardFadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+
+        @media screen and (max-width: 768px) {
+            .hero-section { height: 25vh; }
+            .hero-overlay { font-size: 1.8rem; }
+            .controls-bar { flex-direction: column; align-items: stretch; gap: 10px; }
+            .controls-left { justify-content: space-between; width: 100%; }
+            .dropdown { flex-grow: 1; }
+            .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 0 3% 40px 3%; }
+            .card-title { font-size: 0.9rem; }
+            .modal-content { padding: 20px; margin: 10px auto; width: 92%; margin-top: 50px; }
+            .modal-body { flex-direction: column; gap: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="brand-area">
+            <img src="images/logo.png" alt="Logo" class="site-logo" onerror="this.style.display='none'">
+            <div class="logo-text"><span>Laurence Diecast</span></div>
+        </div>
+        <div class="lang-switch">
+            <button id="lang-en" class="active">EN</button>
+            <span>/</span>
+            <button id="lang-cn">中</button>
+        </div>
+    </header>
+
+    <section class="hero-section">
+        <img src="images/banner.jpg" alt="Collection Banner" class="hero-img" onerror="this.style.display='none'; this.parentElement.style.backgroundColor='#444'">
+        <!-- <div class="hero-overlay">
+            <h3 data-en="“Beyond my means, never beyond memory.”" data-cn="“如未能拥有则怀念。”"><span>“Beyond my means, never beyond my memory.”</span></h3>
+        </div> -->
+    </section>
+
+    <nav class="tabs">
+        <button class="tab-btn active" data-filter="BMW">BMW Garage</button>
+        <button class="tab-btn" data-filter="Hotwheels">Hotwheels Garage</button>
+        <button class="tab-btn" data-filter="all">Whole Garage</button>
+    </nav>
+
+    <div class="controls-bar">
+        <div class="controls-left">
+            <div class="dropdown" id="tag-dropdown">
+                <button class="dropdown-btn">
+                    <span id="current-tag-label" data-en="Filter by Tag" data-cn="标签筛选">Filter by Tag</span>
+                    <span>&#9662;</span>
+                </button>
+                <div class="dropdown-content" id="tag-list"></div>
+            </div>
+
+            <button id="view-toggle-btn" class="icon-btn" title="Toggle Real Car / Model">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2" />
+                    <circle cx="7" cy="17" r="2" />
+                    <circle cx="17" cy="17" r="2" />
+                </svg>
+                <span class="toggle-text" data-en="Real" data-cn="真车">Real</span>
+            </button>
+        </div>
+        <div class="item-count" id="item-count">Loading...</div>
+    </div>
+
+    <main id="gallery" class="gallery-grid"></main>
+
+    <div id="pagination" class="pagination-container"></div>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <div class="modal-body">
+                <div class="modal-image">
+                    <img id="modal-img" src="" alt="Model Car">
+                </div>
+                <div class="modal-info">
+                    <h2 id="modal-title"></h2>
+                    <p class="brand-tag" id="modal-brand"></p>
+                    <div class="details-list">
+                        <div class="detail-item"><span class="label" data-en="Brand" data-cn="品牌">Brand</span><span class="value" id="modal-maker"></span></div>
+                        <div class="detail-item" id="series-container"><span class="label" data-en="Series" data-cn="系列">Series</span><span class="value" id="modal-series"></span></div>
+                        <div class="detail-item"><span class="label" data-en="Color" data-cn="颜色">Color</span><span class="value" id="modal-color"></span></div>
+                        <div class="detail-item"><span class="label" data-en="Price" data-cn="购入价">Price</span><span class="value" id="modal-price"></span></div>
+                        <div class="detail-item"><span class="label" data-en="Tags" data-cn="标签">Tags</span><span class="value" id="modal-tags"></span></div>
+                    </div>
+                    <p id="modal-desc" class="description"></p>
+                    <div class="modal-actions">
+                        <a id="real-car-link" href="#" target="_blank" class="action-btn">
+                            <span data-en="View Real Car" data-cn="查看真车">View Real Car</span> &rarr;
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>"Beyond my means, never beyond memory.'</p>
+        <p>&copy; 2026 Laurence Yu's Diecast Collection | Design by Passion</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // Config
+            const ITEMS_PER_PAGE = 23; // 分页限制
+            let currentPage = 1;
+            
+            let currentLang = 'en';
+            let carData = [];
+            let currentCategory = 'BMW'; 
+            let currentTagFilter = null; 
+            let showRealCar = false; 
+
+            // Elements
+            const getEl = (id) => document.getElementById(id);
+            const gallery = getEl('gallery');
+            const paginationContainer = getEl('pagination');
+            const toggleBtn = getEl('view-toggle-btn');
+            const dropdownBtn = document.querySelector('.dropdown-btn');
+            const dropdownContent = getEl('tag-list');
+            const currentTagLabel = getEl('current-tag-label');
+            const itemCountLabel = getEl('item-count');
+            const modal = getEl('modal');
+            const closeBtn = document.querySelector('.close-btn');
+
+            // 1. Fetch
+            fetch('cars.json')
+                .then(r => { if(!r.ok) throw new Error(r.status); return r.json(); })
+                .then(data => { carData = data; updateUI(); })
+                .catch(e => {
+                    gallery.innerHTML = `<div class="error-banner">Data Load Error: ${e.message}</div>`;
+                });
+
+            // 2. UI Update Master Logic (Includes Pagination)
+            function updateUI() {
+                try {
+                    // Step A: Filter All Matching Cars first
+                    let allMatches = currentCategory === 'all' 
+                        ? carData.filter(c => c.visible !== false)
+                        : carData.filter(c => c.category === currentCategory && c.visible !== false);
+
+                    generateDropdownOptions(allMatches);
+
+                    if (currentTagFilter) {
+                        allMatches = allMatches.filter(c => (c.tags || '').split(';').includes(currentTagFilter));
+                        if (currentTagLabel) currentTagLabel.textContent = currentTagFilter;
+                    } else {
+                        if (currentTagLabel) currentTagLabel.textContent = currentLang === 'en' ? 'Filter by Tag' : '标签筛选';
+                    }
+                    updateDropdownSelection();
+
+                    // Step B: Calculate Pagination
+                    const totalItems = allMatches.length;
+                    const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
+                    
+                    // Safety check: if current page exceeds total pages, reset to 1
+                    if (currentPage > totalPages) currentPage = 1;
+                    if (currentPage < 1) currentPage = 1;
+
+                    // Step C: Slice Data for Current Page
+                    const startIdx = (currentPage - 1) * ITEMS_PER_PAGE;
+                    const endIdx = startIdx + ITEMS_PER_PAGE;
+                    const carsOnPage = allMatches.slice(startIdx, endIdx);
+
+                    // Step D: Update Count Text
+                    if (itemCountLabel) {
+                        if (totalItems === 0) {
+                            itemCountLabel.textContent = '0 items';
+                        } else {
+                            itemCountLabel.textContent = `${startIdx + 1}-${Math.min(endIdx, totalItems)} of ${totalItems}`;
+                        }
+                    }
+
+                    // Step E: Render Grid & Pagination
+                    renderGallery(carsOnPage);
+                    renderPagination(totalPages);
+
+                } catch (e) {
+                    console.error("UI Update Error:", e);
+                }
+            }
+
+            // 3. Render Gallery (No Lazy Load Attribute)
+            function renderGallery(cars) {
+                gallery.innerHTML = '';
+                if (cars.length === 0) {
+                    gallery.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:50px; color:#999;">No cars found.</div>';
+                    return;
+                }
+
+                cars.forEach((car, index) => {
+                    const card = document.createElement('div');
+                    card.className = 'card';
+                    card.style.animationDelay = `${Math.min(index * 0.05, 1.0)}s`; 
+                    card.onclick = () => openModal(car);
+
+                    const tagsList = (car.tags || '').split(';').filter(t => t.trim() !== '');
+                    const tagsHTML = tagsList.slice(0, 3).map(t => `<span class="mini-tag">${t}</span>`).join('');
+
+                    let imgSrc = car.imagePath || 'images/placeholder.jpg'; 
+                    if (showRealCar && car.realCarImage) imgSrc = car.realCarImage;
+
+                    const title = `${car.carBrand || ''} ${car.modelName || 'Unknown'}`;
+
+                    card.innerHTML = `
+                        <div class="card-image-wrapper">
+                            <img 
+                                src="${imgSrc}" 
+                                alt="${title}" 
+                                onload="this.classList.add('loaded')"
+                                onerror="this.onerror=null; this.src='${car.imagePath || ''}'; if(this.src==window.location.href) this.style.display='none';" 
+                            >
+                        </div>
+                        <div class="card-info">
+                            <div class="card-brand">${car.modelBrand || ''}</div>
+                            <h3 class="card-title">${title}</h3>
+                            <div class="card-tags">${tagsHTML}</div>
+                        </div>
+                    `;
+                    gallery.appendChild(card);
+                });
+            }
+
+            // 4. Render Pagination Buttons
+            function renderPagination(totalPages) {
+                paginationContainer.innerHTML = '';
+                
+                if (totalPages <= 1) return; // Hide if only 1 page
+
+                // Prev Button
+                const prevBtn = document.createElement('button');
+                prevBtn.className = 'page-btn';
+                prevBtn.innerHTML = '&lsaquo;'; // < symbol
+                prevBtn.disabled = currentPage === 1;
+                prevBtn.onclick = () => { if(currentPage > 1) { currentPage--; updateUI(); window.scrollTo(0,0); }};
+                paginationContainer.appendChild(prevBtn);
+
+                // Page Numbers
+                for (let i = 1; i <= totalPages; i++) {
+                    const btn = document.createElement('button');
+                    btn.className = `page-btn ${i === currentPage ? 'active' : ''}`;
+                    btn.textContent = i;
+                    btn.onclick = () => {
+                        currentPage = i;
+                        updateUI();
+                        window.scrollTo(0, 0); // Scroll to top on page change
+                    };
+                    paginationContainer.appendChild(btn);
+                }
+
+                // Next Button
+                const nextBtn = document.createElement('button');
+                nextBtn.className = 'page-btn';
+                nextBtn.innerHTML = '&rsaquo;'; // > symbol
+                nextBtn.disabled = currentPage === totalPages;
+                nextBtn.onclick = () => { if(currentPage < totalPages) { currentPage++; updateUI(); window.scrollTo(0,0); }};
+                paginationContainer.appendChild(nextBtn);
+            }
+
+            // 5. Dropdown Logic
+            function generateDropdownOptions(cars) {
+                if (!dropdownContent) return;
+                const allTags = {};
+                cars.forEach(car => {
+                    (car.tags || '').split(';').forEach(tag => {
+                        const trimmed = tag.trim();
+                        if(trimmed) allTags[trimmed] = (allTags[trimmed] || 0) + 1;
+                    });
+                });
+                const sortedTags = Object.keys(allTags).sort((a,b) => allTags[b] - allTags[a]).slice(0, 10);
+                
+                dropdownContent.innerHTML = '';
+                const resetDiv = document.createElement('div');
+                resetDiv.textContent = currentLang === 'en' ? 'All Tags' : '全部标签';
+                resetDiv.onclick = () => {
+                    currentTagFilter = null;
+                    currentPage = 1; // Reset page on filter change
+                    updateUI();
+                    toggleDropdown();
+                };
+                dropdownContent.appendChild(resetDiv);
+
+                sortedTags.forEach(tag => {
+                    const div = document.createElement('div');
+                    div.textContent = `${tag} (${allTags[tag]})`;
+                    div.onclick = () => {
+                        currentTagFilter = tag;
+                        currentPage = 1; // Reset page on filter change
+                        updateUI();
+                        toggleDropdown();
+                    };
+                    dropdownContent.appendChild(div);
+                });
+            }
+
+            function updateDropdownSelection() { /* Same as before */ 
+                const options = dropdownContent.querySelectorAll('div');
+                options.forEach(opt => {
+                    const txt = opt.textContent;
+                    if ((currentTagFilter && txt.includes(currentTagFilter)) || (!currentTagFilter && (txt.includes('All')||txt.includes('全部')))) {
+                        opt.classList.add('selected');
+                    } else { opt.classList.remove('selected'); }
+                });
+            }
+            function toggleDropdown() { dropdownContent.classList.toggle('show'); }
+            
+            if (dropdownBtn) dropdownBtn.addEventListener('click', (e) => { e.stopPropagation(); toggleDropdown(); });
+            window.addEventListener('click', (e) => { if (dropdownContent && !e.target.closest('.dropdown-btn')) dropdownContent.classList.remove('show'); });
+
+            // Toggle Real View
+            if (toggleBtn) toggleBtn.addEventListener('click', () => { showRealCar = !showRealCar; toggleBtn.classList.toggle('active', showRealCar); updateUI(); });
+
+            // Tab Switch
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentCategory = btn.getAttribute('data-filter') || 'BMW';
+                    currentTagFilter = null;
+                    currentPage = 1; // Reset page
+                    updateUI();
+                });
+            });
+
+            // Lang Switch
+            document.querySelectorAll('.lang-switch button').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const lang = e.target.id === 'lang-en' ? 'en' : 'cn';
+                    if(lang === currentLang) return;
+                    currentLang = lang;
+                    document.querySelectorAll('.lang-switch button').forEach(b => b.classList.remove('active'));
+                    e.target.classList.add('active');
+                    document.querySelectorAll('[data-en]').forEach(el => el.textContent = currentLang === 'en' ? el.getAttribute('data-en') : el.getAttribute('data-cn'));
+                    updateUI();
+                });
+            });
+
+            // Modal
+            function setText(id, text) { const el = getEl(id); if(el) el.textContent = text || '-'; }
+            function openModal(car) {
+                const imgEl = getEl('modal-img');
+                let src = car.imagePath;
+                if (showRealCar && car.realCarImage) src = car.realCarImage;
+                if(imgEl) { imgEl.src = src || ''; imgEl.onerror = function() { this.src = car.imagePath || ''; }; }
+
+                setText('modal-title', `${car.carBrand} ${car.modelName}`);
+                setText('modal-brand', car.category);
+                setText('modal-maker', car.modelBrand);
+                setText('modal-series', car.seriesNum);
+                setText('modal-price', car.price);
+                setText('modal-tags', (car.tags || '').split(';').join(', '));
+                setText('modal-color', currentLang === 'en' ? car.color : car.color_cn);
+                setText('modal-desc', currentLang === 'en' ? car.description_en : car.description_cn);
+
+                const seriesContainer = getEl('series-container');
+                if (seriesContainer) seriesContainer.style.display = (car.carBrand === 'BMW' && car.seriesNum) ? 'flex' : 'none';
+                
+                const linkBtn = getEl('real-car-link');
+                if (linkBtn) linkBtn.style.display = car.realCarUrl ? 'block' : 'none';
+                if (linkBtn) linkBtn.href = car.realCarUrl || '#';
+
+                modal.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+            }
+            if(closeBtn) closeBtn.onclick = () => { modal.style.display = 'none'; document.body.style.overflow = 'auto'; };
+            window.onclick = (e) => { if(e.target == modal) { modal.style.display = 'none'; document.body.style.overflow = 'auto'; }};
+        });
+    </script>
+</body>
+</html>
