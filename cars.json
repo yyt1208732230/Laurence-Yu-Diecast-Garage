@@ -97,7 +97,7 @@
       "carBrand": "BMW",
       "modelName": "BMW M3 (Red)",
       "seriesNum": "E30",
-      "price": "円800",
+      "price": "円800~1500",
       "tags": "E30;Red;1992",
       "color": "Red",
       "color_cn": "红",
@@ -106,5 +106,23 @@
       "imagePath": "images/diecast/IMG_0400.webp",
       "realCarImage": "images/diecast/IMG_0606.webp", 
       "realCarUrl": "https://www.bmw-m.com/en/topics/magazine-article-pool/bmw-m3-e30-portraet.html"
+    },
+    {
+      "id": "7",
+      "visible": true,
+      "category": "BMW",
+      "modelBrand": "Hot Wheels",
+      "carBrand": "BMW",
+      "modelName": "BMW M5 (Film: Mission Impossible)",
+      "seriesNum": "G30",
+      "price": "AU$12",
+      "tags": "G30;Grey;2021;Film",
+      "color": "Grey",
+      "color_cn": "灰",
+      "description_en": "",
+      "description_cn": "",
+      "imagePath": "images/diecast/IMG_0440.webp",
+      "realCarImage": "images/diecast/IMG_0612.webp", 
+      "realCarUrl": "https://www.bmw-m.com/en/topics/magazine-article-pool/bmw-m5-mission-impossible-fallout.html"
     }
   ]

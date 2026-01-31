@@ -326,7 +326,8 @@
                     let imgSrc = car.imagePath || 'images/placeholder.jpg'; 
                     if (showRealCar && car.realCarImage) imgSrc = car.realCarImage;
 
-                    const title = `${car.carBrand || ''} ${car.modelName || 'Unknown'}`;
+                    // const title = `${car.carBrand || ''} ${car.modelName || 'Unknown'}`;
+                    const title = `${car.modelName || 'Unknown'}`;
 
                     card.innerHTML = `
                         <div class="card-image-wrapper">
@@ -469,7 +470,8 @@
                 if (showRealCar && car.realCarImage) src = car.realCarImage;
                 if(imgEl) { imgEl.src = src || ''; imgEl.onerror = function() { this.src = car.imagePath || ''; }; }
 
-                setText('modal-title', `${car.carBrand} ${car.modelName}`);
+                setText('modal-title', `${car.modelName}`);
+                // setText('modal-title', `${car.carBrand} ${car.modelName}`);
                 setText('modal-brand', car.category);
                 setText('modal-maker', car.modelBrand);
                 setText('modal-series', car.seriesNum);
