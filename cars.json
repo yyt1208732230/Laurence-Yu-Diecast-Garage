@@ -394,5 +394,41 @@
       "imagePath": "images/diecast/IMG_0450.webp",
       "realCarImage": "images/diecast/IMG_0672.webp", 
       "realCarUrl": "https://www.bmw-m.com/en/topics/magazine-article-pool/bmw-3-0-csl.html"
+    },
+    {
+      "id": "23",
+      "visible": true,
+      "category": "BMW",
+      "modelBrand": "Kyosho",
+      "carBrand": "BMW",
+      "modelName": "BMW 320 Gr. 5 (#12)",
+      "seriesNum": "E21",
+      "price": "円1500",
+      "tags": "E21;Black;1977",
+      "color": "Black",
+      "color_cn": "黑",
+      "description_en": "",
+      "description_cn": "",
+      "imagePath": "images/diecast/IMG_0403.webp",
+      "realCarImage": "images/diecast/img_1_1768999719484.webp", 
+      "realCarUrl": "https://www.bmwgroup-classic.com/en/company/museum/touring-cars/popup/320-turbo.html"
+    },
+    {
+      "id": "24",
+      "visible": true,
+      "category": "BMW",
+      "modelBrand": "Kyosho",
+      "carBrand": "BMW",
+      "modelName": "BMW X5 (Black)",
+      "seriesNum": "E53",
+      "price": "円1500",
+      "tags": "E53;Black;1999",
+      "color": "Black",
+      "color_cn": "黑",
+      "description_en": "",
+      "description_cn": "",
+      "imagePath": "images/diecast/IMG_0419.webp",
+      "realCarImage": "images/diecast/IMG_0680.webp",
+      "realCarUrl": "https://en.wikipedia.org/wiki/BMW_X5_(E53)"
     }
   ]
