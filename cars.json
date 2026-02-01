@@ -522,24 +522,6 @@
       "realCarUrl": "https://petrolicious.com/blogs/articles/a-bmw-m1-that-will-always-rewind-to-the-80s?srsltid=AfmBOoqeYwxbbQTXdPY4R_pOxfm3lJKxacs9au3z-9pzrVBC2g58VtvZ"
     },
     {
-      "id": "30",
-      "visible": true,
-      "category": "BMW",
-      "modelBrand": "Hot Wheels",
-      "carBrand": "BMW",
-      "modelName": "BMW M1 Procar (The Hot One's #1)",
-      "seriesNum": "E26",
-      "price": "-",
-      "tags": "E26;Blue;1978",
-      "color": "Blue",
-      "color_cn": "超宝蓝",
-      "description_en": "",
-      "description_cn": "",
-      "imagePath": "images/diecast/IMG_0196.webp",
-      "realCarImage": "images/diecast/IMG_0317.webp",
-      "realCarUrl": "https://www.bmw-m.com/en/topics/magazine-article-pool/the-bmw-m1-procar.html"
-    },
-    {
       "id": "31",
       "visible": true,
       "category": "BMW",

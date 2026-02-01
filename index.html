@@ -197,9 +197,9 @@
     </section>
 
     <nav class="tabs">
-        <button class="tab-btn active" data-filter="BMW">BMW Garage</button>
-        <button class="tab-btn" data-filter="Hotwheels">Hotwheels Collection</button>
-        <button class="tab-btn" data-filter="all">All On Track</button>
+        <button class="tab-btn active" data-filter="BMW" data-en="BMW Garage" data-cn="宝马车库">BMW Garage</button>
+        <button class="tab-btn" data-filter="Hotwheels" data-en="Hotwheels" data-cn="风火轮系列">Hotwheels</button>
+        <button class="tab-btn" data-filter="all" data-en="All On Track" data-cn="全部追踪">All On Track</button>
     </nav>
 
     <div class="controls-bar">
@@ -451,8 +451,10 @@
                             filtered = filtered.filter(c => c.seriesNum === bmwFilters.series);
                         }
                         if (bmwFilters.color) {
-                            const cField = currentLang === 'en' ? c.color : c.color_cn;
-                            filtered = filtered.filter(c => cField === bmwFilters.color);
+                            filtered = filtered.filter(c => {
+                                const cField = currentLang === 'en' ? c.color : c.color_cn;
+                                return cField === bmwFilters.color;
+                            });
                         }
                         if (bmwFilters.decade) {
                             const rangeStart = parseInt(bmwFilters.decade); // "1990s" -> 1990
