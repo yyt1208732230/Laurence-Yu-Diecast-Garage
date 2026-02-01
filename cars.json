@@ -828,24 +828,6 @@
       "realCarUrl": "https://rmsothebys.com/auctions/mo25/lots/r0136-1995-bmw-m3-lightweight/"
     },
     {
-      "id": "48",
-      "visible": true,
-      "category": "BMW",
-      "modelBrand": "Hot Wheels",
-      "carBrand": "BMW",
-      "modelName": " BMW M3 LTW (Fast & Furious)",
-      "seriesNum": "E36",
-      "price": "-",
-      "tags": "E36;Black;1995",
-      "color": "Black",
-      "color_cn": "黑",
-      "description_en": "",
-      "description_cn": "",
-      "imagePath": "images/diecast/IMG_0237.webp",
-      "realCarImage": "images/diecast/IMG_0243.webp",
-      "realCarUrl": "https://rmsothebys.com/auctions/mo25/lots/r0136-1995-bmw-m3-lightweight/"
-    },
-    {
       "id": "49",
       "visible": true,
       "category": "BMW",
