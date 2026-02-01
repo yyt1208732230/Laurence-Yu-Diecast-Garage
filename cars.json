@@ -916,5 +916,41 @@
       "imagePath": "images/diecast/IMG_0253.webp",
       "realCarImage": "images/diecast/IMG_0257.webp",
       "realCarUrl": "https://www.bmw-m.com/en/topics/magazine-article-pool/bmw-m635csi-top-model-of-the-e24-series.html"
+    },
+    {
+      "id": "52",
+      "visible": true,
+      "category": "BMW",
+      "modelBrand": "Hot Wheels",
+      "carBrand": "BMW",
+      "modelName": "BMW 2002 (Neon yellow)",
+      "seriesNum": "E10",
+      "price": "-",
+      "tags": "E10;Yellow;1975",
+      "color": "Yellow",
+      "color_cn": "荧光黄",
+      "description_en": "",
+      "description_cn": "",
+      "imagePath": "images/diecast/IMG_0299.webp",
+      "realCarImage": "images/diecast/IMG_0308.webp",
+      "realCarUrl": "https://www.opumo.com/magazine/why-this-neon-yellow-1975-bmw-2002-tii-belongs-in-your-garage/"
+    },
+    {
+      "id": "53",
+      "visible": true,
+      "category": "BMW",
+      "modelBrand": "Hot Wheels",
+      "carBrand": "BMW",
+      "modelName": "BMW 2002 Bilstein (White)",
+      "seriesNum": "E10",
+      "price": "-",
+      "tags": "E10;White;1974",
+      "color": "White",
+      "color_cn": "白",
+      "description_en": "",
+      "description_cn": "",
+      "imagePath": "images/diecast/IMG_0295.webp",
+      "realCarImage": "images/diecast/IMG_0310.webp",
+      "realCarUrl": "https://en.wikipedia.org/wiki/BMW_02_Series"
     }
   ]
