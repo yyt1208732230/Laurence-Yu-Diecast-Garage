@@ -531,7 +531,8 @@
                     // Display Series Num for BMWs in title
                     let title = `${car.modelName || 'Unknown'}`;
                     if(currentCategory === 'BMW' && car.seriesNum) {
-                        title = `${car.seriesNum} ${title}`;
+                        // title = `${car.seriesNum} ${title}`;
+                        title = `${title}`;
                     }
 
                     card.innerHTML = `
