@@ -43,7 +43,7 @@
         .tab-btn:hover { color: var(--accent-color); }
         .tab-btn.active { color: var(--accent-color); border-bottom: 2px solid var(--accent-color); font-weight: 600; }
 
-        /* ==================== Controls Bar (Search & Filter) ==================== */
+        /* ==================== Controls Bar ==================== */
         .controls-bar {
             display: flex;
             justify-content: space-between;
@@ -62,73 +62,48 @@
             flex-wrap: wrap;
         }
 
-        /* 1. Tag Select Wrapper */
-        .filter-wrapper {
-            min-width: 200px;
-            width: 220px;
+        /* Filter Containers */
+        #generic-filters, #bmw-filters {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
         }
-        /* Tom Select Style Override (Minimalist) */
+
+        /* Wrapper sizing */
+        .filter-wrapper { min-width: 160px; width: 180px; }
+        .bmw-filter-wrapper { min-width: 130px; width: 150px; } /* Slightly narrower for BMW to fit 3 */
+
+        /* Tom Select Style Override */
         .ts-control {
             border: 1px solid #ddd !important;
             border-radius: 4px !important;
             padding: 8px 12px !important;
             font-family: var(--font-main) !important;
             box-shadow: none !important;
-            height: 42px !important; /* Fixed height to match buttons */
+            height: 42px !important; 
             display: flex;
             align-items: center;
             background-color: #fff;
+            font-size: 0.85rem !important; /* Slightly smaller text for fit */
         }
-        .ts-wrapper.focus .ts-control {
-            border-color: #999 !important;
-        }
-        .ts-dropdown {
-            border: 1px solid #eee !important;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
-            z-index: 100 !important;
-        }
-        .ts-dropdown .active {
-            background-color: #f5f5f5 !important;
-            color: #000 !important;
-        }
+        .ts-wrapper.focus .ts-control { border-color: #999 !important; }
+        .ts-dropdown { border: 1px solid #eee !important; box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important; z-index: 100 !important; }
+        .ts-dropdown .active { background-color: #f5f5f5 !important; color: #000 !important; }
 
-        /* 2. Search Box */
-        .search-wrapper {
-            display: flex;
-            align-items: center;
-            height: 42px;
-        }
+        /* Search Box */
+        .search-wrapper { display: flex; align-items: center; height: 42px; }
         #search-input {
-            height: 100%;
-            padding: 0 12px;
-            border: 1px solid #ddd;
-            border-radius: 4px 0 0 4px;
-            border-right: none;
-            font-family: var(--font-main);
-            font-size: 0.9rem;
-            width: 180px;
-            outline: none;
-            transition: border-color 0.2s;
-            box-sizing: border-box;
+            height: 100%; padding: 0 12px; border: 1px solid #ddd; border-radius: 4px 0 0 4px; border-right: none;
+            font-family: var(--font-main); font-size: 0.9rem; width: 160px; outline: none; transition: border-color 0.2s; box-sizing: border-box;
         }
         #search-input:focus { border-color: #999; }
         #search-btn {
-            height: 100%;
-            padding: 0 15px;
-            background-color: #f9f9f9;
-            border: 1px solid #ddd;
-            border-radius: 0 4px 4px 0;
-            cursor: pointer;
-            font-family: var(--font-main);
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--text-secondary);
-            transition: all 0.2s;
-            box-sizing: border-box;
+            height: 100%; padding: 0 15px; background-color: #f9f9f9; border: 1px solid #ddd; border-radius: 0 4px 4px 0;
+            cursor: pointer; font-family: var(--font-main); font-size: 0.9rem; font-weight: 600; color: var(--text-secondary); transition: all 0.2s; box-sizing: border-box;
         }
         #search-btn:hover { background-color: #eaeaea; color: #000; border-color: #ccc; }
 
-        /* 3. Icon Button (View Toggle) */
+        /* Icon Button */
         .icon-btn { 
             background: #fff; border: 1px solid #ddd; border-radius: 4px; padding: 0 12px; 
             cursor: pointer; display: flex; align-items: center; gap: 6px; color: var(--text-secondary); 
@@ -143,28 +118,23 @@
 
         /* Gallery Grid */
         .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 2rem; padding: 0 5% 40px 5%; max-width: 1600px; margin: 0 auto; min-height: 300px; }
-        
         .card { background: var(--card-bg); border-radius: 6px; overflow: hidden; cursor: pointer; transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s; border: 1px solid transparent; opacity: 0; animation: cardFadeIn 0.6s ease forwards; }
         .card:hover { transform: translateY(-6px); box-shadow: 0 12px 30px rgba(0,0,0,0.06); background: #fff; border-color: #eee; }
-        
         .card-image-wrapper { width: 100%; padding-top: 60%; position: relative; background: #eee; overflow: hidden; }
         .card-image-wrapper img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.5s ease-in; }
         .card-image-wrapper img.loaded { opacity: 1; }
-        
         .card-info { padding: 1.2rem; }
         .card-brand { font-size: 0.7rem; color: #888; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
         .card-title { font-size: 1rem; font-weight: 600; margin: 6px 0 10px 0; line-height: 1.4; }
         .card-tags { display: flex; flex-wrap: wrap; gap: 6px; }
         .mini-tag { font-size: 0.7rem; background: #ebebeb; padding: 3px 8px; border-radius: 4px; color: #555; }
 
-        /* Pagination Style */
+        /* Pagination */
         .pagination-container { display: flex; justify-content: center; align-items: center; gap: 8px; padding: 20px 0 20px 0; width: 100%; }
         .page-btn { background: #fff; border: 1px solid #ddd; color: #333; min-width: 36px; height: 36px; border-radius: 4px; cursor: pointer; font-size: 0.9rem; transition: all 0.2s; display: flex; align-items: center; justify-content: center; }
         .page-btn:hover:not(:disabled) { border-color: #000; color: #000; }
         .page-btn.active { background: #000; color: #fff; border-color: #000; }
         .page-btn:disabled { color: #ccc; cursor: not-allowed; border-color: #eee; }
-        
-        /* Top Pagination Spacing */
         #pagination-top { margin-bottom: 20px; padding-top: 0; }
         #pagination-bottom { margin-bottom: 40px; }
 
@@ -186,24 +156,23 @@
 
         footer { text-align: center; padding: 40px; color: #ccc; font-size: 0.8rem; border-top: 1px solid #fafafa; margin-top: auto;}
 
-        /* Animations */
         @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes cardFadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Responsive Mobile */
         @media screen and (max-width: 768px) {
             .hero-section { height: 25vh; }
             .controls-bar { flex-direction: column; align-items: stretch; gap: 10px; }
             .controls-left { justify-content: space-between; width: 100%; gap: 10px; }
             
-            .filter-wrapper { width: 100%; min-width: unset; order: 1; }
-            .search-wrapper { width: 100%; order: 2; }
+            #generic-filters, #bmw-filters { width: 100%; flex-direction: column; }
+            .filter-wrapper, .bmw-filter-wrapper { width: 100%; min-width: unset; }
+            
+            .search-wrapper { width: 100%; }
             #search-input { flex-grow: 1; width: auto; }
             
-            .icon-btn { width: 100%; justify-content: center; order: 3; }
+            .icon-btn { width: 100%; justify-content: center; }
             
             .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 0 3% 40px 3%; }
-            .card-title { font-size: 0.9rem; }
             .modal-content { padding: 20px; margin: 10px auto; width: 92%; margin-top: 50px; }
             .modal-body { flex-direction: column; gap: 20px; }
         }
@@ -229,23 +198,13 @@
 
     <nav class="tabs">
         <button class="tab-btn active" data-filter="BMW" data-en="BMW Garage" data-cn="宝马车库">BMW Garage</button>
-        <button class="tab-btn" data-filter="Hotwheels" data-en="Hotwheels" data-cn="风火轮">Hotwheels</button>
+        <button class="tab-btn" data-filter="Hotwheels" data-en="Hotwheels" data-cn="风火轮系列">Hotwheels</button>
         <button class="tab-btn" data-filter="all" data-en="All On Track" data-cn="全部追踪">All On Track</button>
     </nav>
 
     <div class="controls-bar">
         <div class="controls-left">
-            <div class="filter-wrapper">
-                <select id="tag-select" placeholder="Filter by Tag..." autocomplete="off">
-                    <option value="">All Tags</option>
-                </select>
-            </div>
-
-            <div class="search-wrapper">
-                <input type="text" id="search-input" placeholder="Search model..." autocomplete="off">
-                <button id="search-btn">Search</button>
-            </div>
-
+            
             <button id="view-toggle-btn" class="icon-btn" title="Toggle Real Car / Model">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2" />
@@ -254,14 +213,38 @@
                 </svg>
                 <span class="toggle-text" data-en="Real" data-cn="真车">Real</span>
             </button>
+
+            <div id="generic-filters" style="display:none;">
+                <div class="filter-wrapper">
+                    <select id="tag-select" placeholder="Filter by Tag..." autocomplete="off">
+                        <option value="">All Tags</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="bmw-filters">
+                <div class="bmw-filter-wrapper">
+                    <select id="bmw-series-select" placeholder="Series..." autocomplete="off"><option value="">All Series</option></select>
+                </div>
+                <div class="bmw-filter-wrapper">
+                    <select id="bmw-color-select" placeholder="Color..." autocomplete="off"><option value="">All Colors</option></select>
+                </div>
+                <div class="bmw-filter-wrapper">
+                    <select id="bmw-year-select" placeholder="Decade..." autocomplete="off"><option value="">All Years</option></select>
+                </div>
+            </div>
+
+            <div class="search-wrapper">
+                <input type="text" id="search-input" placeholder="Search model..." autocomplete="off">
+                <button id="search-btn">Search</button>
+            </div>
+
         </div>
         <div class="item-count" id="item-count">Loading...</div>
     </div>
 
     <div id="pagination-top" class="pagination-container"></div>
-
     <main id="gallery" class="gallery-grid"></main>
-
     <div id="pagination-bottom" class="pagination-container"></div>
 
     <div id="modal" class="modal">
@@ -300,7 +283,6 @@
     <script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
 
     <script>
-        /* ==================== JavaScript 逻辑区域 ==================== */
         document.addEventListener('DOMContentLoaded', () => {
             
             // Config
@@ -311,12 +293,22 @@
             let currentLang = 'en';
             let carData = [];
             let currentCategory = 'BMW'; 
+            
+            // Filters
             let currentTagFilter = ''; 
             let currentSearchQuery = ''; 
+            
+            // BMW Specific Filters
+            let bmwFilters = {
+                series: '',
+                color: '',
+                decade: ''
+            };
+
             let showRealCar = false; 
 
-            // Tom Select Instance
-            let tagSelectInstance = null;
+            // Tom Select Instances
+            let tsTag, tsSeries, tsColor, tsYear;
 
             // DOM Elements
             const getEl = (id) => document.getElementById(id);
@@ -328,40 +320,53 @@
             const itemCountLabel = getEl('item-count');
             const modal = getEl('modal');
             const closeBtn = document.querySelector('.close-btn');
+            
+            const genericFiltersDiv = getEl('generic-filters');
+            const bmwFiltersDiv = getEl('bmw-filters');
 
-            // 1. Initialize Tom Select (Placeholder)
-            if(document.getElementById('tag-select')){
-                tagSelectInstance = new TomSelect("#tag-select",{
+            // 1. Initialize Tom Selects
+            function initTS(id, placeholder, onChangeCallback) {
+                if(!getEl(id)) return null;
+                return new TomSelect("#"+id, {
                     create: false,
                     sortField: { field: "text", direction: "asc" },
-                    placeholder: "Filter by Tag...",
+                    placeholder: placeholder,
                     allowEmptyOption: true,
-                    onChange: (value) => {
-                        currentTagFilter = value;
-                        currentPage = 1;
-                        updateUI();
-                    }
+                    onChange: (val) => { onChangeCallback(val); }
                 });
             }
+
+            tsTag = initTS('tag-select', "Filter by Tag...", (val) => {
+                currentTagFilter = val; currentPage = 1; updateUI();
+            });
+
+            // BMW Selects
+            tsSeries = initTS('bmw-series-select', "All Series", (val) => {
+                bmwFilters.series = val; currentPage = 1; updateUI();
+            });
+            tsColor = initTS('bmw-color-select', "All Colors", (val) => {
+                bmwFilters.color = val; currentPage = 1; updateUI();
+            });
+            tsYear = initTS('bmw-year-select', "All Decades", (val) => {
+                bmwFilters.decade = val; currentPage = 1; updateUI();
+            });
 
             // 2. Fetch Data
             fetch('cars.json')
                 .then(r => { if(!r.ok) throw new Error(r.status); return r.json(); })
                 .then(data => { 
                     carData = data; 
-                    refreshTagOptions(); // Load tags
-                    updateUI(); // Initial render
+                    refreshOptions(); // Load initial options
+                    updateUI(); 
                 })
                 .catch(e => {
-                    gallery.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:50px; color:red;">
-                        Data Load Error: ${e.message}<br>Please ensure 'cars.json' exists.
-                    </div>`;
+                    gallery.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:50px; color:red;">Data Load Error: ${e.message}</div>`;
                 });
 
-            // 3. Search Logic (Click or Enter)
+            // 3. Search Logic
             function performSearch() {
                 const query = searchInput.value.trim().toLowerCase();
-                if (query === currentSearchQuery) return; // No change
+                if (query === currentSearchQuery) return;
                 currentSearchQuery = query;
                 currentPage = 1;
                 updateUI();
@@ -369,61 +374,112 @@
             searchBtn.addEventListener('click', performSearch);
             searchInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') performSearch(); });
 
-            // 4. Populate Tags Logic
-            function refreshTagOptions() {
-                if (!tagSelectInstance) return;
+            // 4. Populate Options Logic
+            function refreshOptions() {
+                // A. Populate Generic Tags (Only for Non-BMW tabs or logic)
+                if (currentCategory !== 'BMW') {
+                    const allTags = new Set();
+                    const relevantCars = currentCategory === 'all' ? carData : carData.filter(c => c.category === currentCategory);
+                    relevantCars.forEach(car => {
+                        if (car.tags) car.tags.split(';').forEach(tag => { const t = tag.trim(); if(t) allTags.add(t); });
+                    });
+                    updateTomSelect(tsTag, Array.from(allTags).sort(), currentLang === 'en' ? 'All Tags' : '全部标签');
+                }
 
-                // Collect tags from *relevant* cars based on Category
-                let relevantCars = currentCategory === 'all' 
-                    ? carData 
-                    : carData.filter(c => c.category === currentCategory);
+                // B. Populate BMW Specifics (Only if BMW is loaded, can do once or every update)
+                const bmwCars = carData.filter(c => c.category === 'BMW');
+                
+                // Series
+                const seriesSet = new Set();
+                bmwCars.forEach(c => { if(c.seriesNum) seriesSet.add(c.seriesNum); });
+                updateTomSelect(tsSeries, Array.from(seriesSet).sort(), "All Series");
 
-                const allTags = new Set();
-                relevantCars.forEach(car => {
-                    if (car.tags) {
-                        car.tags.split(';').forEach(tag => {
-                            const t = tag.trim();
-                            if(t) allTags.add(t);
-                        });
+                // Color
+                const colorSet = new Set();
+                bmwCars.forEach(c => { 
+                    const color = currentLang === 'en' ? c.color : c.color_cn;
+                    if(color) colorSet.add(color); 
+                });
+                updateTomSelect(tsColor, Array.from(colorSet).sort(), "All Colors");
+
+                // Decade (Logic: Find Year in Tags -> Convert to Decade)
+                const decadeSet = new Set();
+                const yearRegex = /\b(19|20)\d{2}\b/; // Matches 19xx or 20xx
+                bmwCars.forEach(c => {
+                    if(c.tags) {
+                        const match = c.tags.match(yearRegex);
+                        if(match) {
+                            const year = parseInt(match[0]);
+                            const decade = Math.floor(year / 10) * 10 + 's'; // e.g. 1990s
+                            decadeSet.add(decade);
+                        }
                     }
                 });
+                updateTomSelect(tsYear, Array.from(decadeSet).sort(), "All Decades");
+            }
 
-                const sortedTags = Array.from(allTags).sort();
-
-                tagSelectInstance.clear();
-                tagSelectInstance.clearOptions();
-                tagSelectInstance.addOption({value: '', text: currentLang === 'en' ? 'All Tags' : '全部标签'});
-                
-                sortedTags.forEach(tag => {
-                    tagSelectInstance.addOption({value: tag, text: tag});
-                });
-                
-                tagSelectInstance.sync();
+            function updateTomSelect(instance, items, emptyText) {
+                if(!instance) return;
+                instance.clear();
+                instance.clearOptions();
+                instance.addOption({value: '', text: emptyText});
+                items.forEach(item => instance.addOption({value: item, text: item}));
+                instance.sync();
             }
 
             // 5. UI Update Master Logic
             function updateUI() {
                 try {
-                    // A. Filter by Category
+                    // Toggle Filter Visibility
+                    if (currentCategory === 'BMW') {
+                        genericFiltersDiv.style.display = 'none';
+                        bmwFiltersDiv.style.display = 'flex';
+                    } else {
+                        genericFiltersDiv.style.display = 'block';
+                        bmwFiltersDiv.style.display = 'none';
+                    }
+
+                    // A. Base Filter by Category
                     let filtered = currentCategory === 'all' 
                         ? carData.filter(c => c.visible !== false)
                         : carData.filter(c => c.category === currentCategory && c.visible !== false);
 
-                    // B. Filter by Tag
-                    if (currentTagFilter && currentTagFilter !== '') {
-                        filtered = filtered.filter(c => (c.tags || '').split(';').includes(currentTagFilter));
+                    // B. Apply Filters based on Category
+                    if (currentCategory === 'BMW') {
+                        // Apply BMW Filters
+                        if (bmwFilters.series) {
+                            filtered = filtered.filter(c => c.seriesNum === bmwFilters.series);
+                        }
+                        if (bmwFilters.color) {
+                            const cField = currentLang === 'en' ? c.color : c.color_cn;
+                            filtered = filtered.filter(c => cField === bmwFilters.color);
+                        }
+                        if (bmwFilters.decade) {
+                            const rangeStart = parseInt(bmwFilters.decade); // "1990s" -> 1990
+                            const rangeEnd = rangeStart + 9;
+                            filtered = filtered.filter(c => {
+                                const match = (c.tags || '').match(/\b(19|20)\d{2}\b/);
+                                if (!match) return false;
+                                const year = parseInt(match[0]);
+                                return year >= rangeStart && year <= rangeEnd;
+                            });
+                        }
+                    } else {
+                        // Apply Generic Tag Filter
+                        if (currentTagFilter && currentTagFilter !== '') {
+                            filtered = filtered.filter(c => (c.tags || '').split(';').includes(currentTagFilter));
+                        }
                     }
 
-                    // C. Filter by Search
+                    // C. Search Filter (Global)
                     if (currentSearchQuery) {
                         filtered = filtered.filter(c => {
-                            // Search in multiple fields
-                            const text = `${c.modelName} ${c.carBrand} ${c.modelBrand} ${c.description_en} ${c.description_cn} ${c.tags}`.toLowerCase();
+                            const text = `${c.modelName} ${c.carBrand} ${c.modelBrand} ${c.description_en} ${c.description_cn} ${c.tags} ${c.seriesNum}`.toLowerCase();
                             return text.includes(currentSearchQuery);
                         });
                     }
 
-                    // D. Pagination Calc
+                    // D. Pagination
                     const totalItems = filtered.length;
                     const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
                     
@@ -434,7 +490,7 @@
                     const endIdx = startIdx + ITEMS_PER_PAGE;
                     const carsOnPage = filtered.slice(startIdx, endIdx);
 
-                    // E. Update Count
+                    // E. Update UI Text
                     if (itemCountLabel) {
                         itemCountLabel.textContent = totalItems === 0 
                             ? '0 items' 
@@ -449,28 +505,32 @@
                 }
             }
 
-            // 6. Render Gallery (Lazy Load + Async Decode)
+            // 6. Render Gallery
             function renderGallery(cars) {
                 gallery.innerHTML = '';
                 if (cars.length === 0) {
-                    gallery.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:50px; color:#999;">No cars found matching your criteria.</div>';
+                    gallery.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:50px; color:#999;">No cars found.</div>';
                     return;
                 }
 
                 cars.forEach((car, index) => {
                     const card = document.createElement('div');
                     card.className = 'card';
-                    // Animation delay for smooth entry
                     card.style.animationDelay = `${Math.min(index * 0.05, 1.0)}s`; 
                     card.onclick = () => openModal(car);
 
+                    // Show first 5 tags
                     const tagsList = (car.tags || '').split(';').filter(t => t.trim() !== '');
                     const tagsHTML = tagsList.slice(0, 5).map(t => `<span class="mini-tag">${t}</span>`).join('');
 
                     let imgSrc = car.imagePath || 'images/placeholder.jpg'; 
                     if (showRealCar && car.realCarImage) imgSrc = car.realCarImage;
 
-                    const title = `${car.modelName || 'Unknown'}`;
+                    // Display Series Num for BMWs in title
+                    let title = `${car.modelName || 'Unknown'}`;
+                    if(currentCategory === 'BMW' && car.seriesNum) {
+                        title = `${car.seriesNum} ${title}`;
+                    }
 
                     card.innerHTML = `
                         <div class="card-image-wrapper">
@@ -493,15 +553,13 @@
                 });
             }
 
-            // 7. Render Pagination (Top & Bottom)
+            // 7. Render Pagination
             function renderPagination(totalPages) {
                 const createButtons = () => {
                     const wrapper = document.createElement('div');
                     wrapper.style.display = 'contents';
-
                     if (totalPages <= 1) return wrapper;
 
-                    // Prev
                     const prevBtn = document.createElement('button');
                     prevBtn.className = 'page-btn';
                     prevBtn.innerHTML = '&lsaquo;';
@@ -509,7 +567,6 @@
                     prevBtn.onclick = () => { if(currentPage > 1) { currentPage--; updateUI(); window.scrollTo(0,0); }};
                     wrapper.appendChild(prevBtn);
 
-                    // Numbers (Smart logic: First, Last, Current +/- 2)
                     for (let i = 1; i <= totalPages; i++) {
                         if (i === 1 || i === totalPages || (i >= currentPage - 2 && i <= currentPage + 2)) {
                             const btn = document.createElement('button');
@@ -519,20 +576,17 @@
                             wrapper.appendChild(btn);
                         } else if (i === currentPage - 3 || i === currentPage + 3) {
                             const span = document.createElement('span');
-                            span.textContent = '...';
-                            span.style.padding = '0 5px';
+                            span.textContent = '...'; span.style.padding = '0 5px';
                             wrapper.appendChild(span);
                         }
                     }
 
-                    // Next
                     const nextBtn = document.createElement('button');
                     nextBtn.className = 'page-btn';
                     nextBtn.innerHTML = '&rsaquo;';
                     nextBtn.disabled = currentPage === totalPages;
                     nextBtn.onclick = () => { if(currentPage < totalPages) { currentPage++; updateUI(); window.scrollTo(0,0); }};
                     wrapper.appendChild(nextBtn);
-
                     return wrapper;
                 };
 
@@ -540,36 +594,29 @@
                     if(!container) return;
                     container.innerHTML = '';
                     const content = createButtons();
-                    // Move nodes to container (clone logic needed because append moves nodes)
-                    // Simplified: re-generate buttons for each container
                     const contentClone = createButtons(); 
-                    while(contentClone.firstChild) {
-                        container.appendChild(contentClone.firstChild);
-                    }
+                    while(contentClone.firstChild) container.appendChild(contentClone.firstChild);
                 });
             }
-
-            // Events: Toggle View
-            toggleBtn.addEventListener('click', () => { 
-                showRealCar = !showRealCar; 
-                toggleBtn.classList.toggle('active', showRealCar); 
-                updateUI(); 
-            });
 
             // Events: Tabs
             document.querySelectorAll('.tab-btn').forEach(btn => {
                 btn.addEventListener('click', () => {
                     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
                     btn.classList.add('active');
-                    currentCategory = btn.getAttribute('data-filter') || 'BMW';
+                    currentCategory = btn.getAttribute('data-filter');
                     
-                    // Reset filters
+                    // Reset all filters on tab switch to avoid confusion
                     currentTagFilter = '';
+                    bmwFilters = { series: '', color: '', decade: '' };
                     currentSearchQuery = '';
                     searchInput.value = '';
                     currentPage = 1;
                     
-                    refreshTagOptions(); 
+                    // Clear selects visual state
+                    [tsTag, tsSeries, tsColor, tsYear].forEach(ts => { if(ts) ts.clear(); });
+
+                    refreshOptions(); // Re-populate options based on new category
                     updateUI();
                 });
             });
@@ -583,22 +630,20 @@
                     document.querySelectorAll('.lang-switch button').forEach(b => b.classList.remove('active'));
                     e.target.classList.add('active');
                     
-                    // Update static UI
                     document.querySelectorAll('[data-en]').forEach(el => {
                         el.textContent = currentLang === 'en' ? el.getAttribute('data-en') : el.getAttribute('data-cn');
                     });
                     
-                    // Update Tom Select Placeholder
-                    if(tagSelectInstance) {
-                        // Hacky update for placeholder option
-                        const allTagText = currentLang === 'en' ? 'All Tags' : '全部标签';
-                        tagSelectInstance.updateOption('', {value:'', text: allTagText});
-                        // Also update placeholder attribute if needed
-                        tagSelectInstance.settings.placeholder = currentLang === 'en' ? 'Filter by Tag...' : '按标签筛选...';
-                        tagSelectInstance.control_input.placeholder = tagSelectInstance.settings.placeholder;
-                    }
+                    refreshOptions(); // Re-populate colors in new language
                     updateUI();
                 });
+            });
+
+            // View Toggle
+            toggleBtn.addEventListener('click', () => { 
+                showRealCar = !showRealCar; 
+                toggleBtn.classList.toggle('active', showRealCar); 
+                updateUI(); 
             });
 
             // Modal Logic
