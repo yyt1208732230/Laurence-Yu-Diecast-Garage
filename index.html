@@ -116,6 +116,137 @@
 
         .item-count { font-size: 0.85rem; color: #888; margin-left: auto; }
 
+        
+        /* ==================== BMW Timeline View ==================== */
+        .timeline-view{
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 0 5% 40px 5%;
+        }
+        .timeline-wrap{
+            position: relative;
+            padding-left: 18px;
+        }
+        .timeline-line{
+            position: absolute;
+            left: 7px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #eee;
+        }
+        .timeline-decade{
+            position: relative;
+            padding: 6px 0 26px 0;
+        }
+        .timeline-decade:last-child{ padding-bottom: 10px; }
+        .timeline-dot{
+            position: absolute;
+            left: -2px;
+            top: 10px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #000;
+            border: 3px solid #fff;
+            box-shadow: 0 0 0 1px #eee;
+        }
+        .timeline-heading{
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
+            margin-left: 22px;
+            margin-bottom: 12px;
+        }
+        .timeline-heading h3{
+            margin: 0;
+            font-family: var(--font-display);
+            font-size: 1.4rem;
+            letter-spacing: 0.3px;
+        }
+        .timeline-sub{
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        .series-list{
+            margin-left: 22px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+        .series-row{
+            display: grid;
+            grid-template-columns: 110px 1fr;
+            gap: 14px;
+            align-items: start;
+        }
+        .series-pill{
+            position: sticky;
+            top: 12px;
+            align-self: start;
+            display: inline-flex;
+            gap: 8px;
+            align-items: center;
+            border: 1px solid #eee;
+            background: #fff;
+            border-radius: 999px;
+            padding: 8px 12px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #111;
+            width: fit-content;
+            box-shadow: 0 6px 14px rgba(0,0,0,0.04);
+        }
+        .series-pill small{
+            font-weight: 600;
+            color: #777;
+            font-size: 0.75rem;
+        }
+        .timeline-cards{
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 1rem;
+        }
+        .timeline-cards .card{ opacity: 1; animation: none; }
+        .timeline-empty{
+            margin-left: 22px;
+            padding: 16px 0 6px 0;
+            color: #999;
+            font-size: 0.95rem;
+        }
+
+        /* ================= BMW M Power Tab Colors ================= */
+        .tab-btn .mpower-b {
+            color: #81C4FF; /* Light Blue */
+            font-weight: 700;
+        }
+
+        .tab-btn .mpower-m {
+            color: #16588E; /* Blue / Violet */
+            font-weight: 700;
+        }
+
+        .tab-btn .mpower-w {
+            color: #E7222E; /* Red */
+            font-weight: 700;
+        }
+
+        /* 确保 hover / active 时颜色不被覆盖 */
+        .tab-btn:hover .mpower-b,
+        .tab-btn.active .mpower-b {
+            color: #81C4FF;
+        }
+
+        .tab-btn:hover .mpower-m,
+        .tab-btn.active .mpower-m {
+            color: #16588E;
+        }
+
+        .tab-btn:hover .mpower-w,
+        .tab-btn.active .mpower-w {
+            color: #E7222E;
+        }
+
         /* Gallery Grid */
         .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 2rem; padding: 0 5% 40px 5%; max-width: 1600px; margin: 0 auto; min-height: 300px; }
         .card { background: var(--card-bg); border-radius: 6px; overflow: hidden; cursor: pointer; transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s; border: 1px solid transparent; opacity: 0; animation: cardFadeIn 0.6s ease forwards; }
@@ -160,6 +291,12 @@
         @keyframes cardFadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
         @media screen and (max-width: 768px) {
+            .timeline-view { padding: 0 3% 40px 3%; }
+            .timeline-heading h3 { font-size: 1.2rem; }
+            .series-row { grid-template-columns: 1fr; }
+            .series-pill { position: relative; top: 0; }
+            .timeline-cards { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+
             .hero-section { height: 25vh; }
             .controls-bar { flex-direction: column; align-items: stretch; gap: 10px; }
             .controls-left { justify-content: space-between; width: 100%; gap: 10px; }
@@ -197,7 +334,14 @@
     </section>
 
     <nav class="tabs">
-        <button class="tab-btn active" data-filter="BMW" data-en="BMW Garage" data-cn="宝马车库">BMW Garage</button>
+        <button class="tab-btn" data-filter="BMW_TIMELINE" data-en="BMW Timeline" data-cn="宝马发展史">
+            <span class="mpower-b">B</span><span class="mpower-m">M</span><span class="mpower-w">W</span>
+            <span class="tab-text"> Timeline</span>
+        </button>
+        <button class="tab-btn active" data-filter="BMW" data-en="BMW Garage" data-cn="宝马车库">
+            <span class="mpower-b">B</span><span class="mpower-m">M</span><span class="mpower-w">W</span>
+            <span class="tab-text"> Garage</span>
+        </button>
         <button class="tab-btn" data-filter="Hotwheels" data-en="Hotwheels" data-cn="风火轮系列">Hotwheels</button>
         <button class="tab-btn" data-filter="all" data-en="All On Track" data-cn="全部追踪">All On Track</button>
     </nav>
@@ -244,6 +388,7 @@
     </div>
 
     <div id="pagination-top" class="pagination-container"></div>
+    <section id="timeline-view" class="timeline-view" style="display:none;"></section>
     <main id="gallery" class="gallery-grid"></main>
     <div id="pagination-bottom" class="pagination-container"></div>
 
@@ -313,6 +458,7 @@
             // DOM Elements
             const getEl = (id) => document.getElementById(id);
             const gallery = getEl('gallery');
+            const timelineView = getEl('timeline-view');
             const paginationContainers = [getEl('pagination-top'), getEl('pagination-bottom')];
             const toggleBtn = getEl('view-toggle-btn');
             const searchInput = getEl('search-input');
@@ -377,7 +523,7 @@
             // 4. Populate Options Logic
             function refreshOptions() {
                 // A. Populate Generic Tags (Only for Non-BMW tabs or logic)
-                if (currentCategory !== 'BMW') {
+                if (currentCategory !== 'BMW' && currentCategory !== 'BMW_TIMELINE') {
                     const allTags = new Set();
                     const relevantCars = currentCategory === 'all' ? carData : carData.filter(c => c.category === currentCategory);
                     relevantCars.forEach(car => {
@@ -418,7 +564,50 @@
                 updateTomSelect(tsYear, Array.from(decadeSet).sort(), "All Decades");
             }
 
-            function updateTomSelect(instance, items, emptyText) {
+            
+            // --- Timeline helpers ---
+            const YEAR_REGEX = /\b(19|20)\d{2}\b/;
+            function getYearFromCar(car){
+                const m = (car.tags || '').match(YEAR_REGEX);
+                return m ? parseInt(m[0], 10) : null;
+            }
+            function yearToDecadeLabel(year){
+                return Math.floor(year / 10) * 10 + 's';
+            }
+            function compareDecadeLabel(a,b){
+                // "1990s" -> 1990
+                return parseInt(a,10) - parseInt(b,10);
+            }
+            function groupTimeline(cars){
+                // cars: already filtered BMW cars
+                const decadeMap = new Map(); // decade -> Map(series -> [cars])
+                cars.forEach(c=>{
+                    const y = getYearFromCar(c);
+                    if(!y) return;
+                    const decade = yearToDecadeLabel(y);
+                    const series = (c.seriesNum && c.seriesNum.trim()) ? c.seriesNum.trim() : '--';
+                    if(!decadeMap.has(decade)) decadeMap.set(decade, new Map());
+                    const sMap = decadeMap.get(decade);
+                    if(!sMap.has(series)) sMap.set(series, []);
+                    sMap.get(series).push(c);
+                });
+                const decades = Array.from(decadeMap.keys()).sort(compareDecadeLabel);
+                const out = decades.map(decade=>{
+                    const sMap = decadeMap.get(decade);
+                    const seriesList = Array.from(sMap.keys()).sort((x,y)=>x.localeCompare(y, undefined, {numeric:true, sensitivity:'base'}));
+                    return {
+                        decade,
+                        series: seriesList.map(s=>({ seriesNum: s, cars: sMap.get(s) }))
+                    };
+                });
+                return out;
+            }
+            function pickRandom(arr){
+                if(!arr || arr.length===0) return null;
+                return arr[Math.floor(Math.random()*arr.length)];
+            }
+
+function updateTomSelect(instance, items, emptyText) {
                 if(!instance) return;
                 instance.clear();
                 instance.clearOptions();
@@ -434,15 +623,24 @@
                     if (currentCategory === 'BMW') {
                         genericFiltersDiv.style.display = 'none';
                         bmwFiltersDiv.style.display = 'flex';
+                    } else if (currentCategory === 'BMW_TIMELINE') {
+                        // Timeline is a visualization: keep UI clean
+                        genericFiltersDiv.style.display = 'none';
+                        bmwFiltersDiv.style.display = 'none';
                     } else {
                         genericFiltersDiv.style.display = 'block';
                         bmwFiltersDiv.style.display = 'none';
                     }
 
                     // A. Base Filter by Category
-                    let filtered = currentCategory === 'all' 
-                        ? carData.filter(c => c.visible !== false)
-                        : carData.filter(c => c.category === currentCategory && c.visible !== false);
+                    let filtered;
+                    if (currentCategory === 'all') {
+                        filtered = carData.filter(c => c.visible !== false);
+                    } else if (currentCategory === 'BMW_TIMELINE') {
+                        filtered = carData.filter(c => c.category === 'BMW' && c.visible !== false);
+                    } else {
+                        filtered = carData.filter(c => c.category === currentCategory && c.visible !== false);
+                    }
 
                     // B. Apply Filters based on Category
                     if (currentCategory === 'BMW') {
@@ -466,7 +664,7 @@
                                 return year >= rangeStart && year <= rangeEnd;
                             });
                         }
-                    } else {
+                    } else if (currentCategory !== 'BMW_TIMELINE') {
                         // Apply Generic Tag Filter
                         if (currentTagFilter && currentTagFilter !== '') {
                             filtered = filtered.filter(c => (c.tags || '').split(';').includes(currentTagFilter));
@@ -479,6 +677,30 @@
                             const text = `${c.modelName} ${c.carBrand} ${c.modelBrand} ${c.description_en} ${c.description_cn} ${c.tags} ${c.seriesNum}`.toLowerCase();
                             return text.includes(currentSearchQuery);
                         });
+                    }
+
+
+                    // If Timeline tab: render visualization (no pagination)
+                    if (currentCategory === 'BMW_TIMELINE') {
+                        const totalItems = filtered.length;
+
+                        // Update count label (keep consistent)
+                        if (itemCountLabel) {
+                            itemCountLabel.textContent = totalItems === 0 ? '0 items' : `${totalItems} items`;
+                        }
+
+                        // Hide gallery + pagination, show timeline
+                        if (timelineView) timelineView.style.display = 'block';
+                        gallery.style.display = 'none';
+                        paginationContainers.forEach(c => { if(c) c.style.display = 'none'; });
+
+                        renderTimeline(filtered);
+                        return;
+                    } else {
+                        // Ensure timeline is hidden for normal tabs
+                        if (timelineView) timelineView.style.display = 'none';
+                        gallery.style.display = 'grid';
+                        paginationContainers.forEach(c => { if(c) c.style.display = 'flex'; });
                     }
 
                     // D. Pagination
@@ -505,6 +727,115 @@
                 } catch (e) {
                     console.error("UI Update Error:", e);
                 }
+            }
+
+            
+            // Card factory (shared by gallery + timeline)
+            function buildCardEl(car, noAnimation=false, index=0){
+                const card = document.createElement('div');
+                card.className = 'card';
+
+                if(!noAnimation){
+                    card.style.animationDelay = `${Math.min(index * 0.05, 1.0)}s`;
+                } else {
+                    card.style.opacity = '1';
+                    card.style.animation = 'none';
+                }
+
+                card.onclick = () => openModal(car);
+
+                // Show first 5 tags
+                const tagsList = (car.tags || '').split(';').filter(t => t.trim() !== '');
+                const tagsHTML = tagsList.slice(0, 5).map(t => `<span class="mini-tag">${t}</span>`).join('');
+
+                // Image (respect Real toggle + keep old lazy-load fade-in behavior)
+                let imgSrc = car.imagePath || 'images/placeholder.jpg';
+                if (showRealCar && car.realCarImage) imgSrc = car.realCarImage;
+
+                // Title
+                let title = `${car.modelName || 'Unknown'}`;
+
+                card.innerHTML = `
+                    <div class="card-image-wrapper">
+                        <img 
+                            src="${imgSrc}" 
+                            alt="${title}" 
+                            loading="lazy" 
+                            decoding="async"
+                            onload="this.classList.add('loaded')"
+                            onerror="this.onerror=null; this.src='${car.imagePath || ''}'; if(this.src==window.location.href) this.style.display='none';"
+                        >
+                    </div>
+                    <div class="card-info">
+                        <div class="card-brand">${car.modelBrand || ''}</div>
+                        <h3 class="card-title">${title}</h3>
+                        <div class="card-tags">${tagsHTML}</div>
+                    </div>
+                `;
+                return card;
+            }
+
+            
+            // 6.5 Render BMW Timeline
+            function renderTimeline(bmwCars){
+                if(!timelineView) return;
+                timelineView.innerHTML = '';
+
+                if(!bmwCars || bmwCars.length === 0){
+                    timelineView.innerHTML = '<div class="timeline-empty">No cars found.</div>';
+                    return;
+                }
+
+                const timeline = groupTimeline(bmwCars);
+                const wrap = document.createElement('div');
+                wrap.className = 'timeline-wrap';
+                wrap.innerHTML = '<div class="timeline-line"></div>';
+
+                timeline.forEach((decObj) => {
+                    const decadeEl = document.createElement('div');
+                    decadeEl.className = 'timeline-decade';
+
+                    const decadeCount = decObj.series.reduce((sum, s)=> sum + (s.cars ? s.cars.length : 0), 0);
+
+                    decadeEl.innerHTML = `
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-heading">
+                            <h3>${decObj.decade}</h3>
+                            <div class="timeline-sub">${decadeCount} item${decadeCount===1?'':'s'}</div>
+                        </div>
+                    `;
+
+                    const seriesList = document.createElement('div');
+                    seriesList.className = 'series-list';
+
+                    decObj.series.forEach((sObj) => {
+                        const row = document.createElement('div');
+                        row.className = 'series-row';
+
+                        const label = document.createElement('div');
+                        label.className = 'series-pill';
+                        const shownSeries = sObj.seriesNum || '--';
+                        label.innerHTML = `<span>${shownSeries}</span><small>${(sObj.cars||[]).length}</small>`;
+
+                        const cardsWrap = document.createElement('div');
+                        cardsWrap.className = 'timeline-cards';
+
+                        // Random pick one car as requested
+                        const picked = pickRandom(sObj.cars || []);
+                        if(picked){
+                            cardsWrap.appendChild(buildCardEl(picked, true));
+                        }
+
+                        row.appendChild(label);
+                        row.appendChild(cardsWrap);
+                        seriesList.appendChild(row);
+                    });
+
+                    decadeEl.appendChild(seriesList);
+                    wrap.appendChild(decadeEl);
+                });
+
+                timelineView.appendChild(wrap);
             }
 
             // 6. Render Gallery
@@ -628,19 +959,53 @@
             document.querySelectorAll('.lang-switch button').forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     const lang = e.target.id === 'lang-en' ? 'en' : 'cn';
-                    if(lang === currentLang) return;
+                    if (lang === currentLang) return;
+
                     currentLang = lang;
-                    document.querySelectorAll('.lang-switch button').forEach(b => b.classList.remove('active'));
+
+                    document.querySelectorAll('.lang-switch button')
+                        .forEach(b => b.classList.remove('active'));
                     e.target.classList.add('active');
-                    
+
+                    // === Language Switch Core Logic ===
                     document.querySelectorAll('[data-en]').forEach(el => {
-                        el.textContent = currentLang === 'en' ? el.getAttribute('data-en') : el.getAttribute('data-cn');
-                    });
-                    
+                    const filter = el.dataset.filter || '';
+
+                    // ===== BMW Tabs (Garage + Timeline) =====
+                    if (filter.startsWith('BMW')) {
+                        if (currentLang === 'en') {
+                            const suffix =
+                                filter === 'BMW'
+                                    ? ' Garage'
+                                    : filter === 'BMW_TIMELINE'
+                                        ? ' Timeline'
+                                        : '';
+
+                            el.innerHTML =
+                                '<span class="mpower-b">B</span>' +
+                                '<span class="mpower-m">M</span>' +
+                                '<span class="mpower-w">W</span>' +
+                                `<span class="tab-text">${suffix}</span>`;
+                        } else {
+                            // 中文统一使用纯文本，避免彩色干扰
+                            el.textContent = el.dataset.cn;
+                        }
+
+                        return; // ⚠️ 非常重要：BMW tab 处理完就退出
+                    }
+
+                    // ===== Default behavior (all other elements) =====
+                    el.textContent =
+                        currentLang === 'en'
+                            ? el.dataset.en
+                            : el.dataset.cn;
+                });
+
                     refreshOptions(); // Re-populate colors in new language
                     updateUI();
                 });
             });
+
 
             // View Toggle
             toggleBtn.addEventListener('click', () => { 
@@ -658,8 +1023,9 @@
                 if(imgEl) { imgEl.src = src || ''; imgEl.onerror = function() { this.src = car.imagePath || ''; }; }
 
                 setText('modal-title', `${car.modelName}`);
-                setText('modal-brand', car.category);
+                setText('modal-brand', car.carBrand);
                 setText('modal-maker', car.modelBrand);
+                // setText('modal-carbrand', car.carBrand);
                 setText('modal-series', car.seriesNum);
                 setText('modal-price', car.price);
                 setText('modal-tags', (car.tags || '').split(';').join(', '));
