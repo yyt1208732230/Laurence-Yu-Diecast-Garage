@@ -972,6 +972,24 @@
       "realCarUrl": "https://en.wikipedia.org/wiki/BMW_02_Series"
     },
     {
+      "id": "56-2",
+      "visible": true,
+      "category": "BMW",
+      "modelBrand": "Welly",
+      "carBrand": "BMW",
+      "modelName": "BMW 2002 Ti",
+      "seriesNum": "E10",
+      "price": "-",
+      "tags": "E10;Orange;1972;1/24",
+      "color": "Orange",
+      "color_cn": "橙",
+      "description_en": "",
+      "description_cn": "",
+      "imagePath": "images/diecast/IMG_0967.webp",
+      "realCarImage": "images/diecast/maxresdefault.webp",
+      "realCarUrl": "https://www.drive.com.au/caradvice/the-lasting-legacy-of-bmws-iconic-2002ti/"
+    },
+    {
       "id": "57",
       "visible": true,
       "category": "BMW",
