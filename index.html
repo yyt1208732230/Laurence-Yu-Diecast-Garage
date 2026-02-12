@@ -1,544 +1,1562 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Laurence Yu's Garage</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-    
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Laurence Diecast</title>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:wght@700&display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=Cormorant+Garamond:wght@500;600;700&display=swap"
+        rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.default.min.css" rel="stylesheet">
-    
+
     <style>
-        /* ==================== CSS 样式区域 ==================== */
         :root {
-            --bg-color: #ffffff;
-            --text-primary: #1a1a1a;
-            --text-secondary: #666666;
-            --accent-color: #000000;
-            --card-bg: #f9f9f9;
-            --card-hover: #ffffff;
-            --font-main: 'Inter', sans-serif;
-            --font-display: 'Playfair Display', serif;
+            /* Typography */
+            --font-main: "IBM Plex Sans", Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "PingFang SC", "Microsoft YaHei", sans-serif;
+            --font-display: "Cormorant Garamond", "Playfair Display", Georgia, serif;
+
+            /* Layout */
+            --max: 1480px;
+            --pad: clamp(24px, 4vw, 80px);
+            --radius: 14px;
+            --radius2: 18px;
+
+            /* BMW-like light system */
+            --bg: #f6f7f9;
+            --panel: rgba(255, 255, 255, 0.78);
+            --panelSolid: #ffffff;
+            --stroke: rgba(20, 20, 24, 0.10);
+            --stroke2: rgba(20, 20, 24, 0.16);
+
+            --text: #15161a;
+            --muted: rgba(21, 22, 26, 0.62);
+            --muted2: rgba(21, 22, 26, 0.46);
+
+            /* M Power */
+            --m1: #81C4FF;
+            --m2: #16588E;
+            --m3: #E7222E;
+
+            /* Shadow */
+            --shadow: 0 16px 42px rgba(15, 18, 22, 0.10);
+            --shadow2: 0 26px 70px rgba(15, 18, 22, 0.14);
+
+            /* Focus ring */
+            --ring: 0 0 0 4px rgba(129, 196, 255, 0.22);
         }
 
-        body { font-family: var(--font-main); background-color: var(--bg-color); color: var(--text-primary); margin: 0; padding: 0; overflow-x: hidden; }
-
-        /* ===== Premium white backdrop (subtle) ===== */
-        html { background: #fff; }
-        html::before{
-            content:'';
-            position: fixed;
-            inset: -20vh -20vw;
-            z-index: -2;
-            pointer-events: none;
-            background:
-                radial-gradient(800px 420px at 18% 14%, rgba(129,196,255,0.10), rgba(255,255,255,0) 62%),
-                radial-gradient(820px 460px at 82% 18%, rgba(22,88,142,0.08), rgba(255,255,255,0) 66%),
-                radial-gradient(820px 520px at 60% 86%, rgba(231,34,46,0.07), rgba(255,255,255,0) 68%);
-            filter: blur(2px);
+        * {
+            box-sizing: border-box;
         }
-        html::after{
-            content:'';
+
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            margin: 0;
+            font-family: var(--font-main);
+            background: var(--bg);
+            color: var(--text);
+        }
+
+        /* subtle grain on light background */
+        body::before {
+            content: '';
             position: fixed;
             inset: 0;
-            z-index: -1;
             pointer-events: none;
-            opacity: 0.05;
+            z-index: -2;
+            opacity: 0.06;
             background-image:
-                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");
+            mix-blend-mode: multiply;
         }
 
-        
-        /* Header */
-        header { 
-            display: flex; justify-content: space-between; align-items: center; 
-            padding: 1.2rem 5%; 
-            background: rgba(255,255,255,0.72);
-            border-bottom: 1px solid rgba(240,240,240,0.9);
+        /* a very subtle top glow like OEM sites */
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: -3;
+            background:
+                radial-gradient(1200px 560px at 50% -8%, rgba(129, 196, 255, 0.18), rgba(129, 196, 255, 0) 62%),
+                radial-gradient(1100px 540px at 18% 12%, rgba(231, 34, 46, 0.10), rgba(231, 34, 46, 0) 60%),
+                radial-gradient(1200px 640px at 86% 16%, rgba(22, 88, 142, 0.12), rgba(22, 88, 142, 0) 62%);
+            opacity: 0.9;
+        }
+
+        /* ================= Header ================= */
+        header {
             position: sticky;
             top: 0;
-            z-index: 60;
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-        }
-        .brand-area { display: flex; align-items: center; gap: 15px; }
-        .site-logo { width: 45px; height: 45px; border-radius: 50%; object-fit: cover; border: 1px solid #eee; background: #eee; }
-        .logo-text { font-family: var(--font-display); font-size: 1.4rem; font-weight: 700; color: #000; }
-        .logo-text span { font-weight: 400; font-style: italic; color: #555; }
-        .lang-switch button { background: none; border: none; cursor: pointer; font-size: 0.9rem; color: var(--text-secondary); transition: color 0.2s;}
-        .lang-switch button.active { color: var(--accent-color); font-weight: bold; text-decoration: underline; }
+            z-index: 220;
+            height: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 var(--pad);
 
-        /* Hero Section */
-        .hero-section { 
-            width: 100%; height: 35vh; min-height: 220px; position: relative; 
-            overflow: hidden; margin-bottom: 2rem; background: #333; 
+            background: rgba(255, 255, 255, 0.76);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--stroke);
+        }
+
+        /* M stripe: ultra subtle, not neon */
+        header::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 2px;
+            opacity: 0.9;
+            background: linear-gradient(90deg,
+                    rgba(129, 196, 255, 0.85),
+                    rgba(22, 88, 142, 0.85),
+                    rgba(231, 34, 46, 0.85));
+            transform: translateY(1px);
+            pointer-events: none;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .logo {
+            height: 36px;
+        }
+
+        .brand-title {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            line-height: 1.05;
+        }
+
+        .brand-title .top {
+            font-family: var(--font-display);
+            font-weight: 700;
+            letter-spacing: 0.6px;
+            font-size: 1.08rem;
+            color: var(--text);
+        }
+
+        .brand-title .sub {
+            font-size: 0.78rem;
+            color: var(--muted);
+            letter-spacing: 0.2px;
+        }
+
+        .main-nav {
+            display: flex;
+            gap: 26px;
+            align-items: center;
+        }
+
+        .nav-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px 0;
+            position: relative;
+            font-weight: 650;
+            color: rgba(21, 22, 26, 0.72);
+            letter-spacing: 0.2px;
+            transition: color .16s ease;
+        }
+
+        .nav-btn:hover {
+            color: rgba(21, 22, 26, 0.96);
+        }
+
+        .nav-btn.active {
+            color: var(--m2);
+        }
+
+        .nav-btn.active::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -10px;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--m1), var(--m2), var(--m3));
+        }
+
+        .nav-toggle {
+            display: none;
+            font-size: 22px;
+            background: none;
+            border: 1px solid transparent;
+            border-radius: 12px;
+            cursor: pointer;
+            width: 42px;
+            height: 42px;
+            align-items: center;
+            justify-content: center;
+            color: rgba(21, 22, 26, 0.78);
+            transition: background .16s ease, border-color .16s ease, color .16s ease;
+        }
+
+        .nav-toggle:hover {
+            background: rgba(255, 255, 255, 0.9);
+            border-color: var(--stroke);
+            color: rgba(21, 22, 26, 0.95);
+        }
+
+        .lang-switch {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .lang-switch button {
+            background: rgba(255, 255, 255, 0.88);
+            border: 1px solid var(--stroke);
+            color: rgba(21, 22, 26, 0.72);
+            padding: 8px 10px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all .16s ease;
+            font-size: 0.9rem;
+            font-weight: 650;
+        }
+
+        .lang-switch button:hover {
+            border-color: var(--stroke2);
+            box-shadow: 0 10px 24px rgba(15, 18, 22, 0.08);
+            transform: translateY(-1px);
+        }
+
+        .lang-switch button.active {
+            border-color: rgba(22, 88, 142, 0.28);
+            box-shadow: var(--ring);
+            color: var(--m2);
+        }
+
+        /* ================= Home Hero ================= */
+        #home {
+            min-height: calc(100vh - 72px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 26px var(--pad) 56px var(--pad);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .home-bg {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            background:
+            radial-gradient(
+            1200px 560px at 50% 10%,
+            rgba(255, 255, 255, 0.40),
+            rgba(255, 255, 255, 0) 60%
+            ),
+            linear-gradient(
+            180deg,
+            rgba(246, 247, 249, 0.35),
+            rgba(246, 247, 249, 0.55)
+            ),
+            url("images/home-bg.jpg");
+            background-size: cover;
+            background-position: center;
+            filter: saturate(1.02) contrast(1.02);
+            transform: scale(1.02);
+        }
+
+        .home-shell {
+            width: min(980px, 100%);
+            position: relative;
+            z-index: 1;
+            border-radius: var(--radius2);
+            border: 1px solid rgba(20, 20, 24, 0.10);
+            background: rgba(255, 255, 255, 0.78);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            box-shadow: var(--shadow2);
+            overflow: hidden;
+            padding: 40px 36px 30px 36px;
+        }
+
+        /* subtle M stripe light band (very light) */
+        .home-shell::before {
+            content: '';
+            position: absolute;
+            left: -40%;
+            top: -22%;
+            width: 180%;
+            height: 140%;
+            background:
+                linear-gradient(105deg,
+                    rgba(129, 196, 255, 0.10) 0%,
+                    rgba(22, 88, 142, 0.10) 36%,
+                    rgba(231, 34, 46, 0.09) 68%,
+                    rgba(255, 255, 255, 0) 92%);
+            transform: rotate(-8deg);
+            opacity: 0.85;
+            pointer-events: none;
+        }
+
+        .home-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            text-align: center;
+            align-items: center;
+        }
+
+        .home-kicker {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--muted);
+            font-size: 0.9rem;
+            letter-spacing: 0.4px;
+            text-transform: uppercase;
+        }
+
+        .home-kicker .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 999px;
+            background: rgba(21, 22, 26, 0.22);
+            box-shadow: 0 0 0 6px rgba(129, 196, 255, 0.10);
+        }
+
+        .home-title {
+            font-family: var(--font-display);
+            font-size: clamp(2.1rem, 4.6vw, 3.2rem);
+            letter-spacing: 1.6px;
+            margin: 0;
+            color: var(--text);
+        }
+
+        .home-title span {
+            color: var(--text);
+        }
+
+        .home-subtitle {
+            max-width: 62ch;
+            margin: 0;
+            color: rgba(21, 22, 26, 0.66);
+            font-size: 1.02rem;
+            line-height: 1.7;
+        }
+
+        .home-actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 6px;
+        }
+
+        .cta {
+            border: 1px solid rgba(20, 20, 24, 0.12);
+            background: rgba(255, 255, 255, 0.88);
+            color: rgba(21, 22, 26, 0.92);
+            border-radius: 14px;
+            padding: 12px 16px;
+            cursor: pointer;
+            min-width: 170px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-weight: 700;
+            letter-spacing: 0.2px;
+            transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease, background .16s ease;
+            box-shadow: 0 14px 34px rgba(15, 18, 22, 0.10);
+        }
+
+        .cta:hover {
+            transform: translateY(-2px);
+            border-color: rgba(22, 88, 142, 0.22);
+            box-shadow: 0 18px 44px rgba(15, 18, 22, 0.12);
+        }
+
+        .cta:active {
+            transform: translateY(0px) scale(0.99);
+        }
+
+        .cta.primary {
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.78));
+            border-color: rgba(22, 88, 142, 0.22);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta.primary::after {
+            content: '';
+            position: absolute;
+            left: -20%;
+            top: -60%;
+            width: 140%;
+            height: 220%;
+            background: linear-gradient(105deg,
+                    rgba(129, 196, 255, 0.18),
+                    rgba(22, 88, 142, 0.18),
+                    rgba(231, 34, 46, 0.14),
+                    rgba(255, 255, 255, 0));
+            transform: rotate(-10deg);
+            opacity: .85;
+            pointer-events: none;
+        }
+
+        .cta.secondary {
+            border-color: rgba(231, 34, 46, 0.18);
+        }
+
+        .cta.tertiary {
+            border-color: rgba(20, 20, 24, 0.10);
+        }
+
+        .cta small {
+            font-weight: 800;
+            opacity: 0.66;
+        }
+
+        .home-footer {
+            margin-top: 18px;
+            color: rgba(21, 22, 26, 0.54);
+            font-size: 0.86rem;
+            letter-spacing: 0.2px;
+        }
+
+        /* BMW M power colored letters */
+        .mpower-b {
+            color: var(--m1);
+            font-weight: 900;
+        }
+
+        .mpower-m {
+            color: var(--m2);
+            font-weight: 900;
+        }
+
+        .mpower-w {
+            color: var(--m3);
+            font-weight: 900;
+        }
+
+        /* ================= App chrome ================= */
+        #app {
+            display: none;
+            padding-bottom: 38px;
+        }
+
+        .hero-strip {
+            width: 100%;
+            height: 180px;
+            max-height: 22vh;
+            min-height: 150px;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid var(--stroke);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.70), rgba(255, 255, 255, 0.92));
             isolation: isolate;
         }
-        .hero-section::before{
-            content:'';
-            position:absolute; inset:0;
-            background: radial-gradient(1200px 420px at 50% 10%, rgba(255,255,255,0.14), rgba(255,255,255,0) 60%);
-            pointer-events:none;
-            z-index:2;
-        }
-        .hero-section::after{
-            content:'';
-            position:absolute; inset:0;
-            background:
-                linear-gradient(to bottom, rgba(255,255,255,0.85), rgba(255,255,255,0) 22%),
-                linear-gradient(to top, rgba(255,255,255,0.92), rgba(255,255,255,0) 28%);
-            pointer-events:none;
-            z-index:3;
-        }
-        .hero-img { 
-            width: 100%; height: 110%; object-fit: cover; opacity: 0.86;
+
+        .hero-strip img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.78;
             transform: translateY(0);
             will-change: transform;
             filter: saturate(1.02) contrast(1.02);
-            outline: none;
         }
 
-        /* Tabs */
-        .tabs { display: flex; justify-content: center; gap: 1.5rem; margin-bottom: 2rem; flex-wrap: wrap; padding: 0 1rem; }
-        .tab-btn { background: none; border: none; font-size: 1rem; cursor: pointer; color: var(--text-secondary); padding-bottom: 5px; transition: all 0.2s; border-bottom: 2px solid transparent;}
-        .tab-btn:hover { color: var(--accent-color); }
-        .tab-btn.active { color: var(--accent-color); border-bottom: 2px solid var(--accent-color); font-weight: 600; }
-        .tab-btn{
-            position: relative;
-            letter-spacing: 0.2px;
+        .hero-strip::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(1100px 420px at 50% 8%, rgba(255, 255, 255, 0.62), rgba(255, 255, 255, 0) 60%),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.12), rgba(246, 247, 249, 0.92));
+            pointer-events: none;
+            z-index: 2;
         }
-        .tab-btn::after{
-            content:'';
-            position:absolute;
+
+        .hero-strip .hero-overlay {
+            position: absolute;
+            inset: 0;
+            z-index: 3;
+            display: flex;
+            align-items: flex-end;
+            padding: 22px var(--pad);
+            max-width: var(--max);
+            margin: 0 auto;
             left: 0;
             right: 0;
-            bottom: -4px;
-            height: 10px;
-            background: radial-gradient(60% 120% at 50% 50%, rgba(0,0,0,0.10), rgba(0,0,0,0) 70%);
-            opacity: 0;
-            transform: translateY(2px);
-            transition: opacity 0.25s ease, transform 0.25s ease;
-            pointer-events:none;
-        }
-        .tab-btn:hover::after{
-            opacity: 0.45;
-            transform: translateY(0);
         }
 
+        .hero-overlay .hero-title {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            margin: 0;
+            letter-spacing: 0.8px;
+            color: rgba(21, 22, 26, 0.96);
+        }
 
-        /* ==================== Controls Bar ==================== */
+        .hero-overlay .hero-sub {
+            margin: 8px 0 0 0;
+            color: rgba(21, 22, 26, 0.62);
+            font-size: 0.95rem;
+            letter-spacing: 0.2px;
+        }
+
+        .shell {
+            max-width: var(--max);
+            margin: 0 auto;
+            padding: 18px var(--pad) 0 var(--pad);
+        }
+
+        /* ================= Controls ================= */
         .controls-bar {
+            position: relative;
+            z-index: 600;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 5%;
-            max-width: 1600px;
-            margin: 0 auto 1.5rem auto;
+            gap: 14px;
             flex-wrap: wrap;
-            gap: 15px;
-        
-            position: relative;
-            z-index: 10;
+            margin-top: 16px;
+
+            padding: 14px 14px;
+            border-radius: var(--radius);
+            background: rgba(255, 255, 255, 0.82);
+            border: 1px solid var(--stroke);
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
         }
 
         .controls-left {
             display: flex;
             gap: 10px;
-            align-items: center;
             flex-wrap: wrap;
+            align-items: center;
         }
 
-        /* Filter Containers */
-        #generic-filters, #bmw-filters {
+        /* Toggle */
+        .icon-btn {
+            background: rgba(255, 255, 255, 0.92);
+            border: 1px solid var(--stroke);
+            color: rgba(21, 22, 26, 0.72);
+            border-radius: 12px;
+            height: 42px;
+            padding: 0 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all .16s ease;
+            user-select: none;
+        }
+
+        .icon-btn:hover {
+            border-color: var(--stroke2);
+            box-shadow: 0 12px 26px rgba(15, 18, 22, 0.08);
+            transform: translateY(-1px);
+            color: rgba(21, 22, 26, 0.92);
+        }
+
+        .icon-btn.active {
+            border-color: rgba(22, 88, 142, 0.28);
+            box-shadow: var(--ring);
+            color: var(--m2);
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .icon-btn svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .toggle-text {
+            font-size: 0.85rem;
+            font-weight: 800;
+            letter-spacing: 0.2px;
+        }
+
+        /* Filter wrappers */
+        #generic-filters,
+        #bmw-filters {
             display: flex;
             gap: 10px;
             flex-wrap: wrap;
+            align-items: center;
         }
 
-        /* Wrapper sizing */
-        .filter-wrapper { min-width: 160px; width: 180px; }
-        .bmw-filter-wrapper { min-width: 130px; width: 150px; } /* Slightly narrower for BMW to fit 3 */
+        .filter-wrapper {
+            min-width: 170px;
+            width: 190px;
+        }
 
-        /* Tom Select Style Override */
+        .bmw-filter-wrapper {
+            min-width: 140px;
+            width: 160px;
+        }
+
+        /* TomSelect overrides (LIGHT) */
+        .ts-wrapper {
+            z-index: 10 !important;
+        }
+
         .ts-control {
-            border: 1px solid #ddd !important;
-            border-radius: 4px !important;
+            border: 1px solid var(--stroke) !important;
+            background: rgba(255, 255, 255, 0.92) !important;
+            border-radius: 12px !important;
             padding: 8px 12px !important;
-            font-family: var(--font-main) !important;
+            height: 42px !important;
             box-shadow: none !important;
-            height: 42px !important; 
+            color: rgba(21, 22, 26, 0.90) !important;
+            font-family: var(--font-main) !important;
+            font-size: 0.88rem !important;
             display: flex;
             align-items: center;
-            background-color: #fff;
-            font-size: 0.85rem !important; /* Slightly smaller text for fit */
         }
-        .ts-wrapper.focus .ts-control { border-color: #999 !important; }
-        .ts-dropdown { border: 1px solid #eee !important; box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important; z-index: 3000 !important; }
-        .ts-dropdown .active { background-color: #f5f5f5 !important; color: #000 !important; }
 
-        /* Search Box */
-        .search-wrapper { display: flex; align-items: center; height: 42px; }
+        .ts-control input {
+            color: rgba(21, 22, 26, 0.90) !important;
+        }
+
+        .ts-wrapper.focus .ts-control {
+            border-color: rgba(22, 88, 142, 0.26) !important;
+            box-shadow: var(--ring) !important;
+        }
+
+        /* IMPORTANT: dropdown on top + light */
+        .ts-dropdown {
+            background: rgba(255, 255, 255, 0.98) !important;
+            border: 1px solid var(--stroke2) !important;
+            box-shadow: 0 22px 60px rgba(15, 18, 22, 0.14) !important;
+            z-index: 999999 !important;
+            position: fixed !important;
+            border-radius: 14px !important;
+            overflow: hidden;
+        }
+
+        .ts-dropdown [data-selectable] {
+            color: rgba(21, 22, 26, 0.86) !important;
+        }
+
+        .ts-dropdown .active {
+            background: rgba(129, 196, 255, 0.20) !important;
+            color: rgba(21, 22, 26, 0.96) !important;
+        }
+
+        /* Search box */
+        .search-wrapper {
+            display: flex;
+            align-items: center;
+            height: 42px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--stroke);
+            background: rgba(255, 255, 255, 0.92);
+        }
+
         #search-input {
-            height: 100%; padding: 0 12px; border: 1px solid #ddd; border-radius: 4px 0 0 4px; border-right: none;
-            font-family: var(--font-main); font-size: 0.9rem; width: 160px; outline: none; transition: border-color 0.2s; box-sizing: border-box;
+            height: 100%;
+            padding: 0 12px;
+            border: none;
+            outline: none;
+            color: rgba(21, 22, 26, 0.92);
+            background: transparent;
+            width: 180px;
+            font-size: 0.92rem;
+            font-family: var(--font-main);
         }
-        #search-input:focus { border-color: #999; }
+
+        #search-input::placeholder {
+            color: rgba(21, 22, 26, 0.38);
+        }
+
         #search-btn {
-            height: 100%; padding: 0 15px; background-color: #f9f9f9; border: 1px solid #ddd; border-radius: 0 4px 4px 0;
-            cursor: pointer; font-family: var(--font-main); font-size: 0.9rem; font-weight: 600; color: var(--text-secondary); transition: all 0.2s; box-sizing: border-box;
+            height: 100%;
+            padding: 0 14px;
+            border: none;
+            background: rgba(22, 88, 142, 0.10);
+            color: rgba(21, 22, 26, 0.80);
+            cursor: pointer;
+            font-weight: 800;
+            letter-spacing: 0.2px;
+            transition: background .16s ease, color .16s ease;
         }
-        #search-btn:hover { background-color: #eaeaea; color: #000; border-color: #ccc; }
 
-        /* Icon Button */
-        .icon-btn { 
-            background: #fff; border: 1px solid #ddd; border-radius: 4px; padding: 0 12px; 
-            cursor: pointer; display: flex; align-items: center; gap: 6px; color: var(--text-secondary); 
-            transition: all 0.2s; height: 42px; box-sizing: border-box;
+        #search-btn:hover {
+            background: rgba(22, 88, 142, 0.16);
+            color: rgba(21, 22, 26, 0.92);
         }
-        .icon-btn:hover { border-color: #666; color: #000; }
-        .icon-btn.active { background-color: #000; color: #fff; border-color: #000; }
-        .icon-btn svg { width: 18px; height: 18px; }
-        .toggle-text { font-size: 0.85rem; font-weight: 600; }
 
-        .item-count { font-size: 0.85rem; color: #888; margin-left: auto; }
+        .item-count {
+            color: rgba(21, 22, 26, 0.62);
+            font-size: 0.88rem;
+            margin-left: auto;
+            white-space: nowrap;
+            font-weight: 650;
+        }
 
-        
-        /* ==================== BMW Timeline View ==================== */
-        .timeline-view{
-            max-width: 1600px;
-            margin: 0 auto;
-            padding: 0 5% 40px 5%;
+        /* ================= Gallery ================= */
+        .gallery-grid {
+            margin-top: 18px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+            padding-bottom: 22px;
+            min-height: 320px;
+        }
+
+        .card {
+            border-radius: var(--radius);
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.92);
+            border: 1px solid var(--stroke);
+            box-shadow: 0 12px 34px rgba(15, 18, 22, 0.08);
+            cursor: pointer;
+            transition: box-shadow .22s ease, border-color .22s ease, background .22s ease;
+            opacity: 0;
+            animation: cardIn .55s ease forwards;
+        }
+
+        /* CRITICAL FIX: do NOT use transform here (stacking context); use translate only */
+        .card:hover {
+            translate: 0 -6px;
+            background: rgba(255, 255, 255, 0.98);
+            border-color: rgba(22, 88, 142, 0.18);
+            box-shadow: 0 18px 50px rgba(15, 18, 22, 0.12);
+        }
+
+        .card-image-wrapper {
+            width: 100%;
+            padding-top: 60%;
             position: relative;
+            background: rgba(21, 22, 26, 0.02);
+            overflow: hidden;
         }
-        /* Timeline "stage" to use large white background more intentionally */
-        #timeline-view{
-            background: rgba(255,255,255,0.72);
-            border: 1px solid rgba(0,0,0,0.05);
-            border-radius: 14px;
-            box-shadow: 0 22px 55px rgba(0,0,0,0.06);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            overflow: hidden; /* keep decorative layers clean */
+
+        .card-image-wrapper img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transform: scale(1.01);
+            transition: opacity .45s ease, transform .65s ease;
+            filter: saturate(1.02) contrast(1.02);
         }
-        #timeline-view::before{
-            content:'';
-            position: sticky;
-            top: 0;
-            display:block;
-            height: 140px;
-            margin-bottom: -140px;
-            pointer-events:none;
-            z-index: 0;
-            background:
-                radial-gradient(520px 180px at 8% 40%, rgba(129,196,255,0.18), rgba(255,255,255,0) 70%),
-                radial-gradient(520px 200px at 55% 20%, rgba(22,88,142,0.14), rgba(255,255,255,0) 72%),
-                radial-gradient(520px 220px at 92% 55%, rgba(231,34,46,0.12), rgba(255,255,255,0) 74%);
-            filter: blur(6px);
-        }
-        #timeline-view::after{
-            content:'';
-            position:absolute;
-            inset:0;
-            pointer-events:none;
-            z-index:0;
-            background:
-                linear-gradient(to right, rgba(0,0,0,0.03), rgba(0,0,0,0) 22%, rgba(0,0,0,0) 78%, rgba(0,0,0,0.03)),
-                radial-gradient(900px 420px at 50% 10%, rgba(0,0,0,0.03), rgba(0,0,0,0) 60%);
+
+        .card-image-wrapper img.loaded {
             opacity: 1;
         }
-        /* keep content above decorative layers */
-        #timeline-view .timeline-wrap{
-            position: relative;
-            padding: 22px 20px 18px 28px;
+
+        .card:hover .card-image-wrapper img {
+            transform: scale(1.05);
         }
-        .timeline-wrap{
-            position: relative;
-            padding-left: 18px;
+
+        .card-info {
+            padding: 14px 14px 16px 14px;
         }
-        .timeline-line{
-            position: absolute;
-            left: 7px;
-            top: 0;
-            bottom: 0;
-            width: 2px;
-            background: #eee;
+
+        .card-brand {
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: rgba(21, 22, 26, 0.52);
+            font-weight: 800;
         }
-        .timeline-decade{
-            position: relative;
-            padding: 6px 0 26px 0;
+
+        .card-title {
+            margin: 8px 0 10px 0;
+            font-size: 1.02rem;
+            font-weight: 800;
+            letter-spacing: 0.2px;
+            line-height: 1.35;
+            color: rgba(21, 22, 26, 0.92);
         }
-        .timeline-decade:last-child{ padding-bottom: 10px; }
-        .timeline-dot{
-            position: absolute;
-            left: -2px;
-            top: 10px;
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            background: #000;
-            border: 3px solid #fff;
-            box-shadow: 0 0 0 1px #eee;
-        }
-        .timeline-heading{
+
+        .card-tags {
             display: flex;
-            align-items: baseline;
-            gap: 10px;
-            margin-left: 22px;
-            margin-bottom: 12px;
+            flex-wrap: wrap;
+            gap: 6px;
         }
-        .timeline-heading h3{
-            margin: 0;
-            font-family: var(--font-display);
-            font-size: 1.4rem;
-            letter-spacing: 0.3px;
+
+        .mini-tag {
+            font-size: 0.72rem;
+            color: rgba(21, 22, 26, 0.70);
+            border: 1px solid rgba(20, 20, 24, 0.10);
+            background: rgba(255, 255, 255, 0.75);
+            padding: 4px 8px;
+            border-radius: 999px;
         }
-        .timeline-sub{
-            font-size: 0.85rem;
-            color: var(--text-secondary);
+
+        /* ================= Pagination ================= */
+        .pagination-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            padding: 16px 0 0 0;
         }
-        .series-list{
-            margin-left: 22px;
+
+        .page-btn {
+            min-width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            border: 1px solid var(--stroke);
+            background: rgba(255, 255, 255, 0.90);
+            color: rgba(21, 22, 26, 0.74);
+            cursor: pointer;
+            transition: all .16s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+        }
+
+        .page-btn:hover:not(:disabled) {
+            border-color: var(--stroke2);
+            box-shadow: 0 12px 26px rgba(15, 18, 22, 0.08);
+            transform: translateY(-1px);
+            color: rgba(21, 22, 26, 0.92);
+        }
+
+        .page-btn.active {
+            border-color: rgba(22, 88, 142, 0.26);
+            box-shadow: var(--ring);
+            color: var(--m2);
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .page-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        /* ================= BMW Timeline ================= */
+        #timeline-view {
+            margin-top: 18px;
+            border-radius: var(--radius2);
+            background: rgba(255, 255, 255, 0.82);
+            border: 1px solid var(--stroke);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            position: relative;
+            padding: 18px 14px 10px 14px;
+            z-index: 1;
+        }
+
+        /* repeating tile background + soft fade edges */
+        #timeline-view::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            opacity: 0.72;
+            background:
+                radial-gradient(900px 320px at 18% 10%, rgba(129, 196, 255, 0.12), rgba(129, 196, 255, 0) 60%),
+                radial-gradient(900px 340px at 84% 16%, rgba(231, 34, 46, 0.10), rgba(231, 34, 46, 0) 58%),
+                radial-gradient(900px 420px at 60% 90%, rgba(22, 88, 142, 0.12), rgba(22, 88, 142, 0) 62%),
+                url("images/timeline-bg.png");
+            background-size: 100% 520px, 100% 520px, 100% 620px, 980px 980px;
+            background-repeat: no-repeat, no-repeat, no-repeat, repeat;
+        }
+
+        /* soft top/bottom vignette in LIGHT (not black) */
+        #timeline-view::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background: linear-gradient(to bottom,
+                    rgba(246, 247, 249, 0.95),
+                    rgba(246, 247, 249, 0) 14%,
+                    rgba(246, 247, 249, 0) 86%,
+                    rgba(246, 247, 249, 0.95));
+            opacity: 0.95;
+        }
+
+        .timeline-wrap {
+            position: relative;
+            z-index: 1;
             display: flex;
             flex-direction: column;
             gap: 14px;
+            padding-bottom: 10px;
         }
-        .series-row{
+
+        .decade-row {
             display: grid;
-            grid-template-columns: 110px 1fr;
-            gap: 14px;
+            grid-template-columns: 180px 1fr;
+            gap: 12px;
             align-items: start;
+            padding: 12px 10px;
+            border-radius: 16px;
+            border: 1px solid rgba(20, 20, 24, 0.10);
+            background: rgba(255, 255, 255, 0.78);
+            box-shadow: 0 14px 34px rgba(15, 18, 22, 0.08);
         }
-        .series-pill{
+
+        .decade-meta {
             position: sticky;
-            top: 12px;
+            top: 86px;
             align-self: start;
-            display: inline-flex;
-            gap: 8px;
-            align-items: center;
-            border: 1px solid #eee;
-            background: #fff;
+            padding: 10px 10px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.86);
+            border: 1px solid rgba(20, 20, 24, 0.10);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .decade-meta h3 {
+            margin: 0;
+            font-family: var(--font-display);
+            font-size: 1.35rem;
+            letter-spacing: 0.4px;
+            color: rgba(21, 22, 26, 0.92);
+        }
+
+        .decade-meta .sub {
+            margin-top: 6px;
+            color: rgba(21, 22, 26, 0.58);
+            font-size: 0.85rem;
+            font-weight: 650;
+        }
+
+        .series-strip {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            padding: 4px 2px 8px 2px;
+            scroll-snap-type: x mandatory;
+            scrollbar-width: thin;
+        }
+
+        .series-strip::-webkit-scrollbar {
+            height: 10px;
+        }
+
+        .series-strip::-webkit-scrollbar-thumb {
+            background: rgba(21, 22, 26, 0.14);
             border-radius: 999px;
-            padding: 8px 12px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            color: #111;
-            width: fit-content;
-            box-shadow: 0 6px 14px rgba(0,0,0,0.04);
         }
-        .series-pill small{
-            font-weight: 600;
-            color: #777;
-            font-size: 0.75rem;
+
+        .series-strip::-webkit-scrollbar-track {
+            background: rgba(21, 22, 26, 0.06);
+            border-radius: 999px;
         }
-        .timeline-cards{
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-            gap: 1rem;
+
+        .series-card {
+            flex: 0 0 320px;
+            max-width: 320px;
+            scroll-snap-align: start;
+            border-radius: var(--radius);
+            overflow: hidden;
+            border: 1px solid rgba(20, 20, 24, 0.10);
+            background: rgba(255, 255, 255, 0.86);
+            cursor: pointer;
+            transition: box-shadow .18s ease, border-color .18s ease, background .18s ease;
+            box-shadow: 0 14px 34px rgba(15, 18, 22, 0.08);
+            position: relative;
         }
-        .timeline-cards .card { 
-            background: var(--card-bg); border-radius: 10px; overflow: hidden; cursor: pointer; 
-            transition: transform 0.32s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.32s, border-color 0.32s, background 0.32s; 
-            border: 1px solid rgba(0,0,0,0.04); 
-            opacity: 0; animation: cardFadeIn 0.6s ease forwards;
+
+        .series-card:hover {
+            translate: 0 -4px;
+            border-color: rgba(22, 88, 142, 0.18);
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 18px 50px rgba(15, 18, 22, 0.12);
         }
-        .timeline-empty{
-            margin-left: 22px;
-            padding: 16px 0 6px 0;
-            color: #999;
+
+        .series-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            z-index: 2;
+            padding: 7px 10px;
+            border-radius: 999px;
+            border: 1px solid rgba(20, 20, 24, 0.10);
+            background: rgba(255, 255, 255, 0.88);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            color: rgba(21, 22, 26, 0.92);
+            font-weight: 900;
+            font-size: 0.86rem;
+            letter-spacing: 0.2px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 14px 34px rgba(15, 18, 22, 0.10);
+        }
+
+        .series-badge small {
+            font-weight: 800;
+            color: rgba(21, 22, 26, 0.58);
+            font-size: 0.78rem;
+        }
+
+        .series-card .img {
+            width: 100%;
+            height: 190px;
+            position: relative;
+            background: rgba(21, 22, 26, 0.02);
+            overflow: hidden;
+        }
+
+        .series-card .img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transform: scale(1.01);
+            transition: opacity .45s ease, transform .65s ease;
+            filter: saturate(1.02) contrast(1.02);
+        }
+
+        .series-card .img img.loaded {
+            opacity: 1;
+        }
+
+        .series-card:hover .img img {
+            transform: scale(1.06);
+        }
+
+        .series-card .info {
+            padding: 12px 14px 14px 14px;
+        }
+
+        .series-card .info .brand {
+            cursor: default;
+            display: block;
+            margin: 0;
+            color: rgba(21, 22, 26, 0.52);
+            font-size: 0.72rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-weight: 900;
+        }
+
+        .series-card .info .title {
+            margin: 7px 0 0 0;
+            font-size: 0.98rem;
+            font-weight: 900;
+            letter-spacing: 0.2px;
+            line-height: 1.35;
+            color: rgba(21, 22, 26, 0.92);
+        }
+
+        .timeline-empty {
+            position: relative;
+            z-index: 1;
+            padding: 28px 10px;
+            text-align: center;
+            color: rgba(21, 22, 26, 0.58);
+            font-weight: 650;
+        }
+
+        /* ================= Modal ================= */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 1100;
+            background: rgba(15, 18, 22, 0.35);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            overflow-y: auto;
+            padding: 22px 0;
+        }
+
+        .modal-content {
+            width: min(980px, 92%);
+            margin: 40px auto;
+            border-radius: var(--radius2);
+            border: 1px solid var(--stroke);
+            background: rgba(255, 255, 255, 0.92);
+            box-shadow: var(--shadow2);
+            position: relative;
+            overflow: hidden;
+            animation: slideUp .22s ease-out;
+        }
+
+        /* ultra subtle M glow, not dark */
+        .modal-content::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            background:
+                radial-gradient(540px 220px at 18% 10%, rgba(129, 196, 255, 0.14), rgba(129, 196, 255, 0) 70%),
+                radial-gradient(520px 220px at 86% 20%, rgba(231, 34, 46, 0.10), rgba(231, 34, 46, 0) 72%);
+            opacity: 0.9;
+            pointer-events: none;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 14px;
+            font-size: 2rem;
+            line-height: 1;
+            cursor: pointer;
+            color: rgba(21, 22, 26, 0.52);
+            transition: color .16s ease;
+            z-index: 5;
+            user-select: none;
+        }
+
+        .close-btn:hover {
+            color: rgba(21, 22, 26, 0.92);
+        }
+
+        .modal-body {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            gap: 18px;
+            padding: 18px;
+            align-items: flex-start;
+        }
+
+        .modal-image {
+            flex: 1.35;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--stroke);
+            background: rgba(21, 22, 26, 0.02);
+        }
+
+        .modal-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .modal-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding-top: 4px;
+        }
+
+        .modal-info h2 {
+            margin: 0;
+            font-size: 1.45rem;
+            letter-spacing: 0.2px;
+            color: rgba(21, 22, 26, 0.92);
+        }
+
+        .brand-tag {
+            margin: 0;
+            color: rgba(21, 22, 26, 0.58);
+            font-weight: 800;
+            font-size: 0.92rem;
+            letter-spacing: 0.2px;
+        }
+
+        .details-list {
+            margin-top: 6px;
+            border-top: 1px solid var(--stroke);
+            border-bottom: 1px solid var(--stroke);
+            padding: 12px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
             font-size: 0.95rem;
         }
 
-        /* ================= BMW M Power Tab Colors ================= */
-        .tab-btn .mpower-b {
-            color: #81C4FF; /* Light Blue */
-            font-weight: 700;
+        .detail-item .label {
+            color: rgba(21, 22, 26, 0.56);
+            font-weight: 650;
         }
 
-        .tab-btn .mpower-m {
-            color: #16588E; /* Blue / Violet */
-            font-weight: 700;
+        .detail-item .value {
+            font-weight: 900;
+            color: rgba(21, 22, 26, 0.92);
+            text-align: right;
         }
 
-        .tab-btn .mpower-w {
-            color: #E7222E; /* Red */
-            font-weight: 700;
+        .description {
+            margin: 0;
+            color: rgba(21, 22, 26, 0.68);
+            line-height: 1.65;
+            font-size: 0.95rem;
         }
 
-        /* 确保 hover / active 时颜色不被覆盖 */
-        .tab-btn:hover .mpower-b,
-        .tab-btn.active .mpower-b {
-            color: #81C4FF;
+        .action-btn {
+            margin-top: 4px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 12px 14px;
+            border-radius: 14px;
+            text-decoration: none;
+            color: rgba(21, 22, 26, 0.92);
+            font-weight: 900;
+            letter-spacing: 0.2px;
+            border: 1px solid rgba(22, 88, 142, 0.22);
+            background: rgba(255, 255, 255, 0.92);
+            box-shadow: 0 14px 34px rgba(15, 18, 22, 0.10);
+            transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease, background .16s ease;
+            position: relative;
+            overflow: hidden;
         }
 
-        .tab-btn:hover .mpower-m,
-        .tab-btn.active .mpower-m {
-            color: #16588E;
+        .action-btn::after {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            background: linear-gradient(105deg,
+                    rgba(129, 196, 255, 0.14),
+                    rgba(22, 88, 142, 0.14),
+                    rgba(231, 34, 46, 0.10),
+                    rgba(255, 255, 255, 0));
+            opacity: 0.85;
+            pointer-events: none;
         }
 
-        .tab-btn:hover .mpower-w,
-        .tab-btn.active .mpower-w {
-            color: #E7222E;
+        .action-btn:hover {
+            transform: translateY(-2px);
+            border-color: rgba(22, 88, 142, 0.30);
+            box-shadow: 0 18px 50px rgba(15, 18, 22, 0.12);
         }
 
-        /* Gallery Grid */
-        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 2rem; padding: 0 5% 40px 5%; max-width: 1600px; margin: 0 auto; min-height: 300px; }
-        .card { background: var(--card-bg); border-radius: 6px; overflow: hidden; cursor: pointer; transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s; border: 1px solid transparent; opacity: 0; animation: cardFadeIn 0.6s ease forwards; }
-        .card:hover { 
-            transform: translateY(-7px); 
-            box-shadow: 0 18px 40px rgba(0,0,0,0.08); 
-            background: #fff; 
-            border-color: rgba(0,0,0,0.08);
-        }
-        .card-image-wrapper { width: 100%; padding-top: 60%; position: relative; background: #eee; overflow: hidden; }
-        .card-image-wrapper img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.5s ease-in; }
-        .card-image-wrapper img.loaded { opacity: 1; }
-        .card-image-wrapper img{
-            transform: scale(1);
-            transition: opacity 0.5s ease-in, transform 0.6s ease;
-        }
-        .card:hover .card-image-wrapper img{
-            transform: scale(1.04);
+        footer {
+            margin-top: 22px;
+            padding: 28px var(--pad) 34px var(--pad);
+            color: rgba(21, 22, 26, 0.50);
+            font-size: 0.84rem;
+            text-align: center;
+            border-top: 1px solid var(--stroke);
+            background: rgba(255, 255, 255, 0.55);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
         }
 
-        .card-info { padding: 1.2rem; }
-        .card-brand { font-size: 0.7rem; color: #888; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
-        .card-title { font-size: 1rem; font-weight: 600; margin: 6px 0 10px 0; line-height: 1.4; }
-        .card-tags { display: flex; flex-wrap: wrap; gap: 6px; }
-        .mini-tag { font-size: 0.7rem; background: #ebebeb; padding: 3px 8px; border-radius: 4px; color: #555; }
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
 
-        /* Pagination */
-        .pagination-container { display: flex; justify-content: center; align-items: center; gap: 8px; padding: 20px 0 20px 0; width: 100%; }
-        .page-btn { background: #fff; border: 1px solid #ddd; color: #333; min-width: 36px; height: 36px; border-radius: 4px; cursor: pointer; font-size: 0.9rem; transition: all 0.2s; display: flex; align-items: center; justify-content: center; }
-        .page-btn:hover:not(:disabled) { border-color: #000; color: #000; }
-        .page-btn.active { background: #000; color: #fff; border-color: #000; }
-        .page-btn:disabled { color: #ccc; cursor: not-allowed; border-color: #eee; }
-        #pagination-top { margin-bottom: 20px; padding-top: 0; }
-        #pagination-bottom { margin-bottom: 40px; }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-        /* Modal */
-        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.92); backdrop-filter: blur(4px); overflow-y: auto; }
-        .modal-content { background: #fff; margin: 40px auto; padding: 40px; width: 90%; max-width: 900px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15); border-radius: 8px; position: relative; animation: slideUp 0.3s ease-out; border: 1px solid #f0f0f0; }
-        .close-btn { position: absolute; top: 15px; right: 20px; font-size: 2rem; cursor: pointer; color: #aaa; transition: color 0.2s; line-height: 1; }
-        .close-btn:hover { color: #000; }
-        .modal-body { display: flex; gap: 40px; align-items: flex-start; }
-        .modal-image { flex: 1.4; border-radius: 6px; overflow: hidden; background: #f9f9f9; }
-        .modal-image img { width: 100%; height: auto; display: block; }
-        .modal-info { flex: 1; display: flex; flex-direction: column; }
-        .details-list { margin: 25px 0; border-top: 1px solid #eee; border-bottom: 1px solid #eee; padding: 20px 0; }
-        .detail-item { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 0.95rem; }
-        .detail-item .label { color: #888; }
-        .detail-item .value { font-weight: 600; text-align: right; }
-        .action-btn { display: block; background: #111; color: #fff; padding: 14px; text-decoration: none; text-align: center; border-radius: 4px; margin-top: 10px; transition: opacity 0.2s; font-size: 0.9rem; }
-        .action-btn:hover { opacity: 0.85; }
+        @keyframes cardIn {
+            from {
+                opacity: 0;
+                transform: translateY(14px);
+            }
 
-        footer { text-align: center; padding: 40px; color: #ccc; font-size: 0.8rem; border-top: 1px solid #fafafa; margin-top: auto;}
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes cardFadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        /* ================= Responsive ================= */
+        @media (max-width: 768px) {
+            .nav-toggle {
+                display: inline-flex;
+            }
 
-        @media screen and (max-width: 768px) {
-            .timeline-view { padding: 0 3% 40px 3%; }
-            .timeline-heading h3 { font-size: 1.2rem; }
-            .series-row { grid-template-columns: 1fr; }
-            .series-pill { position: relative; top: 0; }
-            .timeline-cards { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+            .main-nav {
+                position: absolute;
+                top: 72px;
+                left: 0;
+                width: 100%;
+                background: rgba(255, 255, 255, 0.92);
+                backdrop-filter: blur(16px);
+                -webkit-backdrop-filter: blur(16px);
+                flex-direction: column;
+                gap: 0;
+                display: none;
+                border-bottom: 1px solid var(--stroke);
+                padding: 6px 0;
+            }
 
-            .hero-section { height: 25vh; }
-            .controls-bar { flex-direction: column; align-items: stretch; gap: 10px; }
-            .controls-left { justify-content: space-between; width: 100%; gap: 10px; }
-            
-            #generic-filters, #bmw-filters { width: 100%; flex-direction: column; }
-            .filter-wrapper, .bmw-filter-wrapper { width: 100%; min-width: unset; }
-            
-            .search-wrapper { width: 100%; }
-            #search-input { flex-grow: 1; width: auto; }
-            
-            .icon-btn { width: 100%; justify-content: center; }
-            
-            .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 0 3% 40px 3%; }
-            .modal-content { padding: 20px; margin: 10px auto; width: 92%; margin-top: 50px; }
-            .modal-body { flex-direction: column; gap: 20px; }
+            .main-nav button {
+                padding: 14px 5%;
+                border-top: 1px solid rgba(20, 20, 24, 0.08);
+                text-align: left;
+            }
+
+            .main-nav.open {
+                display: flex;
+            }
+
+            .nav-btn.active::after {
+                bottom: 6px;
+                height: 2px;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .hero-strip {
+                height: 230px;
+            }
+
+            .decade-row {
+                grid-template-columns: 1fr;
+            }
+
+            .decade-meta {
+                position: relative;
+                top: 0;
+            }
+
+            .series-card {
+                flex-basis: 280px;
+                max-width: 280px;
+            }
+
+            #search-input {
+                width: 150px;
+            }
+
+            .modal-body {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 560px) {
+            :root {
+                --pad: 4%;
+            }
+
+            .home-shell {
+                padding: 28px 18px 20px 18px;
+            }
+
+            .cta {
+                min-width: 150px;
+                width: 100%;
+            }
+
+            .controls-bar {
+                padding: 12px;
+            }
+
+            #generic-filters,
+            #bmw-filters {
+                width: 100%;
+            }
+
+            .filter-wrapper,
+            .bmw-filter-wrapper {
+                width: 100%;
+                min-width: unset;
+            }
+
+            .search-wrapper {
+                width: 100%;
+            }
+
+            #search-input {
+                width: 100%;
+                flex: 1;
+            }
+
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+
+            .series-card {
+                flex-basis: 250px;
+                max-width: 250px;
+            }
         }
     </style>
 </head>
-<body>
 
+<body>
     <header>
-        <div class="brand-area">
-            <img src="images/logo.png" alt="Logo" class="site-logo" onerror="this.style.display='none'">
-            <div class="logo-text"><span>LY Diecast Collection</span></div>
+        <div class="brand" id="brand-home">
+            <img src="images/logo.png" class="logo" />
+            <div class="brand-title">
+                <!-- <div class="top">LY</div> -->
+                <div class="sub">Diecast Collection</div>
+            </div>
         </div>
+
+        <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation">☰</button>
+
+        <nav class="main-nav" id="main-nav">
+            <button class="nav-btn active" data-filter="BMW_TIMELINE" data-en="BMW History" data-cn="宝马史陈列">BMW History</button>
+            <button class="nav-btn" data-filter="BMW" data-en="Bimmer Garage" data-cn="宝马库">Bimmer Garage</button>
+            <button class="nav-btn" data-filter="Hotwheels" data-en="Hotwheels" data-cn="风火轮系列">Hotwheels</button>
+            <button class="nav-btn" data-filter="all" data-en="Show All in Gallery" data-cn="全部展示">Show All in Gallery</button>
+        </nav>
+
         <div class="lang-switch">
             <button id="lang-en" class="active">EN</button>
-            <span>/</span>
             <button id="lang-cn">中</button>
         </div>
     </header>
 
-    <section class="hero-section">
-        <img src="images/banner.jpg" alt="Collection Banner" class="hero-img" onerror="this.style.display='none'; this.parentElement.style.backgroundColor='#444'">
+    <!-- HOME -->
+    <section id="home">
+        <div class="home-bg" aria-hidden="true"></div>
+
+        <div class="home-shell">
+            <div class="home-content">
+                <div class="home-kicker">
+                    <span class="dot"></span>
+                    <span data-en="Private Collection" data-cn="个人收藏">Private Collection</span>
+                    <span class="dot"></span>
+                </div>
+
+                <h1 class="home-title"><span>LAURENCE DIECAST</span></h1>
+
+                <p class="home-subtitle"
+                    data-en="A die-cast car collection exhibition by an ordinary person who has loved automobiles since childhood."
+                    data-cn="一个从小热爱汽车的普通人的车模收藏展。">
+                    A die-cast car collection exhibition by an ordinary person who has loved automobiles since
+                    childhood.
+                </p>
+
+                <div class="home-actions">
+                    <button class="cta primary" id="enter-bimmer">
+                        <span class="mpower-b">B</span><span class="mpower-m">M</span><span class="mpower-w">W</span>
+                        <span data-en="Bimmer" data-cn="宝马">Bimmer</span>
+                        <!-- <small data-en="Timeline" data-cn="时间轴">Timeline</small> -->
+                    </button>
+
+                    <!-- <button class="cta primary" id="enter-bimmer">
+                        <span class="mpower-b">B</span><span class="mpower-m">M</span><span class="mpower-w">W</span>
+                        <span data-en="History" data-cn="宝马历史展">History</span>
+                    </button> -->
+                    
+                    <button class="cta secondary" id="enter-hotwheels">
+                        <span data-en="Hotwheels" data-cn="风火轮系列">Hotwheels</span>
+                    </button>
+
+                    <button class="cta tertiary" id="enter-all">
+                        <span data-en="All On Track" data-cn="全部追踪">All On Track</span>
+                        <!-- <small data-en="On Track" data-cn="追踪">On Track</small> -->
+                    </button>
+                </div>
+
+                <div class="home-footer">
+                    <!-- <span>“Beyond my means, never beyond memory.”</span> -->
+                    <span>&copy; 2026 LY Diecast Collection</span>
+                </div>
+            </div>
+        </div>
     </section>
 
-    <nav class="tabs">
-        <button class="tab-btn" data-filter="BMW_TIMELINE" data-en="BMW Timeline" data-cn="宝马发展史">
-            <span class="mpower-b">B</span><span class="mpower-m">M</span><span class="mpower-w">W</span>
-            <span class="tab-text"> Timeline</span>
-        </button>
-        <button class="tab-btn active" data-filter="BMW" data-en="BMW Garage" data-cn="宝马车库">
-            <span class="mpower-b">B</span><span class="mpower-m">M</span><span class="mpower-w">W</span>
-            <span class="tab-text"> Garage</span>
-        </button>
-        <button class="tab-btn" data-filter="Hotwheels" data-en="Hotwheels" data-cn="风火轮系列">Hotwheels</button>
-        <button class="tab-btn" data-filter="all" data-en="All On Track" data-cn="全部追踪">All On Track</button>
-    </nav>
-
-    <div class="controls-bar">
-        <div class="controls-left">
-            
-            <button id="view-toggle-btn" class="icon-btn" title="Toggle Real Car / Model">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2" />
-                    <circle cx="7" cy="17" r="2" />
-                    <circle cx="17" cy="17" r="2" />
-                </svg>
-                <span class="toggle-text" data-en="Real" data-cn="真车">Real</span>
-            </button>
-
-            <div id="generic-filters" style="display:none;">
-                <div class="filter-wrapper">
-                    <select id="tag-select" placeholder="Filter by Tag..." autocomplete="off">
-                        <option value="">All Tags</option>
-                    </select>
+    <!-- APP -->
+    <section id="app">
+        <div class="hero-strip">
+            <img id="hero-img" src="images/banner.jpg" alt="Banner"
+                onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(180deg, rgba(255,255,255,0.70), rgba(255,255,255,0.92))'">
+            <div class="hero-overlay">
+                <div>
+                    <h2 class="hero-title" id="hero-title">Gallery</h2>
+                    <p class="hero-sub" id="hero-sub">Browse by tab, filter by attributes, and open each model for
+                        details.</p>
                 </div>
             </div>
-
-            <div id="bmw-filters">
-                <div class="bmw-filter-wrapper">
-                    <select id="bmw-series-select" placeholder="Series..." autocomplete="off"><option value="">All Series</option></select>
-                </div>
-                <div class="bmw-filter-wrapper">
-                    <select id="bmw-color-select" placeholder="Color..." autocomplete="off"><option value="">All Colors</option></select>
-                </div>
-                <div class="bmw-filter-wrapper">
-                    <select id="bmw-year-select" placeholder="Decade..." autocomplete="off"><option value="">All Years</option></select>
-                </div>
-            </div>
-
-            <div class="search-wrapper">
-                <input type="text" id="search-input" placeholder="Search model..." autocomplete="off">
-                <button id="search-btn">Search</button>
-            </div>
-
         </div>
-        <div class="item-count" id="item-count">Loading...</div>
-    </div>
 
-    <div id="pagination-top" class="pagination-container"></div>
-    <section id="timeline-view" class="timeline-view" style="display:none;"></section>
-    <main id="gallery" class="gallery-grid"></main>
-    <div id="pagination-bottom" class="pagination-container"></div>
+        <div class="shell">
+            <div class="controls-bar" id="controls">
+                <div class="controls-left">
+                    <button id="view-toggle-btn" class="icon-btn" title="Toggle Real Car / Model">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2" />
+                            <circle cx="7" cy="17" r="2" />
+                            <circle cx="17" cy="17" r="2" />
+                        </svg>
+                        <span class="toggle-text" data-en="See Real Cars" data-cn="观赏真车">See Real Cars</span>
+                    </button>
 
+                    <div id="generic-filters" style="display:none;">
+                        <div class="filter-wrapper">
+                            <select id="tag-select" placeholder="Filter by Tag..." autocomplete="off">
+                                <option value="">All Tags</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="bmw-filters">
+                        <div class="bmw-filter-wrapper">
+                            <select id="bmw-series-select" placeholder="Series..." autocomplete="off">
+                                <option value="">All Series</option>
+                            </select>
+                        </div>
+                        <div class="bmw-filter-wrapper">
+                            <select id="bmw-color-select" placeholder="Color..." autocomplete="off">
+                                <option value="">All Colors</option>
+                            </select>
+                        </div>
+                        <div class="bmw-filter-wrapper">
+                            <select id="bmw-year-select" placeholder="Decade..." autocomplete="off">
+                                <option value="">All Years</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="search-wrapper">
+                        <input type="text" id="search-input" placeholder="Search model..." autocomplete="off">
+                        <button id="search-btn">Search</button>
+                    </div>
+                </div>
+
+                <div class="item-count" id="item-count">Loading...</div>
+            </div>
+
+            <div id="pagination-top" class="pagination-container"></div>
+
+            <section id="timeline-view" style="display:none;"></section>
+
+            <main id="gallery" class="gallery-grid"></main>
+
+            <div id="pagination-bottom" class="pagination-container"></div>
+        </div>
+
+        <footer>
+            <p>“Beyond my means, never beyond memory.”</p>
+            <p>&copy; 2026 Laurence Diecast Collection</p>
+        </footer>
+    </section>
+
+    <!-- Modal -->
     <div id="modal" class="modal">
         <div class="modal-content">
             <span class="close-btn">&times;</span>
@@ -549,14 +1567,20 @@
                 <div class="modal-info">
                     <h2 id="modal-title"></h2>
                     <p class="brand-tag" id="modal-brand"></p>
+
                     <div class="details-list">
-                        <div class="detail-item"><span class="label" data-en="Brand" data-cn="品牌">Brand</span><span class="value" id="modal-maker"></span></div>
-                        <div class="detail-item" id="series-container"><span class="label" data-en="Series" data-cn="系列">Series</span><span class="value" id="modal-series"></span></div>
-                        <div class="detail-item"><span class="label" data-en="Color" data-cn="颜色">Color</span><span class="value" id="modal-color"></span></div>
-                        <!-- <div class="detail-item"><span class="label" data-en="Purchased with" data-cn="购入价">Purchased with</span><span class="value" id="modal-price"></span></div> -->
-                        <div class="detail-item"><span class="label" data-en="Tags" data-cn="标签">Tags</span><span class="value" id="modal-tags"></span></div>
+                        <div class="detail-item"><span class="label" data-en="Brand" data-cn="品牌">Brand</span><span
+                                class="value" id="modal-maker"></span></div>
+                        <div class="detail-item" id="series-container"><span class="label" data-en="Series"
+                                data-cn="系列">Series</span><span class="value" id="modal-series"></span></div>
+                        <div class="detail-item"><span class="label" data-en="Color" data-cn="颜色">Color</span><span
+                                class="value" id="modal-color"></span></div>
+                        <div class="detail-item"><span class="label" data-en="Tags" data-cn="标签">Tags</span><span
+                                class="value" id="modal-tags"></span></div>
                     </div>
+
                     <p id="modal-desc" class="description"></p>
+
                     <div class="modal-actions">
                         <a id="real-car-link" href="#" target="_blank" class="action-btn">
                             <span data-en="Explore Model" data-cn="了解他/她">Explore Model</span> &rarr;
@@ -567,75 +1591,136 @@
         </div>
     </div>
 
-    <footer>
-        <p>“Beyond my means, never beyond memory.”</p>
-        <p>&copy; 2026 Laurence Yu's Diecast Collection | Design by Passion</p>
-    </footer>
-
     <script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Subtle hero parallax (premium feel, lightweight)
-            const heroImg = document.querySelector('.hero-img');
-            let _parallaxTicking = false;
-            function _applyParallax(){
-                _parallaxTicking = false;
-                if(!heroImg) return;
-                const y = Math.min(window.scrollY || 0, 220);
-                heroImg.style.transform = `translateY(${y * 0.12}px)`;
-            }
-            window.addEventListener('scroll', () => {
-                if(_parallaxTicking) return;
-                _parallaxTicking = true;
-                requestAnimationFrame(_applyParallax);
-            }, { passive: true });
-
-            
-            // Config
-            const ITEMS_PER_PAGE = 15;
+            /* =========================
+               Core State (kept same)
+            ========================== */
+            const ITEMS_PER_PAGE = 20;
             let currentPage = 1;
-            
-            // State
+
             let currentLang = 'en';
             let carData = [];
-            let currentCategory = 'BMW'; 
-            
-            // Filters
-            let currentTagFilter = ''; 
-            let currentSearchQuery = ''; 
-            
-            // BMW Specific Filters
-            let bmwFilters = {
-                series: '',
-                color: '',
-                decade: ''
-            };
+            let currentCategory = 'BMW';   // default when entering app
+            let currentTagFilter = '';
+            let currentSearchQuery = '';
 
-            let showRealCar = false; 
+            let bmwFilters = { series: '', color: '', decade: '' };
+            let showRealCar = false;
 
-            // Tom Select Instances
             let tsTag, tsSeries, tsColor, tsYear;
 
-            // DOM Elements
+            /* =========================
+               DOM
+            ========================== */
             const getEl = (id) => document.getElementById(id);
+
+            const home = getEl('home');
+            const app = getEl('app');
+
+            const brandHome = getEl('brand-home');
+            const enterBimmer = getEl('enter-bimmer');
+            const enterHotwheels = getEl('enter-hotwheels');
+            const enterAll = getEl('enter-all');
+
+            const heroImg = getEl('hero-img');
+            const heroTitle = getEl('hero-title');
+            const heroSub = getEl('hero-sub');
+
             const gallery = getEl('gallery');
             const timelineView = getEl('timeline-view');
             const paginationContainers = [getEl('pagination-top'), getEl('pagination-bottom')];
+
             const toggleBtn = getEl('view-toggle-btn');
             const searchInput = getEl('search-input');
             const searchBtn = getEl('search-btn');
             const itemCountLabel = getEl('item-count');
+
             const modal = getEl('modal');
             const closeBtn = document.querySelector('.close-btn');
-            
+
             const genericFiltersDiv = getEl('generic-filters');
             const bmwFiltersDiv = getEl('bmw-filters');
 
-            // 1. Initialize Tom Selects
+            const navToggle = document.getElementById('nav-toggle');
+            const mainNav = document.getElementById('main-nav');
+
+            // Mobile nav toggle + outside click close
+            navToggle.addEventListener('click', (e) => {
+                e.stopPropagation();
+                mainNav.classList.toggle('open');
+            });
+            document.addEventListener('click', (e) => {
+                if (!mainNav.classList.contains('open')) return;
+                const isInsideNav = mainNav.contains(e.target) || navToggle.contains(e.target);
+                if (!isInsideNav) mainNav.classList.remove('open');
+            });
+
+            /* =========================
+               Helpers
+            ========================== */
+            function switchView(view) {
+                if (view === 'home') {
+                    home.style.display = 'flex';
+                    app.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                    window.scrollTo(0, 0);
+                    return;
+                }
+                home.style.display = 'none';
+                app.style.display = 'block';
+                window.scrollTo(0, 0);
+            }
+
+            function setHeroText() {
+                const map = {
+                    'BMW_TIMELINE': {
+                        title: currentLang === 'en' ? 'BMW History' : '宝马发展史',
+                        sub: currentLang === 'en' ? 'History of BMW: Displayed chronologically — with each era presenting all featured series arranged horizontally.' : '按年代展示——每个年代横向列出所有随机展示的系列。'
+                    },
+                    'BMW': {
+                        title: currentLang === 'en' ? 'Bimmer Garage' : '宝马车库',
+                        sub: currentLang === 'en' ? 'Explore by series, color, decade. Switch the view of Real car/Model at any time.' : '按系列/颜色/年代筛选；可随时切换真车/模型。'
+                    },
+                    'Hotwheels': {
+                        title: 'Hotwheels',
+                        sub: currentLang === 'en' ? 'I also collect some nice-looking Hot Wheels toy cars in my spare time..' : '茶余饭后也会收集些好看的风火轮系列收藏玩具车。'
+                    },
+                    'all': {
+                        title: currentLang === 'en' ? 'All On Track' : '全部追踪',
+                        sub: currentLang === 'en' ? 'Everything visible in the collection.' : '显示所有可见条目。'
+                    }
+                };
+                const v = map[currentCategory] || map['BMW'];
+                heroTitle.textContent = v.title;
+                heroSub.textContent = v.sub;
+            }
+
+            /* =========================
+               Parallax (kept)
+            ========================== */
+            let _parallaxTicking = false;
+            function _applyParallax() {
+                _parallaxTicking = false;
+                if (!heroImg) return;
+                const y = Math.min(window.scrollY || 0, 260);
+                heroImg.style.transform = `translateY(${y * 0.12}px)`;
+            }
+            window.addEventListener('scroll', () => {
+                if (_parallaxTicking) return;
+                _parallaxTicking = true;
+                requestAnimationFrame(_applyParallax);
+            }, { passive: true });
+
+            /* =========================
+               TomSelect init (kept)
+            ========================== */
             function initTS(id, placeholder, onChangeCallback) {
-                if(!getEl(id)) return null;
-                return new TomSelect("#"+id, {
+                if (!getEl(id)) return null;
+                return new TomSelect("#" + id, {
+                    dropdownParent: 'body', // ensures dropdown is appended to body (top layer)
                     create: false,
                     sortField: { field: "text", direction: "asc" },
                     placeholder: placeholder,
@@ -644,11 +1729,18 @@
                 });
             }
 
+            function updateTomSelect(instance, items, emptyText) {
+                if (!instance) return;
+                instance.clear();
+                instance.clearOptions();
+                instance.addOption({ value: '', text: emptyText });
+                items.forEach(item => instance.addOption({ value: item, text: item }));
+                instance.sync();
+            }
+
             tsTag = initTS('tag-select', "Filter by Tag...", (val) => {
                 currentTagFilter = val; currentPage = 1; updateUI();
             });
-
-            // BMW Selects
             tsSeries = initTS('bmw-series-select', "All Series", (val) => {
                 bmwFilters.series = val; currentPage = 1; updateUI();
             });
@@ -659,21 +1751,25 @@
                 bmwFilters.decade = val; currentPage = 1; updateUI();
             });
 
-            // 2. Fetch Data
+            /* =========================
+               Data Fetch (kept)
+            ========================== */
             fetch('cars.json')
-                .then(r => { if(!r.ok) throw new Error(r.status); return r.json(); })
-                .then(data => { 
-                    carData = data; 
-                    refreshOptions(); // Load initial options
-                    updateUI(); 
+                .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+                .then(data => {
+                    carData = data;
+                    refreshOptions();
+                    updateUI();
                 })
                 .catch(e => {
-                    gallery.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:50px; color:red;">Data Load Error: ${e.message}</div>`;
+                    gallery.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:50px;color:rgba(21,22,26,0.72);">Data Load Error: ${e.message}</div>`;
                 });
 
-            // 3. Search Logic
+            /* =========================
+               Search (kept)
+            ========================== */
             function performSearch() {
-                const query = searchInput.value.trim().toLowerCase();
+                const query = (searchInput.value || '').trim().toLowerCase();
                 if (query === currentSearchQuery) return;
                 currentSearchQuery = query;
                 currentPage = 1;
@@ -682,43 +1778,40 @@
             searchBtn.addEventListener('click', performSearch);
             searchInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') performSearch(); });
 
-            // 4. Populate Options Logic
+            /* =========================
+               Populate Options (kept)
+            ========================== */
             function refreshOptions() {
-                // A. Populate Generic Tags (Only for Non-BMW tabs or logic)
                 if (currentCategory !== 'BMW' && currentCategory !== 'BMW_TIMELINE') {
                     const allTags = new Set();
                     const relevantCars = currentCategory === 'all' ? carData : carData.filter(c => c.category === currentCategory);
                     relevantCars.forEach(car => {
-                        if (car.tags) car.tags.split(';').forEach(tag => { const t = tag.trim(); if(t) allTags.add(t); });
+                        if (car.tags) car.tags.split(';').forEach(tag => { const t = tag.trim(); if (t) allTags.add(t); });
                     });
                     updateTomSelect(tsTag, Array.from(allTags).sort(), currentLang === 'en' ? 'All Tags' : '全部标签');
                 }
 
-                // B. Populate BMW Specifics (Only if BMW is loaded, can do once or every update)
                 const bmwCars = carData.filter(c => c.category === 'BMW');
-                
-                // Series
+
                 const seriesSet = new Set();
-                bmwCars.forEach(c => { if(c.seriesNum) seriesSet.add(c.seriesNum); });
+                bmwCars.forEach(c => { if (c.seriesNum) seriesSet.add(c.seriesNum); });
                 updateTomSelect(tsSeries, Array.from(seriesSet).sort(), "All Series");
 
-                // Color
                 const colorSet = new Set();
-                bmwCars.forEach(c => { 
+                bmwCars.forEach(c => {
                     const color = currentLang === 'en' ? c.color : c.color_cn;
-                    if(color) colorSet.add(color); 
+                    if (color) colorSet.add(color);
                 });
                 updateTomSelect(tsColor, Array.from(colorSet).sort(), "All Colors");
 
-                // Decade (Logic: Find Year in Tags -> Convert to Decade)
                 const decadeSet = new Set();
-                const yearRegex = /\b(19|20)\d{2}\b/; // Matches 19xx or 20xx
+                const yearRegex = /\b(19|20)\d{2}\b/;
                 bmwCars.forEach(c => {
-                    if(c.tags) {
+                    if (c.tags) {
                         const match = c.tags.match(yearRegex);
-                        if(match) {
-                            const year = parseInt(match[0]);
-                            const decade = Math.floor(year / 10) * 10 + 's'; // e.g. 1990s
+                        if (match) {
+                            const year = parseInt(match[0], 10);
+                            const decade = Math.floor(year / 10) * 10 + 's';
                             decadeSet.add(decade);
                         }
                     }
@@ -726,330 +1819,173 @@
                 updateTomSelect(tsYear, Array.from(decadeSet).sort(), "All Decades");
             }
 
-            
-            // --- Timeline helpers ---
+            /* =========================
+               Timeline Helpers
+            ========================== */
             const YEAR_REGEX = /\b(19|20)\d{2}\b/;
-            function getYearFromCar(car){
+            function getYearFromCar(car) {
                 const m = (car.tags || '').match(YEAR_REGEX);
                 return m ? parseInt(m[0], 10) : null;
             }
-            function yearToDecadeLabel(year){
+            function yearToDecadeLabel(year) {
                 return Math.floor(year / 10) * 10 + 's';
             }
-            function compareDecadeLabel(a,b){
-                // "1990s" -> 1990
-                return parseInt(a,10) - parseInt(b,10);
+            function compareDecadeLabel(a, b) {
+                return parseInt(a, 10) - parseInt(b, 10);
             }
-            function groupTimeline(cars){
-                // cars: already filtered BMW cars
-                const decadeMap = new Map(); // decade -> Map(series -> [cars])
-                cars.forEach(c=>{
+            function pickRandom(arr) {
+                if (!arr || arr.length === 0) return null;
+                return arr[Math.floor(Math.random() * arr.length)];
+            }
+
+            function groupTimeline(cars) {
+                const decadeMap = new Map();
+                cars.forEach(c => {
                     const y = getYearFromCar(c);
-                    if(!y) return;
+                    if (!y) return;
                     const decade = yearToDecadeLabel(y);
                     const series = (c.seriesNum && c.seriesNum.trim()) ? c.seriesNum.trim() : '--';
-                    if(!decadeMap.has(decade)) decadeMap.set(decade, new Map());
+                    if (!decadeMap.has(decade)) decadeMap.set(decade, new Map());
                     const sMap = decadeMap.get(decade);
-                    if(!sMap.has(series)) sMap.set(series, []);
+                    if (!sMap.has(series)) sMap.set(series, []);
                     sMap.get(series).push(c);
                 });
+
                 const decades = Array.from(decadeMap.keys()).sort(compareDecadeLabel);
-                const out = decades.map(decade=>{
+                return decades.map(decade => {
                     const sMap = decadeMap.get(decade);
-                    const seriesList = Array.from(sMap.keys()).sort((x,y)=>x.localeCompare(y, undefined, {numeric:true, sensitivity:'base'}));
-                    return {
-                        decade,
-                        series: seriesList.map(s=>({ seriesNum: s, cars: sMap.get(s) }))
-                    };
+                    const seriesList = Array.from(sMap.keys()).sort((x, y) => x.localeCompare(y, undefined, { numeric: true, sensitivity: 'base' }));
+                    return { decade, series: seriesList.map(s => ({ seriesNum: s, cars: sMap.get(s) })) };
                 });
-                return out;
-            }
-            function pickRandom(arr){
-                if(!arr || arr.length===0) return null;
-                return arr[Math.floor(Math.random()*arr.length)];
             }
 
-function updateTomSelect(instance, items, emptyText) {
-                if(!instance) return;
-                instance.clear();
-                instance.clearOptions();
-                instance.addOption({value: '', text: emptyText});
-                items.forEach(item => instance.addOption({value: item, text: item}));
-                instance.sync();
-            }
-
-            // 5. UI Update Master Logic
-            function updateUI() {
-                try {
-                    // Toggle Filter Visibility
-                    if (currentCategory === 'BMW') {
-                        genericFiltersDiv.style.display = 'none';
-                        bmwFiltersDiv.style.display = 'flex';
-                    } else if (currentCategory === 'BMW_TIMELINE') {
-                        // Timeline is a visualization: keep UI clean
-                        genericFiltersDiv.style.display = 'none';
-                        bmwFiltersDiv.style.display = 'none';
-                    } else {
-                        genericFiltersDiv.style.display = 'block';
-                        bmwFiltersDiv.style.display = 'none';
-                    }
-
-                    // A. Base Filter by Category
-                    let filtered;
-                    if (currentCategory === 'all') {
-                        filtered = carData.filter(c => c.visible !== false);
-                    } else if (currentCategory === 'BMW_TIMELINE') {
-                        filtered = carData.filter(c => c.category === 'BMW' && c.visible !== false);
-                    } else {
-                        filtered = carData.filter(c => c.category === currentCategory && c.visible !== false);
-                    }
-
-                    // B. Apply Filters based on Category
-                    if (currentCategory === 'BMW') {
-                        // Apply BMW Filters
-                        if (bmwFilters.series) {
-                            filtered = filtered.filter(c => c.seriesNum === bmwFilters.series);
-                        }
-                        if (bmwFilters.color) {
-                            filtered = filtered.filter(c => {
-                                const cField = currentLang === 'en' ? c.color : c.color_cn;
-                                return cField === bmwFilters.color;
-                            });
-                        }
-                        if (bmwFilters.decade) {
-                            const rangeStart = parseInt(bmwFilters.decade); // "1990s" -> 1990
-                            const rangeEnd = rangeStart + 9;
-                            filtered = filtered.filter(c => {
-                                const match = (c.tags || '').match(/\b(19|20)\d{2}\b/);
-                                if (!match) return false;
-                                const year = parseInt(match[0]);
-                                return year >= rangeStart && year <= rangeEnd;
-                            });
-                        }
-                    } else if (currentCategory !== 'BMW_TIMELINE') {
-                        // Apply Generic Tag Filter
-                        if (currentTagFilter && currentTagFilter !== '') {
-                            filtered = filtered.filter(c => (c.tags || '').split(';').includes(currentTagFilter));
-                        }
-                    }
-
-                    // C. Search Filter (Global)
-                    if (currentSearchQuery) {
-                        filtered = filtered.filter(c => {
-                            const text = `${c.modelName} ${c.carBrand} ${c.modelBrand} ${c.description_en} ${c.description_cn} ${c.tags} ${c.seriesNum}`.toLowerCase();
-                            return text.includes(currentSearchQuery);
-                        });
-                    }
-
-
-                    // If Timeline tab: render visualization (no pagination)
-                    if (currentCategory === 'BMW_TIMELINE') {
-                        const totalItems = filtered.length;
-
-                        // Update count label (keep consistent)
-                        if (itemCountLabel) {
-                            itemCountLabel.textContent = totalItems === 0 ? '0 items' : `${totalItems} items`;
-                        }
-
-                        // Hide gallery + pagination, show timeline
-                        if (timelineView) timelineView.style.display = 'block';
-                        gallery.style.display = 'none';
-                        paginationContainers.forEach(c => { if(c) c.style.display = 'none'; });
-
-                        renderTimeline(filtered);
-                        return;
-                    } else {
-                        // Ensure timeline is hidden for normal tabs
-                        if (timelineView) timelineView.style.display = 'none';
-                        gallery.style.display = 'grid';
-                        paginationContainers.forEach(c => { if(c) c.style.display = 'flex'; });
-                    }
-
-                    // D. Pagination
-                    const totalItems = filtered.length;
-                    const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
-                    
-                    if (currentPage > totalPages) currentPage = 1;
-                    if (currentPage < 1) currentPage = 1;
-
-                    const startIdx = (currentPage - 1) * ITEMS_PER_PAGE;
-                    const endIdx = startIdx + ITEMS_PER_PAGE;
-                    const carsOnPage = filtered.slice(startIdx, endIdx);
-
-                    // E. Update UI Text
-                    if (itemCountLabel) {
-                        itemCountLabel.textContent = totalItems === 0 
-                            ? '0 items' 
-                            : `${startIdx + 1}-${Math.min(endIdx, totalItems)} of ${totalItems}`;
-                    }
-
-                    renderGallery(carsOnPage);
-                    renderPagination(totalPages);
-
-                } catch (e) {
-                    console.error("UI Update Error:", e);
-                }
-            }
-
-            
-            // Card factory (shared by gallery + timeline)
-            function buildCardEl(car, noAnimation=false, index=0){
+            /* =========================
+               Card builders (kept)
+            ========================== */
+            function buildGalleryCard(car, index = 0) {
                 const card = document.createElement('div');
                 card.className = 'card';
-
-                if(!noAnimation){
-                    card.style.animationDelay = `${Math.min(index * 0.05, 1.0)}s`;
-                } else {
-                    card.style.opacity = '1';
-                    card.style.animation = 'none';
-                }
-
+                card.style.animationDelay = `${Math.min(index * 0.05, 1.0)}s`;
                 card.onclick = () => openModal(car);
 
-                // Show first 5 tags
                 const tagsList = (car.tags || '').split(';').filter(t => t.trim() !== '');
                 const tagsHTML = tagsList.slice(0, 5).map(t => `<span class="mini-tag">${t}</span>`).join('');
 
-                // Image (respect Real toggle + keep old lazy-load fade-in behavior)
                 let imgSrc = car.imagePath || 'images/placeholder.jpg';
                 if (showRealCar && car.realCarImage) imgSrc = car.realCarImage;
 
-                // Title
-                let title = `${car.modelName || 'Unknown'}`;
+                const title = `${car.modelName || 'Unknown'}`;
 
                 card.innerHTML = `
-                    <div class="card-image-wrapper">
-                        <img 
-                            src="${imgSrc}" 
-                            alt="${title}" 
-                            loading="lazy" 
-                            decoding="async"
-                            onload="this.classList.add('loaded')"
-                            onerror="this.onerror=null; this.src='${car.imagePath || ''}'; if(this.src==window.location.href) this.style.display='none';"
-                        >
-                    </div>
-                    <div class="card-info">
-                        <div class="card-brand">${car.modelBrand || ''}</div>
-                        <h3 class="card-title">${title}</h3>
-                        <div class="card-tags">${tagsHTML}</div>
-                    </div>
-                `;
+          <div class="card-image-wrapper">
+            <img
+              src="${imgSrc}"
+              alt="${title}"
+              loading="lazy"
+              decoding="async"
+              onload="this.classList.add('loaded')"
+              onerror="this.onerror=null; this.src='${car.imagePath || ''}'; if(this.src==window.location.href) this.style.display='none';"
+            >
+          </div>
+          <div class="card-info">
+            <div class="card-brand">${car.modelBrand || ''}</div>
+            <h3 class="card-title">${title}</h3>
+            <div class="card-tags">${tagsHTML}</div>
+          </div>
+        `;
                 return card;
             }
 
-            
-            // 6.5 Render BMW Timeline
-            function renderTimeline(bmwCars){
-                if(!timelineView) return;
+            function buildSeriesCard(seriesNum, cars) {
+                const picked = pickRandom(cars || []);
+                if (!picked) return null;
+
+                const card = document.createElement('div');
+                card.className = 'series-card';
+                card.onclick = () => openModal(picked);
+
+                let imgSrc = picked.imagePath || 'images/placeholder.jpg';
+                if (showRealCar && picked.realCarImage) imgSrc = picked.realCarImage;
+
+                const title = `${picked.modelName || 'Unknown'}`;
+                const count = (cars || []).length;
+
+                card.innerHTML = `
+          <div class="series-badge">
+            <span>${seriesNum || '--'}</span>
+            <small>${count}</small>
+          </div>
+          <div class="img">
+            <img
+              src="${imgSrc}"
+              alt="${title}"
+              loading="lazy"
+              decoding="async"
+              onload="this.classList.add('loaded')"
+              onerror="this.onerror=null; this.src='${picked.imagePath || ''}'; if(this.src==window.location.href) this.style.display='none';"
+            >
+          </div>
+          <div class="info">
+            <div class="brand">${picked.modelBrand || ''}</div>
+            <div class="title">${title}</div>
+          </div>
+        `;
+                return card;
+            }
+
+            function renderTimeline(bmwCars) {
+                if (!timelineView) return;
                 timelineView.innerHTML = '';
 
-                if(!bmwCars || bmwCars.length === 0){
-                    timelineView.innerHTML = '<div class="timeline-empty">No cars found.</div>';
+                if (!bmwCars || bmwCars.length === 0) {
+                    timelineView.innerHTML = `<div class="timeline-empty">${currentLang === 'en' ? 'No cars found.' : '未找到车辆。'}</div>`;
                     return;
                 }
 
                 const timeline = groupTimeline(bmwCars);
                 const wrap = document.createElement('div');
                 wrap.className = 'timeline-wrap';
-                wrap.innerHTML = '<div class="timeline-line"></div>';
 
-                timeline.forEach((decObj) => {
-                    const decadeEl = document.createElement('div');
-                    decadeEl.className = 'timeline-decade';
+                timeline.forEach(decObj => {
+                    const row = document.createElement('div');
+                    row.className = 'decade-row';
 
-                    const decadeCount = decObj.series.reduce((sum, s)=> sum + (s.cars ? s.cars.length : 0), 0);
+                    const decadeCount = decObj.series.reduce((sum, s) => sum + (s.cars ? s.cars.length : 0), 0);
 
-                    decadeEl.innerHTML = `
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-heading">
-                            <h3>${decObj.decade}</h3>
-                            <div class="timeline-sub">${decadeCount} item${decadeCount===1?'':'s'}</div>
-                        </div>
-                    `;
+                    const meta = document.createElement('div');
+                    meta.className = 'decade-meta';
+                    meta.innerHTML = `
+            <h3>${decObj.decade}</h3>
+            <div class="sub">${decadeCount} ${currentLang === 'en' ? (decadeCount === 1 ? 'item' : 'items') : '项'}</div>
+          `;
 
-                    const seriesList = document.createElement('div');
-                    seriesList.className = 'series-list';
+                    const strip = document.createElement('div');
+                    strip.className = 'series-strip';
 
-                    decObj.series.forEach((sObj) => {
-                        const row = document.createElement('div');
-                        row.className = 'series-row';
-
-                        const label = document.createElement('div');
-                        label.className = 'series-pill';
-                        const shownSeries = sObj.seriesNum || '--';
-                        label.innerHTML = `<span>${shownSeries}</span><small>${(sObj.cars||[]).length}</small>`;
-
-                        const cardsWrap = document.createElement('div');
-                        cardsWrap.className = 'timeline-cards';
-
-                        // Random pick one car as requested
-                        const picked = pickRandom(sObj.cars || []);
-                        if(picked){
-                            cardsWrap.appendChild(buildCardEl(picked, true));
-                        }
-
-                        row.appendChild(label);
-                        row.appendChild(cardsWrap);
-                        seriesList.appendChild(row);
+                    decObj.series.forEach(sObj => {
+                        const sc = buildSeriesCard(sObj.seriesNum, sObj.cars);
+                        if (sc) strip.appendChild(sc);
                     });
 
-                    decadeEl.appendChild(seriesList);
-                    wrap.appendChild(decadeEl);
+                    row.appendChild(meta);
+                    row.appendChild(strip);
+                    wrap.appendChild(row);
                 });
 
                 timelineView.appendChild(wrap);
             }
 
-            // 6. Render Gallery
             function renderGallery(cars) {
                 gallery.innerHTML = '';
-                if (cars.length === 0) {
-                    gallery.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:50px; color:#999;">No cars found.</div>';
+                if (!cars || cars.length === 0) {
+                    gallery.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:50px;color:rgba(21,22,26,0.58);">${currentLang === 'en' ? 'No cars found.' : '未找到车辆。'}</div>`;
                     return;
                 }
-
                 cars.forEach((car, index) => {
-                    const card = document.createElement('div');
-                    card.className = 'card';
-                    card.style.animationDelay = `${Math.min(index * 0.05, 1.0)}s`; 
-                    card.onclick = () => openModal(car);
-
-                    // Show first 5 tags
-                    const tagsList = (car.tags || '').split(';').filter(t => t.trim() !== '');
-                    const tagsHTML = tagsList.slice(0, 5).map(t => `<span class="mini-tag">${t}</span>`).join('');
-
-                    let imgSrc = car.imagePath || 'images/placeholder.jpg'; 
-                    if (showRealCar && car.realCarImage) imgSrc = car.realCarImage;
-
-                    // Display Series Num for BMWs in title
-                    let title = `${car.modelName || 'Unknown'}`;
-                    if(currentCategory === 'BMW' && car.seriesNum) {
-                        // title = `${car.seriesNum} ${title}`;
-                        title = `${title}`;
-                    }
-
-                    card.innerHTML = `
-                        <div class="card-image-wrapper">
-                            <img 
-                                src="${imgSrc}" 
-                                alt="${title}" 
-                                loading="lazy" 
-                                decoding="async"
-                                onload="this.classList.add('loaded')"
-                                onerror="this.onerror=null; this.src='${car.imagePath || ''}'; if(this.src==window.location.href) this.style.display='none';" 
-                            >
-                        </div>
-                        <div class="card-info">
-                            <div class="card-brand">${car.modelBrand || ''}</div>
-                            <h3 class="card-title">${title}</h3>
-                            <div class="card-tags">${tagsHTML}</div>
-                        </div>
-                    `;
-                    gallery.appendChild(card);
+                    gallery.appendChild(buildGalleryCard(car, index));
                 });
             }
 
-            // 7. Render Pagination
             function renderPagination(totalPages) {
                 const createButtons = () => {
                     const wrapper = document.createElement('div');
@@ -1060,7 +1996,7 @@ function updateTomSelect(instance, items, emptyText) {
                     prevBtn.className = 'page-btn';
                     prevBtn.innerHTML = '&lsaquo;';
                     prevBtn.disabled = currentPage === 1;
-                    prevBtn.onclick = () => { if(currentPage > 1) { currentPage--; updateUI(); window.scrollTo(0,0); }};
+                    prevBtn.onclick = () => { if (currentPage > 1) { currentPage--; updateUI(); window.scrollTo(0, 0); } };
                     wrapper.appendChild(prevBtn);
 
                     for (let i = 1; i <= totalPages; i++) {
@@ -1068,11 +2004,13 @@ function updateTomSelect(instance, items, emptyText) {
                             const btn = document.createElement('button');
                             btn.className = `page-btn ${i === currentPage ? 'active' : ''}`;
                             btn.textContent = i;
-                            btn.onclick = () => { currentPage = i; updateUI(); window.scrollTo(0,0); };
+                            btn.onclick = () => { currentPage = i; updateUI(); window.scrollTo(0, 0); };
                             wrapper.appendChild(btn);
                         } else if (i === currentPage - 3 || i === currentPage + 3) {
                             const span = document.createElement('span');
-                            span.textContent = '...'; span.style.padding = '0 5px';
+                            span.textContent = '...';
+                            span.style.padding = '0 6px';
+                            span.style.color = 'rgba(21,22,26,0.45)';
                             wrapper.appendChild(span);
                         }
                     }
@@ -1081,132 +2019,265 @@ function updateTomSelect(instance, items, emptyText) {
                     nextBtn.className = 'page-btn';
                     nextBtn.innerHTML = '&rsaquo;';
                     nextBtn.disabled = currentPage === totalPages;
-                    nextBtn.onclick = () => { if(currentPage < totalPages) { currentPage++; updateUI(); window.scrollTo(0,0); }};
+                    nextBtn.onclick = () => { if (currentPage < totalPages) { currentPage++; updateUI(); window.scrollTo(0, 0); } };
                     wrapper.appendChild(nextBtn);
+
                     return wrapper;
                 };
 
                 paginationContainers.forEach(container => {
-                    if(!container) return;
+                    if (!container) return;
                     container.innerHTML = '';
                     const content = createButtons();
-                    const contentClone = createButtons(); 
-                    while(contentClone.firstChild) container.appendChild(contentClone.firstChild);
+                    const clone = createButtons();
+                    while (clone.firstChild) container.appendChild(clone.firstChild);
                 });
             }
 
-            // Events: Tabs
-            document.querySelectorAll('.tab-btn').forEach(btn => {
+            function updateUI() {
+                try {
+                    setHeroText();
+
+                    if (currentCategory === 'BMW') {
+                        genericFiltersDiv.style.display = 'none';
+                        bmwFiltersDiv.style.display = 'flex';
+                    } else if (currentCategory === 'BMW_TIMELINE') {
+                        genericFiltersDiv.style.display = 'none';
+                        bmwFiltersDiv.style.display = 'none';
+                    } else {
+                        genericFiltersDiv.style.display = 'block';
+                        bmwFiltersDiv.style.display = 'none';
+                    }
+
+                    let filtered;
+                    if (currentCategory === 'all') {
+                        filtered = carData.filter(c => c.visible !== false);
+                    } else if (currentCategory === 'BMW_TIMELINE') {
+                        filtered = carData.filter(c => c.category === 'BMW' && c.visible !== false);
+                    } else {
+                        filtered = carData.filter(c => c.category === currentCategory && c.visible !== false);
+                    }
+
+                    if (currentCategory === 'BMW') {
+                        if (bmwFilters.series) {
+                            filtered = filtered.filter(c => c.seriesNum === bmwFilters.series);
+                        }
+                        if (bmwFilters.color) {
+                            filtered = filtered.filter(c => {
+                                const cField = currentLang === 'en' ? c.color : c.color_cn;
+                                return cField === bmwFilters.color;
+                            });
+                        }
+                        if (bmwFilters.decade) {
+                            const rangeStart = parseInt(bmwFilters.decade, 10);
+                            const rangeEnd = rangeStart + 9;
+                            filtered = filtered.filter(c => {
+                                const match = (c.tags || '').match(/\b(19|20)\d{2}\b/);
+                                if (!match) return false;
+                                const year = parseInt(match[0], 10);
+                                return year >= rangeStart && year <= rangeEnd;
+                            });
+                        }
+                    } else if (currentCategory !== 'BMW_TIMELINE') {
+                        if (currentTagFilter && currentTagFilter !== '') {
+                            filtered = filtered.filter(c => (c.tags || '').split(';').includes(currentTagFilter));
+                        }
+                    }
+
+                    if (currentSearchQuery) {
+                        filtered = filtered.filter(c => {
+                            const text = `${c.modelName} ${c.carBrand} ${c.modelBrand} ${c.description_en} ${c.description_cn} ${c.tags} ${c.seriesNum}`.toLowerCase();
+                            return text.includes(currentSearchQuery);
+                        });
+                    }
+
+                    if (currentCategory === 'BMW_TIMELINE') {
+                        const totalItems = filtered.length;
+
+                        if (itemCountLabel) {
+                            itemCountLabel.textContent = totalItems === 0
+                                ? (currentLang === 'en' ? '0 items' : '0 项')
+                                : (currentLang === 'en' ? `${totalItems} items` : `${totalItems} 项`);
+                        }
+
+                        timelineView.style.display = 'block';
+                        gallery.style.display = 'none';
+                        paginationContainers.forEach(c => { if (c) c.style.display = 'none'; });
+
+                        renderTimeline(filtered);
+                        return;
+                    } else {
+                        timelineView.style.display = 'none';
+                        gallery.style.display = 'grid';
+                        paginationContainers.forEach(c => { if (c) c.style.display = 'flex'; });
+                    }
+
+                    const totalItems = filtered.length;
+                    const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE) || 1;
+
+                    if (currentPage > totalPages) currentPage = 1;
+                    if (currentPage < 1) currentPage = 1;
+
+                    const startIdx = (currentPage - 1) * ITEMS_PER_PAGE;
+                    const endIdx = startIdx + ITEMS_PER_PAGE;
+                    const carsOnPage = filtered.slice(startIdx, endIdx);
+
+                    if (itemCountLabel) {
+                        if (totalItems === 0) {
+                            itemCountLabel.textContent = currentLang === 'en' ? '0 items' : '0 项';
+                        } else {
+                            itemCountLabel.textContent = currentLang === 'en'
+                                ? `${startIdx + 1}-${Math.min(endIdx, totalItems)} of ${totalItems}`
+                                : `${startIdx + 1}-${Math.min(endIdx, totalItems)} / ${totalItems}`;
+                        }
+                    }
+
+                    renderGallery(carsOnPage);
+                    renderPagination(totalPages);
+
+                } catch (e) {
+                    console.error("UI Update Error:", e);
+                }
+            }
+
+            document.querySelectorAll('.nav-btn').forEach(btn => {
                 btn.addEventListener('click', () => {
-                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+
+                    if (home.style.display !== 'none') {
+                        switchView('app');
+                    }
+
+                    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
                     btn.classList.add('active');
+
                     currentCategory = btn.getAttribute('data-filter');
-                    
-                    // Reset all filters on tab switch to avoid confusion
+
                     currentTagFilter = '';
                     bmwFilters = { series: '', color: '', decade: '' };
                     currentSearchQuery = '';
                     searchInput.value = '';
                     currentPage = 1;
-                    
-                    // Clear selects visual state
-                    [tsTag, tsSeries, tsColor, tsYear].forEach(ts => { if(ts) ts.clear(); });
 
-                    refreshOptions(); // Re-populate options based on new category
+                    [tsTag, tsSeries, tsColor, tsYear].forEach(ts => {
+                        if (ts) ts.clear();
+                    });
+
+                    refreshOptions();
                     updateUI();
+
+                    mainNav.classList.remove('open');
                 });
             });
 
-            // Events: Language
+
             document.querySelectorAll('.lang-switch button').forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     const lang = e.target.id === 'lang-en' ? 'en' : 'cn';
                     if (lang === currentLang) return;
 
                     currentLang = lang;
-
-                    document.querySelectorAll('.lang-switch button')
-                        .forEach(b => b.classList.remove('active'));
+                    document.querySelectorAll('.lang-switch button').forEach(b => b.classList.remove('active'));
                     e.target.classList.add('active');
 
-                    // === Language Switch Core Logic ===
                     document.querySelectorAll('[data-en]').forEach(el => {
-                    const filter = el.dataset.filter || '';
+                        const filter = el.dataset.filter || '';
 
-                    // ===== BMW Tabs (Garage + Timeline) =====
-                    if (filter.startsWith('BMW')) {
-                        if (currentLang === 'en') {
-                            const suffix =
-                                filter === 'BMW'
-                                    ? ' Garage'
-                                    : filter === 'BMW_TIMELINE'
-                                        ? ' Timeline'
-                                        : '';
+                        // if (filter.startsWith('BMW')) {
+                        //     if (currentLang === 'en') {
+                        //         const suffix =
+                        //             filter === 'BMW' ? ' Garage'
+                        //                 : filter === 'BMW_TIMELINE' ? ' Timeline'
+                        //                     : '';
 
-                            el.innerHTML =
-                                '<span class="mpower-b">B</span>' +
-                                '<span class="mpower-m">M</span>' +
-                                '<span class="mpower-w">W</span>' +
-                                `<span class="tab-text">${suffix}</span>`;
-                        } else {
-                            // 中文统一使用纯文本，避免彩色干扰
-                            el.textContent = el.dataset.cn;
-                        }
+                        //         el.innerHTML =
+                        //             '<span class="mpower-b">B</span>' +
+                        //             '<span class="mpower-m">M</span>' +
+                        //             '<span class="mpower-w">W</span>' +
+                        //             `<span class="tab-text">${suffix}</span>`;
+                        //     } else {
+                        //         el.textContent = el.dataset.cn;
+                        //     }
+                        //     return;
+                        // }
 
-                        return; // ⚠️ 非常重要：BMW tab 处理完就退出
-                    }
+                        el.textContent = currentLang === 'en' ? el.dataset.en : el.dataset.cn;
+                    });
 
-                    // ===== Default behavior (all other elements) =====
-                    el.textContent =
-                        currentLang === 'en'
-                            ? el.dataset.en
-                            : el.dataset.cn;
-                });
-
-                    refreshOptions(); // Re-populate colors in new language
+                    refreshOptions();
                     updateUI();
                 });
             });
 
-
-            // View Toggle
-            toggleBtn.addEventListener('click', () => { 
-                showRealCar = !showRealCar; 
-                toggleBtn.classList.toggle('active', showRealCar); 
-                updateUI(); 
+            toggleBtn.addEventListener('click', () => {
+                showRealCar = !showRealCar;
+                toggleBtn.classList.toggle('active', showRealCar);
+                updateUI();
             });
 
-            // Modal Logic
-            function setText(id, text) { const el = getEl(id); if(el) el.textContent = text || '-'; }
+            function setText(id, text) {
+                const el = getEl(id);
+                if (el) el.textContent = text || '-';
+            }
+
             function openModal(car) {
                 const imgEl = getEl('modal-img');
                 let src = car.imagePath;
                 if (showRealCar && car.realCarImage) src = car.realCarImage;
-                if(imgEl) { imgEl.src = src || ''; imgEl.onerror = function() { this.src = car.imagePath || ''; }; }
+                if (imgEl) {
+                    imgEl.src = src || '';
+                    imgEl.onerror = function () { this.src = car.imagePath || ''; };
+                }
 
-                setText('modal-title', `${car.modelName}`);
+                setText('modal-title', `${car.modelName || ''}`);
                 setText('modal-brand', car.carBrand);
                 setText('modal-maker', car.modelBrand);
-                // setText('modal-carbrand', car.carBrand);
                 setText('modal-series', car.seriesNum);
-                setText('modal-price', car.price);
                 setText('modal-tags', (car.tags || '').split(';').join(', '));
                 setText('modal-color', currentLang === 'en' ? car.color : car.color_cn);
                 setText('modal-desc', currentLang === 'en' ? car.description_en : car.description_cn);
 
                 const seriesContainer = getEl('series-container');
                 if (seriesContainer) seriesContainer.style.display = (car.carBrand === 'BMW' && car.seriesNum) ? 'flex' : 'none';
-                
+
                 const linkBtn = getEl('real-car-link');
-                if (linkBtn) linkBtn.style.display = car.realCarUrl ? 'block' : 'none';
+                if (linkBtn) linkBtn.style.display = car.realCarUrl ? 'inline-flex' : 'none';
                 if (linkBtn) linkBtn.href = car.realCarUrl || '#';
 
                 modal.style.display = 'block';
                 document.body.style.overflow = 'hidden';
             }
-            if(closeBtn) closeBtn.onclick = () => { modal.style.display = 'none'; document.body.style.overflow = 'auto'; };
-            window.onclick = (e) => { if(e.target == modal) { modal.style.display = 'none'; document.body.style.overflow = 'auto'; }};
+
+            if (closeBtn) closeBtn.onclick = () => { modal.style.display = 'none'; document.body.style.overflow = 'auto'; };
+            window.onclick = (e) => { if (e.target == modal) { modal.style.display = 'none'; document.body.style.overflow = 'auto'; } };
+
+            function enterApp(category) {
+                switchView('app');
+
+                document.querySelectorAll('.nav-btn').forEach(b => {
+                    b.classList.toggle('active', b.getAttribute('data-filter') === category);
+                });
+
+                currentCategory = category;
+                currentTagFilter = '';
+                bmwFilters = { series: '', color: '', decade: '' };
+                currentSearchQuery = '';
+                if (searchInput) searchInput.value = '';
+                currentPage = 1;
+                [tsTag, tsSeries, tsColor, tsYear].forEach(ts => { if (ts) ts.clear(); });
+
+                refreshOptions();
+                updateUI();
+            }
+
+            enterBimmer.addEventListener('click', () => enterApp('BMW_TIMELINE'));
+            enterHotwheels.addEventListener('click', () => enterApp('Hotwheels'));
+            enterAll.addEventListener('click', () => enterApp('all'));
+
+            brandHome.addEventListener('click', () => switchView('home'));
+
+            switchView('home');
         });
     </script>
 </body>
+
 </html>
