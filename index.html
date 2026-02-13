@@ -97,7 +97,7 @@
         header {
             position: sticky;
             top: 0;
-            z-index: 220;
+            z-index: 2000;
             height: 72px;
             display: flex;
             align-items: center;
@@ -540,7 +540,7 @@
         /* ================= Controls ================= */
         .controls-bar {
             position: relative;
-            z-index: 600;
+            z-index: 300;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -957,8 +957,10 @@
             gap: 12px;
             overflow-x: auto;
             padding: 4px 2px 8px 2px;
-            scroll-snap-type: x mandatory;
+            scroll-snap-type: x proximity;
             scrollbar-width: thin;
+            padding-right: 56px;
+            min-width: 0;
         }
 
         .series-strip::-webkit-scrollbar {
@@ -1080,6 +1082,19 @@
             text-align: center;
             color: rgba(21, 22, 26, 0.58);
             font-weight: 650;
+        }
+
+        /* ===== Timeline row overflow FIX (Grid min-width) ===== */
+        .decade-row>* {
+            min-width: 0;
+            /* 允许 grid 子项收缩，防止横向溢出 */
+        }
+
+        /* 你创建的 stripWrapper 没 class，这里用 decade-row 的第2列选中它 */
+        .decade-row> :nth-child(2) {
+            position: relative;
+            /* 保险：确保按钮 absolute 相对它定位 */
+            min-width: 0;
         }
 
         /* ================= Modal ================= */
@@ -1405,6 +1420,62 @@
                 max-width: 250px;
             }
         }
+
+        /* ================= Timeline Scroll Enhancement ================= */
+
+        .series-strip {
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* 右侧滑动按钮 */
+        .timeline-scroll-btn {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 34px;
+            height: 34px;
+            border-radius: 999px;
+            border: 1px solid rgba(20, 20, 24, 0.12);
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all .18s ease;
+            box-shadow: 0 10px 28px rgba(15, 18, 22, 0.12);
+            z-index: 6;
+        }
+
+        .timeline-scroll-btn:hover {
+            transform: translateY(-50%) scale(1.08);
+            border-color: rgba(22, 88, 142, 0.28);
+        }
+
+        .timeline-scroll-btn svg {
+            width: 16px;
+            height: 16px;
+            stroke: rgba(21, 22, 26, 0.72);
+        }
+
+        /* 滚动边缘渐隐 */
+        .series-strip::after {
+            content: '';
+            position: sticky;
+            right: 0;
+            top: 0;
+            width: 28px;
+            height: 100%;
+            pointer-events: none;
+            background: linear-gradient(to left, rgba(246, 247, 249, 0.95), rgba(246, 247, 249, 0));
+        }
+
+        #go-garage-btn:hover {
+            border-color: rgba(22, 88, 142, 0.3);
+            box-shadow: 0 0 0 3px rgba(129, 196, 255, 0.2);
+        }
     </style>
 </head>
 
@@ -1511,7 +1582,11 @@
                             <circle cx="7" cy="17" r="2" />
                             <circle cx="17" cy="17" r="2" />
                         </svg>
-                        <span class="toggle-text" data-en="See Real Cars" data-cn="观赏真车">See Real Cars</span>
+                        <span class="toggle-text mpower" data-en="See Real Cars" data-cn="观赏真车">See Real Cars</span>
+                    </button>
+
+                    <button id="go-garage-btn" class="icon-btn" style="display:none;">
+                        <span class="toggle-text" data-en="Go to Garage" data-cn="前往车库">Go to Garage</span>
                     </button>
 
                     <div id="generic-filters" style="display:none;">
@@ -1664,6 +1739,7 @@
 
             const categoryFilterWrapper = getEl('category-filter-wrapper');
             const tagFilterWrapper = getEl('tag-filter-wrapper');
+            const goGarageBtn = getEl('go-garage-btn');
 
             // Mobile nav toggle + outside click close
             navToggle.addEventListener('click', (e) => {
@@ -1675,6 +1751,18 @@
                 const isInsideNav = mainNav.contains(e.target) || navToggle.contains(e.target);
                 if (!isInsideNav) mainNav.classList.remove('open');
             });
+
+            if (goGarageBtn) {
+                goGarageBtn.addEventListener('click', () => {
+
+                    // 找到 BMW Garage 对应的导航按钮
+                    const garageNav = document.querySelector('.nav-btn[data-filter="BMW"]');
+                    if (garageNav) {
+                        garageNav.click(); // 直接复用现有逻辑
+                    }
+
+                });
+            }
 
             /* =========================
                Helpers
@@ -1996,14 +2084,51 @@
 
                     const strip = document.createElement('div');
                     strip.className = 'series-strip';
+                    // ===== 添加右滑按钮 =====
+                    const scrollBtn = document.createElement('div');
 
+                    scrollBtn.addEventListener('click', () => {
+                        const maxScroll = strip.scrollWidth - strip.clientWidth;
+                        const step = strip.clientWidth * 0.8;
+
+                        if (strip.scrollLeft + step >= maxScroll) {
+                            // 到达末端 → 滚动到最右
+                            strip.scrollTo({ left: maxScroll, behavior: 'smooth' });
+
+                            // 轻微回弹
+                            setTimeout(() => {
+                                strip.scrollTo({
+                                    left: maxScroll - 12,
+                                    behavior: 'smooth'
+                                });
+                            }, 420);
+                        } else {
+                            strip.scrollBy({
+                                left: step,
+                                behavior: 'smooth'
+                            });
+                        }
+                    });
+
+                    scrollBtn.className = 'timeline-scroll-btn';
+                    scrollBtn.innerHTML = `
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="9 6 15 12 9 18"></polyline>
+                    </svg>
+                    `;
                     decObj.series.forEach(sObj => {
                         const sc = buildSeriesCard(sObj.seriesNum, sObj.cars);
                         if (sc) strip.appendChild(sc);
                     });
 
+                    const stripWrapper = document.createElement('div');
+                    stripWrapper.style.position = 'relative';
+                    stripWrapper.appendChild(strip);
+                    stripWrapper.appendChild(scrollBtn);
+
                     row.appendChild(meta);
-                    row.appendChild(strip);
+                    row.appendChild(stripWrapper);
+                    // row.appendChild(strip);
                     wrap.appendChild(row);
                 });
 
@@ -2091,6 +2216,11 @@
                             if (tagFilterWrapper) tagFilterWrapper.style.display = 'block';
                         }
                     }
+
+                    if (goGarageBtn) {
+                        goGarageBtn.style.display = (currentCategory === 'BMW_TIMELINE') ? 'inline-flex' : 'none';
+                    }
+
 
                     let filtered;
                     if (currentCategory === 'all') {
@@ -2208,7 +2338,7 @@
                     searchInput.value = '';
                     currentPage = 1;
 
-                    [tsTag, tsSeries, tsColor, tsYear].forEach(ts => {
+                    [tsTag, tsCategory, tsSeries, tsColor, tsYear].forEach(ts => {
                         if (ts) ts.clear();
                     });
 
