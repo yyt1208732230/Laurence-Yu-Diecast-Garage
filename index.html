@@ -263,17 +263,13 @@
             inset: 0;
             z-index: 0;
             background:
-            radial-gradient(
-            1200px 560px at 50% 10%,
-            rgba(255, 255, 255, 0.40),
-            rgba(255, 255, 255, 0) 60%
-            ),
-            linear-gradient(
-            180deg,
-            rgba(246, 247, 249, 0.35),
-            rgba(246, 247, 249, 0.55)
-            ),
-            url("images/home-bg.jpg");
+                radial-gradient(1200px 560px at 50% 10%,
+                    rgba(255, 255, 255, 0.40),
+                    rgba(255, 255, 255, 0) 60%),
+                linear-gradient(180deg,
+                    rgba(246, 247, 249, 0.35),
+                    rgba(246, 247, 249, 0.55)),
+                url("images/home-bg.jpg");
             background-size: cover;
             background-position: center;
             filter: saturate(1.02) contrast(1.02);
@@ -1415,10 +1411,12 @@
         <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation">☰</button>
 
         <nav class="main-nav" id="main-nav">
-            <button class="nav-btn active" data-filter="BMW_TIMELINE" data-en="BMW History" data-cn="宝马史陈列">BMW History</button>
+            <button class="nav-btn active" data-filter="BMW_TIMELINE" data-en="BMW History" data-cn="宝马史陈列">BMW
+                History</button>
             <button class="nav-btn" data-filter="BMW" data-en="Bimmer Garage" data-cn="宝马库">Bimmer Garage</button>
             <button class="nav-btn" data-filter="Hotwheels" data-en="Hotwheels" data-cn="风火轮系列">Hotwheels</button>
-            <button class="nav-btn" data-filter="all" data-en="Show All in Gallery" data-cn="全部展示">Show All in Gallery</button>
+            <button class="nav-btn" data-filter="all" data-en="Show All in Gallery" data-cn="全部展示">Show All in
+                Gallery</button>
         </nav>
 
         <div class="lang-switch">
@@ -1451,7 +1449,7 @@
                 <div class="home-actions">
                     <button class="cta primary" id="enter-bimmer">
                         <span class="mpower-b">B</span><span class="mpower-m">M</span><span class="mpower-w">W</span>
-                        <span data-en="Bimmer" data-cn="宝马">Bimmer</span>
+                        <!-- <span data-en="Bimmer" data-cn="宝马">Bimmer</span> -->
                         <!-- <small data-en="Timeline" data-cn="时间轴">Timeline</small> -->
                     </button>
 
@@ -1459,13 +1457,13 @@
                         <span class="mpower-b">B</span><span class="mpower-m">M</span><span class="mpower-w">W</span>
                         <span data-en="History" data-cn="宝马历史展">History</span>
                     </button> -->
-                    
+
                     <button class="cta secondary" id="enter-hotwheels">
                         <span data-en="Hotwheels" data-cn="风火轮系列">Hotwheels</span>
                     </button>
 
                     <button class="cta tertiary" id="enter-all">
-                        <span data-en="All On Track" data-cn="全部追踪">All On Track</span>
+                        <span data-en="All in Gallery" data-cn="全部追踪">All in Gallery</span>
                         <!-- <small data-en="On Track" data-cn="追踪">On Track</small> -->
                     </button>
                 </div>
@@ -1507,7 +1505,13 @@
                     </button>
 
                     <div id="generic-filters" style="display:none;">
-                        <div class="filter-wrapper">
+                        <div class="filter-wrapper" id="category-filter-wrapper" style="display:none;">
+                            <select id="category-select" placeholder="Filter by Category..." autocomplete="off">
+                                <option value="">All Categories</option>
+                            </select>
+                        </div>
+
+                        <div class="filter-wrapper" id="tag-filter-wrapper">
                             <select id="tag-select" placeholder="Filter by Tag..." autocomplete="off">
                                 <option value="">All Tags</option>
                             </select>
@@ -1606,11 +1610,12 @@
             let currentCategory = 'BMW';   // default when entering app
             let currentTagFilter = '';
             let currentSearchQuery = '';
+            let currentAllCategoryFilter = '';
 
             let bmwFilters = { series: '', color: '', decade: '' };
             let showRealCar = false;
 
-            let tsTag, tsSeries, tsColor, tsYear;
+            let tsTag, tsSeries, tsColor, tsYear, tsCategory;
 
             /* =========================
                DOM
@@ -1646,6 +1651,9 @@
 
             const navToggle = document.getElementById('nav-toggle');
             const mainNav = document.getElementById('main-nav');
+
+            const categoryFilterWrapper = getEl('category-filter-wrapper');
+            const tagFilterWrapper = getEl('tag-filter-wrapper');
 
             // Mobile nav toggle + outside click close
             navToggle.addEventListener('click', (e) => {
@@ -1720,7 +1728,7 @@
             function initTS(id, placeholder, onChangeCallback) {
                 if (!getEl(id)) return null;
                 return new TomSelect("#" + id, {
-                    dropdownParent: 'body', // ensures dropdown is appended to body (top layer)
+                    // dropdownParent: 'body', // ensures dropdown is appended to body (top layer)
                     create: false,
                     sortField: { field: "text", direction: "asc" },
                     placeholder: placeholder,
@@ -1749,6 +1757,9 @@
             });
             tsYear = initTS('bmw-year-select', "All Decades", (val) => {
                 bmwFilters.decade = val; currentPage = 1; updateUI();
+            });
+            tsCategory = initTS('category-select', "Filter by Category...", (val) => {
+                currentAllCategoryFilter = val; currentPage = 1; updateUI();
             });
 
             /* =========================
@@ -1783,13 +1794,27 @@
             ========================== */
             function refreshOptions() {
                 if (currentCategory !== 'BMW' && currentCategory !== 'BMW_TIMELINE') {
-                    const allTags = new Set();
-                    const relevantCars = currentCategory === 'all' ? carData : carData.filter(c => c.category === currentCategory);
-                    relevantCars.forEach(car => {
-                        if (car.tags) car.tags.split(';').forEach(tag => { const t = tag.trim(); if (t) allTags.add(t); });
-                    });
-                    updateTomSelect(tsTag, Array.from(allTags).sort(), currentLang === 'en' ? 'All Tags' : '全部标签');
+
+                    if (currentCategory === 'all') {
+                        const cats = new Set();
+                        carData
+                            .filter(c => c.visible !== false)
+                            .forEach(c => { if (c.category) cats.add(c.category); });
+
+                        updateTomSelect(tsCategory, Array.from(cats).sort(), currentLang === 'en' ? 'All Categories' : '全部分类');
+                    } else {
+                        const allTags = new Set();
+                        const relevantCars = carData.filter(c => c.category === currentCategory && c.visible !== false);
+                        relevantCars.forEach(car => {
+                            if (car.tags) car.tags.split(';').forEach(tag => {
+                                const t = tag.trim();
+                                if (t) allTags.add(t);
+                            });
+                        });
+                        updateTomSelect(tsTag, Array.from(allTags).sort(), currentLang === 'en' ? 'All Tags' : '全部标签');
+                    }
                 }
+
 
                 const bmwCars = carData.filter(c => c.category === 'BMW');
 
@@ -2047,6 +2072,14 @@
                     } else {
                         genericFiltersDiv.style.display = 'block';
                         bmwFiltersDiv.style.display = 'none';
+
+                        if (currentCategory === 'all') {
+                            if (categoryFilterWrapper) categoryFilterWrapper.style.display = 'block';
+                            if (tagFilterWrapper) tagFilterWrapper.style.display = 'none';
+                        } else {
+                            if (categoryFilterWrapper) categoryFilterWrapper.style.display = 'none';
+                            if (tagFilterWrapper) tagFilterWrapper.style.display = 'block';
+                        }
                     }
 
                     let filtered;
@@ -2079,8 +2112,14 @@
                             });
                         }
                     } else if (currentCategory !== 'BMW_TIMELINE') {
-                        if (currentTagFilter && currentTagFilter !== '') {
+                        if (currentCategory === 'all') {
+                            if (currentAllCategoryFilter && currentAllCategoryFilter !== '') {
+                            filtered = filtered.filter(c => c.category === currentAllCategoryFilter);
+                            }
+                        } else {
+                            if (currentTagFilter && currentTagFilter !== '') {
                             filtered = filtered.filter(c => (c.tags || '').split(';').includes(currentTagFilter));
+                            }
                         }
                     }
 
@@ -2153,6 +2192,7 @@
                     currentCategory = btn.getAttribute('data-filter');
 
                     currentTagFilter = '';
+                    currentAllCategoryFilter = '';
                     bmwFilters = { series: '', color: '', decade: '' };
                     currentSearchQuery = '';
                     searchInput.value = '';
@@ -2259,11 +2299,12 @@
 
                 currentCategory = category;
                 currentTagFilter = '';
+                currentAllCategoryFilter = '';
                 bmwFilters = { series: '', color: '', decade: '' };
                 currentSearchQuery = '';
                 if (searchInput) searchInput.value = '';
                 currentPage = 1;
-                [tsTag, tsSeries, tsColor, tsYear].forEach(ts => { if (ts) ts.clear(); });
+                [tsTag, tsCategory, tsSeries, tsColor, tsYear].forEach(ts => { if (ts) ts.clear(); });
 
                 refreshOptions();
                 updateUI();
