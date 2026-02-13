@@ -439,7 +439,7 @@
         }
 
         /* BMW M power colored letters */
-        .mpower-b {
+        /* .mpower-b {
             color: var(--m1);
             font-weight: 900;
         }
@@ -452,7 +452,17 @@
         .mpower-w {
             color: var(--m3);
             font-weight: 900;
+        } */
+        .mpower {
+            background: linear-gradient(90deg,
+                    #81C4FF,
+                    #16588E,
+                    #E7222E);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
+
 
         /* ================= App chrome ================= */
         #app {
@@ -1448,9 +1458,9 @@
 
                 <div class="home-actions">
                     <button class="cta primary" id="enter-bimmer">
-                        <span class="mpower-b">B</span><span class="mpower-m">M</span><span class="mpower-w">W</span>
+                        <span class="mpower" data-en="BMW" data-cn="宝马">BMW</span>
                         <!-- <span data-en="Bimmer" data-cn="宝马">Bimmer</span> -->
-                        <!-- <small data-en="Timeline" data-cn="时间轴">Timeline</small> -->
+                        <small>(Bimmer)</small>
                     </button>
 
                     <!-- <button class="cta primary" id="enter-bimmer">
@@ -2114,11 +2124,11 @@
                     } else if (currentCategory !== 'BMW_TIMELINE') {
                         if (currentCategory === 'all') {
                             if (currentAllCategoryFilter && currentAllCategoryFilter !== '') {
-                            filtered = filtered.filter(c => c.category === currentAllCategoryFilter);
+                                filtered = filtered.filter(c => c.category === currentAllCategoryFilter);
                             }
                         } else {
                             if (currentTagFilter && currentTagFilter !== '') {
-                            filtered = filtered.filter(c => (c.tags || '').split(';').includes(currentTagFilter));
+                                filtered = filtered.filter(c => (c.tags || '').split(';').includes(currentTagFilter));
                             }
                         }
                     }
