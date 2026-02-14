@@ -3290,7 +3290,7 @@
       "carBrand": "HW Originals",
       "modelName": "Hot Wheels VW T3 Custom",
       "price": "--",
-      "tags": "Mainline/Silver/Premium",
+      "tags": "Mainline/Silver/Premium;Art",
       "imagePath": "images/hotwheels/IMG_20260213_002728.jpg",
       "realCarImage": "", 
       "realCarUrl": ""
@@ -3329,7 +3329,7 @@
       "carBrand": "Nissan",
       "modelName": "Boulevard 1994 Nissan Primera",
       "price": "--",
-      "tags": "Mainline/Silver/Premium",
+      "tags": "Mainline/Silver/Premium;Hidden gem",
       "imagePath": "images/hotwheels/IMG_20260213_002802.jpg",
       "realCarImage": "", 
       "realCarUrl": ""
@@ -3446,7 +3446,7 @@
       "carBrand": "Ford",
       "modelName": "1971 Ford Mustang Funny Car",
       "price": "--",
-      "tags": "Mainline/Silver/Premium",
+      "tags": "Mainline/Silver/Premium;Art",
       "imagePath": "images/hotwheels/IMG_20260213_003027.jpg",
       "realCarImage": "", 
       "realCarUrl": ""
