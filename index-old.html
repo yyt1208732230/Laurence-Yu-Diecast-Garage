@@ -133,6 +133,7 @@
             gap: 12px;
             cursor: pointer;
             user-select: none;
+            min-width: 190px;
         }
 
         .logo {
@@ -146,14 +147,6 @@
             line-height: 1.05;
         }
 
-        .brand-title .top {
-            font-family: var(--font-display);
-            font-weight: 700;
-            letter-spacing: 0.6px;
-            font-size: 1.08rem;
-            color: var(--text);
-        }
-
         .brand-title .sub {
             font-size: 0.78rem;
             color: var(--muted);
@@ -164,6 +157,7 @@
             display: flex;
             gap: 26px;
             align-items: center;
+            min-width: 0;
         }
 
         .nav-btn {
@@ -176,6 +170,7 @@
             color: rgba(21, 22, 26, 0.72);
             letter-spacing: 0.2px;
             transition: color .16s ease;
+            white-space: nowrap;
         }
 
         .nav-btn:hover {
@@ -209,6 +204,7 @@
             justify-content: center;
             color: rgba(21, 22, 26, 0.78);
             transition: background .16s ease, border-color .16s ease, color .16s ease;
+            flex: 0 0 auto;
         }
 
         .nav-toggle:hover {
@@ -221,6 +217,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            flex: 0 0 auto;
         }
 
         .lang-switch button {
@@ -245,6 +242,29 @@
             border-color: rgba(22, 88, 142, 0.28);
             box-shadow: var(--ring);
             color: var(--m2);
+        }
+
+        /* ====== NEW: long nav adaptive for tablet/desktop ====== */
+        @media (max-width: 1120px) {
+            .main-nav {
+                gap: 18px;
+            }
+        }
+
+        @media (max-width: 1024px) {
+
+            /* allow horizontal scroll for longer nav on tablet */
+            .main-nav {
+                overflow-x: auto;
+                scrollbar-width: none;
+                -ms-overflow-style: none;
+                padding: 0 6px;
+                max-width: 52vw;
+            }
+
+            .main-nav::-webkit-scrollbar {
+                display: none;
+            }
         }
 
         /* ================= Home Hero ================= */
@@ -345,10 +365,6 @@
             color: var(--text);
         }
 
-        .home-title span {
-            color: var(--text);
-        }
-
         .home-subtitle {
             max-width: 62ch;
             margin: 0;
@@ -363,6 +379,7 @@
             flex-wrap: wrap;
             justify-content: center;
             margin-top: 6px;
+            width: 100%;
         }
 
         .cta {
@@ -438,21 +455,6 @@
             letter-spacing: 0.2px;
         }
 
-        /* BMW M power colored letters */
-        /* .mpower-b {
-            color: var(--m1);
-            font-weight: 900;
-        }
-
-        .mpower-m {
-            color: var(--m2);
-            font-weight: 900;
-        }
-
-        .mpower-w {
-            color: var(--m3);
-            font-weight: 900;
-        } */
         .mpower {
             background: linear-gradient(90deg,
                     #81C4FF,
@@ -462,7 +464,6 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-
 
         /* ================= App chrome ================= */
         #app {
@@ -529,6 +530,7 @@
             color: rgba(21, 22, 26, 0.62);
             font-size: 0.95rem;
             letter-spacing: 0.2px;
+            line-height: 1.55;
         }
 
         .shell {
@@ -562,6 +564,7 @@
             gap: 10px;
             flex-wrap: wrap;
             align-items: center;
+            min-width: 0;
         }
 
         /* Toggle */
@@ -603,6 +606,7 @@
             font-size: 0.85rem;
             font-weight: 800;
             letter-spacing: 0.2px;
+            white-space: nowrap;
         }
 
         /* Filter wrappers */
@@ -681,6 +685,8 @@
             overflow: hidden;
             border: 1px solid var(--stroke);
             background: rgba(255, 255, 255, 0.92);
+            min-width: 220px;
+            max-width: 100%;
         }
 
         #search-input {
@@ -693,6 +699,8 @@
             width: 180px;
             font-size: 0.92rem;
             font-family: var(--font-main);
+            min-width: 0;
+            flex: 1;
         }
 
         #search-input::placeholder {
@@ -709,6 +717,7 @@
             font-weight: 800;
             letter-spacing: 0.2px;
             transition: background .16s ease, color .16s ease;
+            white-space: nowrap;
         }
 
         #search-btn:hover {
@@ -961,6 +970,8 @@
             scrollbar-width: thin;
             padding-right: 56px;
             min-width: 0;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
         }
 
         .series-strip::-webkit-scrollbar {
@@ -975,6 +986,17 @@
         .series-strip::-webkit-scrollbar-track {
             background: rgba(21, 22, 26, 0.06);
             border-radius: 999px;
+        }
+
+        .series-strip::after {
+            content: '';
+            position: sticky;
+            right: 0;
+            top: 0;
+            width: 28px;
+            height: 100%;
+            pointer-events: none;
+            background: linear-gradient(to left, rgba(246, 247, 249, 0.95), rgba(246, 247, 249, 0));
         }
 
         .series-card {
@@ -1087,14 +1109,329 @@
         /* ===== Timeline row overflow FIX (Grid min-width) ===== */
         .decade-row>* {
             min-width: 0;
-            /* 允许 grid 子项收缩，防止横向溢出 */
         }
 
-        /* 你创建的 stripWrapper 没 class，这里用 decade-row 的第2列选中它 */
         .decade-row> :nth-child(2) {
             position: relative;
-            /* 保险：确保按钮 absolute 相对它定位 */
             min-width: 0;
+        }
+
+        /* 右侧滑动按钮 */
+        .timeline-scroll-btn {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 34px;
+            height: 34px;
+            border-radius: 999px;
+            border: 1px solid rgba(20, 20, 24, 0.12);
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all .18s ease;
+            box-shadow: 0 10px 28px rgba(15, 18, 22, 0.12);
+            z-index: 6;
+        }
+
+        .timeline-scroll-btn:hover {
+            transform: translateY(-50%) scale(1.08);
+            border-color: rgba(22, 88, 142, 0.28);
+        }
+
+        .timeline-scroll-btn svg {
+            width: 16px;
+            height: 16px;
+            stroke: rgba(21, 22, 26, 0.72);
+        }
+
+        #go-garage-btn:hover {
+            border-color: rgba(22, 88, 142, 0.3);
+            box-shadow: 0 0 0 3px rgba(129, 196, 255, 0.2);
+        }
+
+        /* ================= NEW: My Picks / Favorites page ================= */
+        #picks-view {
+            display: none;
+            margin-top: 18px;
+            padding-bottom: 16px;
+        }
+
+        .picks-intro {
+            border-radius: var(--radius2);
+            border: 1px solid var(--stroke);
+            background: rgba(255, 255, 255, 0.82);
+            box-shadow: var(--shadow);
+            padding: 18px 16px;
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .picks-intro::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            background:
+                radial-gradient(700px 260px at 18% 10%, rgba(129, 196, 255, 0.14), rgba(129, 196, 255, 0) 70%),
+                radial-gradient(680px 260px at 86% 20%, rgba(231, 34, 46, 0.10), rgba(231, 34, 46, 0) 72%);
+            opacity: 0.85;
+            pointer-events: none;
+        }
+
+        .picks-intro .title {
+            position: relative;
+            z-index: 1;
+            font-family: var(--font-display);
+            margin: 0;
+            font-size: 1.65rem;
+            letter-spacing: 0.7px;
+            color: rgba(21, 22, 26, 0.96);
+        }
+
+        .picks-intro .sub {
+            position: relative;
+            z-index: 1;
+            margin: 8px 0 0 0;
+            color: rgba(21, 22, 26, 0.62);
+            line-height: 1.7;
+            max-width: 90ch;
+        }
+
+        .picks-section {
+            margin-top: 14px;
+            border-radius: var(--radius2);
+            border: 1px solid var(--stroke);
+            background: rgba(255, 255, 255, 0.78);
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .picks-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            opacity: 0.68;
+            background:
+                radial-gradient(780px 280px at 10% 10%, rgba(129, 196, 255, 0.10), rgba(129, 196, 255, 0) 60%),
+                radial-gradient(820px 320px at 90% 15%, rgba(22, 88, 142, 0.10), rgba(22, 88, 142, 0) 62%),
+                radial-gradient(800px 320px at 65% 95%, rgba(231, 34, 46, 0.08), rgba(231, 34, 46, 0) 60%);
+        }
+
+        .picks-row {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: minmax(280px, 0.92fr) minmax(420px, 1.08fr);
+            gap: 14px;
+            padding: 16px;
+            align-items: center;
+        }
+
+        .picks-row.reverse {
+            grid-template-columns: minmax(420px, 1.08fr) minmax(280px, 0.92fr);
+        }
+
+        .picks-text h3 {
+            margin: 0;
+            font-family: var(--font-display);
+            font-size: 1.55rem;
+            letter-spacing: 0.6px;
+            color: rgba(21, 22, 26, 0.96);
+        }
+
+        .picks-text p {
+            margin: 10px 0 0 0;
+            color: rgba(21, 22, 26, 0.64);
+            line-height: 1.75;
+            max-width: 70ch;
+        }
+
+        .picks-badges {
+            margin-top: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .picks-badge {
+            border: 1px solid rgba(20, 20, 24, 0.10);
+            background: rgba(255, 255, 255, 0.82);
+            padding: 6px 10px;
+            border-radius: 999px;
+            font-size: 0.78rem;
+            color: rgba(21, 22, 26, 0.70);
+            font-weight: 800;
+            letter-spacing: 0.2px;
+            box-shadow: 0 12px 26px rgba(15, 18, 22, 0.06);
+        }
+
+        .picks-deco {
+            border-radius: 18px;
+            border: 1px solid rgba(20, 20, 24, 0.10);
+            background: rgba(255, 255, 255, 0.86);
+            box-shadow: 0 18px 50px rgba(15, 18, 22, 0.10);
+            overflow: hidden;
+            position: relative;
+            isolation: isolate;
+            transform: translateY(6px);
+            opacity: 0;
+            transition: transform .6s cubic-bezier(.2, .85, .2, 1), opacity .6s ease;
+        }
+
+        .reveal.in .picks-deco,
+        .reveal.in .picks-grid {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .picks-deco::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background:
+                /* radial-gradient(680px 240px at 20% 10%, rgba(255, 255, 255, 0.62), rgba(255, 255, 255, 0) 60%), */
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.08), rgba(246, 247, 249, 0.55));
+            z-index: 2;
+        }
+
+        .picks-deco img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            opacity: 0.92;
+            transform: translateY(0px) scale(1.02);
+            will-change: transform;
+            filter: saturate(1.02) contrast(1.02);
+        }
+
+        .picks-deco.h16x9 {
+            aspect-ratio: 16 / 9;
+            min-height: 180px;
+        }
+
+        .picks-deco.v9x16 {
+            aspect-ratio: 9 / 16;
+            min-height: 360px;
+            max-height: 520px;
+        }
+
+        .picks-grid {
+            margin-top: 14px;
+            padding: 0 16px 16px 16px;
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 14px;
+            transform: translateY(10px);
+            opacity: 0;
+            transition: transform .6s cubic-bezier(.2, .85, .2, 1), opacity .6s ease;
+            transition-delay: 120ms;
+        }
+
+        .pick-card {
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(20, 20, 24, 0.10);
+            background: rgba(255, 255, 255, 0.92);
+            box-shadow: 0 12px 34px rgba(15, 18, 22, 0.08);
+            cursor: default;
+            transition: box-shadow .22s ease, border-color .22s ease, background .22s ease;
+            position: relative;
+        }
+
+        .pick-card:hover {
+            translate: 0 -4px;
+            border-color: rgba(22, 88, 142, 0.18);
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 18px 50px rgba(15, 18, 22, 0.12);
+        }
+
+        .pick-img {
+            width: 100%;
+            aspect-ratio: 16 / 10;
+            position: relative;
+            background: rgba(21, 22, 26, 0.02);
+            overflow: hidden;
+        }
+
+        .pick-img img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transform: scale(1.01);
+            transition: opacity .45s ease, transform .65s ease;
+            filter: saturate(1.02) contrast(1.02);
+        }
+
+        .pick-img img.loaded {
+            opacity: 1;
+        }
+
+        .pick-card:hover .pick-img img {
+            transform: scale(1.06);
+        }
+
+        .pick-info {
+            padding: 12px 12px 14px 12px;
+        }
+
+        .pick-name {
+            margin: 0;
+            font-size: 1.02rem;
+            font-weight: 900;
+            letter-spacing: 0.2px;
+            color: rgba(21, 22, 26, 0.92);
+            line-height: 1.35;
+        }
+
+        .pick-meta {
+            margin-top: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            font-size: 0.86rem;
+            color: rgba(21, 22, 26, 0.62);
+            font-weight: 700;
+        }
+
+        .pick-meta span b {
+            color: rgba(21, 22, 26, 0.82);
+            font-weight: 900;
+        }
+
+        .picks-empty {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 18px 8px 6px 8px;
+            color: rgba(21, 22, 26, 0.58);
+            font-weight: 650;
+        }
+
+        /* reveal motion (high-end but subtle) */
+        .reveal {
+            opacity: 0;
+            transform: translateY(12px);
+            transition: opacity .7s ease, transform .7s cubic-bezier(.2, .85, .2, 1);
+        }
+
+        .reveal.in {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         /* ================= Modal ================= */
@@ -1122,7 +1459,6 @@
             animation: slideUp .22s ease-out;
         }
 
-        /* ultra subtle M glow, not dark */
         .modal-content::before {
             content: '';
             position: absolute;
@@ -1318,6 +1654,7 @@
                 top: 72px;
                 left: 0;
                 width: 100%;
+                max-width: 100%;
                 background: rgba(255, 255, 255, 0.92);
                 backdrop-filter: blur(16px);
                 -webkit-backdrop-filter: blur(16px);
@@ -1326,6 +1663,7 @@
                 display: none;
                 border-bottom: 1px solid var(--stroke);
                 padding: 6px 0;
+                overflow: visible;
             }
 
             .main-nav button {
@@ -1363,12 +1701,19 @@
                 max-width: 280px;
             }
 
-            #search-input {
-                width: 150px;
-            }
-
             .modal-body {
                 flex-direction: column;
+            }
+
+            /* Picks layout on tablet */
+            .picks-row,
+            .picks-row.reverse {
+                grid-template-columns: 1fr;
+            }
+
+            .picks-deco.v9x16 {
+                min-height: 220px;
+                max-height: 380px;
             }
         }
 
@@ -1403,11 +1748,7 @@
 
             .search-wrapper {
                 width: 100%;
-            }
-
-            #search-input {
-                width: 100%;
-                flex: 1;
+                min-width: 0;
             }
 
             .gallery-grid {
@@ -1419,62 +1760,11 @@
                 flex-basis: 250px;
                 max-width: 250px;
             }
-        }
 
-        /* ================= Timeline Scroll Enhancement ================= */
-
-        .series-strip {
-            scroll-behavior: smooth;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        /* 右侧滑动按钮 */
-        .timeline-scroll-btn {
-            position: absolute;
-            right: 8px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 34px;
-            height: 34px;
-            border-radius: 999px;
-            border: 1px solid rgba(20, 20, 24, 0.12);
-            background: rgba(255, 255, 255, 0.92);
-            backdrop-filter: blur(8px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all .18s ease;
-            box-shadow: 0 10px 28px rgba(15, 18, 22, 0.12);
-            z-index: 6;
-        }
-
-        .timeline-scroll-btn:hover {
-            transform: translateY(-50%) scale(1.08);
-            border-color: rgba(22, 88, 142, 0.28);
-        }
-
-        .timeline-scroll-btn svg {
-            width: 16px;
-            height: 16px;
-            stroke: rgba(21, 22, 26, 0.72);
-        }
-
-        /* 滚动边缘渐隐 */
-        .series-strip::after {
-            content: '';
-            position: sticky;
-            right: 0;
-            top: 0;
-            width: 28px;
-            height: 100%;
-            pointer-events: none;
-            background: linear-gradient(to left, rgba(246, 247, 249, 0.95), rgba(246, 247, 249, 0));
-        }
-
-        #go-garage-btn:hover {
-            border-color: rgba(22, 88, 142, 0.3);
-            box-shadow: 0 0 0 3px rgba(129, 196, 255, 0.2);
+            .picks-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
         }
     </style>
 </head>
@@ -1484,7 +1774,6 @@
         <div class="brand" id="brand-home">
             <img src="images/logo.png" class="logo" />
             <div class="brand-title">
-                <!-- <div class="top">LY</div> -->
                 <div class="sub">Diecast Collection</div>
             </div>
         </div>
@@ -1496,6 +1785,11 @@
                 History</button>
             <button class="nav-btn" data-filter="BMW" data-en="Bimmer Garage" data-cn="宝马库">Bimmer Garage</button>
             <button class="nav-btn" data-filter="Hotwheels" data-en="Hotwheels" data-cn="风火轮系列">Hotwheels</button>
+
+            <!-- NEW TAB -->
+            <button class="nav-btn" data-filter="PICKS" data-en="My Picks" data-cn="个人推荐">My Picks</button>
+
+            <!-- Keep original All tab (still available in nav) -->
             <button class="nav-btn" data-filter="all" data-en="Show All in Gallery" data-cn="全部展示">Show All in
                 Gallery</button>
         </nav>
@@ -1519,39 +1813,28 @@
                 </div>
 
                 <h1 class="home-title"><span>LAURENCE DIECAST</span></h1>
-
                 <p class="home-subtitle"
                     data-en="A die-cast car collection exhibition by an ordinary person who has loved automobiles since childhood."
                     data-cn="一个从小热爱汽车的普通人的车模收藏展。">
                     A die-cast car collection exhibition by an ordinary person who has loved automobiles since
-                    childhood.
+                    childhood. 
                 </p>
 
                 <div class="home-actions">
                     <button class="cta primary" id="enter-bimmer">
                         <span class="mpower" data-en="BMW" data-cn="宝马">BMW</span>
-                        <!-- <span data-en="Bimmer" data-cn="宝马">Bimmer</span> -->
                         <small>(Bimmer)</small>
                     </button>
-
-                    <!-- <button class="cta primary" id="enter-bimmer">
-                        <span class="mpower-b">B</span><span class="mpower-m">M</span><span class="mpower-w">W</span>
-                        <span data-en="History" data-cn="宝马历史展">History</span>
-                    </button> -->
 
                     <button class="cta secondary" id="enter-hotwheels">
                         <span data-en="Hotwheels" data-cn="风火轮系列">Hotwheels</span>
                     </button>
 
-                    <button class="cta tertiary" id="enter-all">
-                        <span data-en="All in Gallery" data-cn="全部追踪">All in Gallery</span>
-                        <!-- <small data-en="On Track" data-cn="追踪">On Track</small> -->
+                    <!-- REPLACED: third entry is now My Picks -->
+                    <button class="cta tertiary" id="enter-picks">
+                        <span data-en="Curated" data-cn="我的精选">Curated</span>
+                        <!-- <small data-en="(Curated)" data-cn="(精选)">(Curated)</small> -->
                     </button>
-                </div>
-
-                <div class="home-footer">
-                    <!-- <span>“Beyond my means, never beyond memory.”</span> -->
-                    <span>&copy; 2026 LY Diecast Collection</span>
                 </div>
             </div>
         </div>
@@ -1634,6 +1917,9 @@
 
             <section id="timeline-view" style="display:none;"></section>
 
+            <!-- NEW VIEW -->
+            <section id="picks-view"></section>
+
             <main id="gallery" class="gallery-grid"></main>
 
             <div id="pagination-bottom" class="pagination-container"></div>
@@ -1713,14 +1999,17 @@
             const brandHome = getEl('brand-home');
             const enterBimmer = getEl('enter-bimmer');
             const enterHotwheels = getEl('enter-hotwheels');
-            const enterAll = getEl('enter-all');
+            const enterPicks = getEl('enter-picks');
 
             const heroImg = getEl('hero-img');
             const heroTitle = getEl('hero-title');
             const heroSub = getEl('hero-sub');
 
+            const controlsBar = getEl('controls');
+
             const gallery = getEl('gallery');
             const timelineView = getEl('timeline-view');
+            const picksView = getEl('picks-view');
             const paginationContainers = [getEl('pagination-top'), getEl('pagination-bottom')];
 
             const toggleBtn = getEl('view-toggle-btn');
@@ -1754,13 +2043,8 @@
 
             if (goGarageBtn) {
                 goGarageBtn.addEventListener('click', () => {
-
-                    // 找到 BMW Garage 对应的导航按钮
                     const garageNav = document.querySelector('.nav-btn[data-filter="BMW"]');
-                    if (garageNav) {
-                        garageNav.click(); // 直接复用现有逻辑
-                    }
-
+                    if (garageNav) garageNav.click();
                 });
             }
 
@@ -1784,19 +2068,33 @@
                 const map = {
                     'BMW_TIMELINE': {
                         title: currentLang === 'en' ? 'BMW History' : '宝马发展史',
-                        sub: currentLang === 'en' ? 'History of BMW: Displayed chronologically — with each era presenting all featured series arranged horizontally.' : '收藏来自于每个年代的各个宝马系列。'
+                        sub: currentLang === 'en'
+                            ? 'History of BMW: Displayed chronologically — with each era presenting all featured series arranged horizontally.'
+                            : '收藏来自于每个年代的各个宝马系列。'
                     },
                     'BMW': {
                         title: currentLang === 'en' ? 'Bimmer Garage' : '宝马车库',
-                        sub: currentLang === 'en' ? 'Explore by series, color, decade. Switch the view of Real car/Model at any time.' : '可按系列/颜色/年代筛选；可随时切换真车/模型的宝马展示柜。'
+                        sub: currentLang === 'en'
+                            ? 'Explore by series, color, decade. Switch the view of Real car/Model at any time.'
+                            : '可按系列/颜色/年代筛选；可随时切换真车/模型的宝马展示柜。'
                     },
                     'Hotwheels': {
                         title: currentLang === 'en' ? 'Hotwheels' : '风火轮系列',
-                        sub: currentLang === 'en' ? 'I also collect some nice-looking Hot Wheels toy cars in my spare time..' : '茶余饭后也会收集些好看的风火轮系列收藏玩具车。'
+                        sub: currentLang === 'en'
+                            ? 'I also collect some nice-looking Hot Wheels toy cars in my spare time..'
+                            : '茶余饭后也会收集些好看的风火轮系列收藏玩具车。'
+                    },
+                    'PICKS': {
+                        title: currentLang === 'en' ? 'Curated Collection' : '精选',
+                        sub: currentLang === 'en'
+                            ? 'A small, curated shelf — the ones I keep returning to, again and again. (Keep updating...)'
+                            : '个人精选橱窗：最喜欢、最推荐、也最常观赏把玩的精选部分。(更多正在录入中...)'
                     },
                     'all': {
                         title: currentLang === 'en' ? 'All On Track' : '全部追踪',
-                        sub: currentLang === 'en' ? 'Everything visible in the collection.' : '显示所有已录入的可见车模/玩具收藏车。'
+                        sub: currentLang === 'en'
+                            ? 'Everything visible in the collection.'
+                            : '显示所有已录入的可见车模/玩具收藏车。'
                     }
                 };
                 const v = map[currentCategory] || map['BMW'];
@@ -1826,7 +2124,6 @@
             function initTS(id, placeholder, onChangeCallback) {
                 if (!getEl(id)) return null;
                 return new TomSelect("#" + id, {
-                    // dropdownParent: 'body', // ensures dropdown is appended to body (top layer)
                     create: false,
                     sortField: { field: "text", direction: "asc" },
                     placeholder: placeholder,
@@ -1888,9 +2185,12 @@
             searchInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') performSearch(); });
 
             /* =========================
-               Populate Options (kept)
+               Populate Options (kept, with PICKS bypass)
             ========================== */
             function refreshOptions() {
+                // PICKS page has no filters
+                if (currentCategory === 'PICKS') return;
+
                 if (currentCategory !== 'BMW' && currentCategory !== 'BMW_TIMELINE') {
 
                     if (currentCategory === 'all') {
@@ -1912,7 +2212,6 @@
                         updateTomSelect(tsTag, Array.from(allTags).sort(), currentLang === 'en' ? 'All Tags' : '全部标签');
                     }
                 }
-
 
                 const bmwCars = carData.filter(c => c.category === 'BMW');
 
@@ -2084,38 +2383,29 @@
 
                     const strip = document.createElement('div');
                     strip.className = 'series-strip';
-                    // ===== 添加右滑按钮 =====
-                    const scrollBtn = document.createElement('div');
 
+                    const scrollBtn = document.createElement('div');
                     scrollBtn.addEventListener('click', () => {
                         const maxScroll = strip.scrollWidth - strip.clientWidth;
                         const step = strip.clientWidth * 0.8;
 
                         if (strip.scrollLeft + step >= maxScroll) {
-                            // 到达末端 → 滚动到最右
                             strip.scrollTo({ left: maxScroll, behavior: 'smooth' });
-
-                            // 轻微回弹
                             setTimeout(() => {
-                                strip.scrollTo({
-                                    left: maxScroll - 12,
-                                    behavior: 'smooth'
-                                });
+                                strip.scrollTo({ left: Math.max(0, maxScroll - 12), behavior: 'smooth' });
                             }, 420);
                         } else {
-                            strip.scrollBy({
-                                left: step,
-                                behavior: 'smooth'
-                            });
+                            strip.scrollBy({ left: step, behavior: 'smooth' });
                         }
                     });
 
                     scrollBtn.className = 'timeline-scroll-btn';
                     scrollBtn.innerHTML = `
-                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="9 6 15 12 9 18"></polyline>
-                    </svg>
-                    `;
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="9 6 15 12 9 18"></polyline>
+            </svg>
+          `;
+
                     decObj.series.forEach(sObj => {
                         const sc = buildSeriesCard(sObj.seriesNum, sObj.cars);
                         if (sc) strip.appendChild(sc);
@@ -2128,7 +2418,6 @@
 
                     row.appendChild(meta);
                     row.appendChild(stripWrapper);
-                    // row.appendChild(strip);
                     wrap.appendChild(row);
                 });
 
@@ -2188,16 +2477,270 @@
                 paginationContainers.forEach(container => {
                     if (!container) return;
                     container.innerHTML = '';
-                    const content = createButtons();
                     const clone = createButtons();
                     while (clone.firstChild) container.appendChild(clone.firstChild);
                 });
             }
 
+            /* =========================
+               NEW: Picks config + render
+            ========================== */
+            const PICKS_TAGS = {
+                BEST_LOVE: 'Best Love',
+                MY_FAV: 'My favour',
+                CUTE: 'Cute cars',
+                ART: 'Art',
+                HIDDEN: 'Hidden gem'
+            };
+
+            // You can replace these decorative images with your own 16:9 / 9:16 HD assets
+            const PICKS_SECTIONS = [
+                {
+                    key: 'BEST_LOVE',
+                    title_en: 'Best Love',
+                    title_cn: 'Best Love',
+                    desc_cn: '它们是车库中的佼佼者，或许有着最完美的色泽，更或许有着最传奇的故事、又或者它们充满着爱、希望和对我的激励。它们的意义是独特的，它们无法用价值衡量。',
+                    desc_en: 'They are the crown pieces of my garage — perhaps with the most flawless shade, perhaps with the most legendary story, or simply carrying love, hope, and a quiet kind of encouragement. Their meaning is singular, and it refuses to be priced.',
+                    deco: { src: 'images/picks/bestlove.webp', aspect: 'h16x9' },
+                    reverse: false
+                },
+                {
+                    key: 'MY_FAV',
+                    title_en: 'My favour',
+                    title_cn: 'My favour',
+                    desc_cn: '它们在车库中脱颖而出，它们是带着独特的个人色彩的，总让人眼前一亮，且从不同流合污。如果你把它们放回车堆中，它们可能很快又会被我迅速挑拣出来。',
+                    desc_en: 'They stand out with a personal signature — always catching the eye, never blending in just to fit. Put them back into the crowd, and I’d still pick them out in an instant.',
+                    deco: { src: 'images/picks/myfaviour.jpg', aspect: 'h16x9' },
+                    reverse: false
+                },
+                {
+                    key: 'ART',
+                    title_en: 'Art',
+                    title_cn: 'Art',
+                    desc_cn: '如果你告诉我：艺术来源于生活。我可能会说：Diecast便是艺术的象征、生活的气息。',
+                    desc_en: 'If art is born from life, then die-cast is its small, shining proof — a pocket-sized breath of where I live.',
+                    deco: { src: 'images/picks/art.jpg', aspect: 'h16x9' },
+                    reverse: false
+                },
+                {
+                    key: 'HIDDEN',
+                    title_en: 'Hidden gem',
+                    title_cn: 'Hidden gem',
+                    desc_cn: '看似平平无奇，但是当你拿在手上，你会发现它们与“别人”有多么的不一样。',
+                    desc_en: 'At first glance, they seem ordinary. But once in your hand, their difference becomes unmistakable — the kind that only reveals itself up close.',
+                    deco: { src: 'images/picks/hiddengem.jpg', aspect: 'h16x9' },
+                    reverse: false
+                },
+                {
+                    key: 'CUTE',
+                    title_en: 'Cute Cars',
+                    title_cn: 'Cute Cars',
+                    desc_cn: '我常说：可爱的车车。就是它们。它们是怎样做到如此赏心悦目的呢？',
+                    desc_en: 'I call them “cute cars” — and yes, these are the ones. How do they manage to be so effortlessly delightful?',
+                    deco: { src: 'images/picks/cutecars.jpg', aspect: 'h16x9' },
+                    reverse: false
+                }
+            ];
+
+            function hasTag(car, tagName) {
+                return (car.tags || '').split(';').map(s => s.trim()).includes(tagName);
+            }
+
+            function buildPickCard(car) {
+                const card = document.createElement('div');
+                card.className = 'pick-card';
+
+                const title = `${car.modelName || 'Unknown'}`;
+                const imgSrc = car.imagePath || 'images/placeholder.jpg';
+
+                const carBrand = car.carBrand || '';
+                const modelBrand = car.modelBrand || '';
+
+                card.innerHTML = `
+          <div class="pick-img">
+            <img
+              src="${imgSrc}"
+              alt="${title}"
+              loading="lazy"
+              decoding="async"
+              onload="this.classList.add('loaded')"
+              onerror="this.onerror=null; this.src='images/placeholder.jpg';"
+            >
+          </div>
+          <div class="pick-info">
+            <p class="pick-name">${title}</p>
+            <div class="pick-meta">
+              <span><b>${currentLang === 'en' ? 'Car Brand' : '车品牌'}:</b> ${carBrand}</span>
+              <span><b>${currentLang === 'en' ? 'Model Brand' : '模型品牌'}:</b> ${modelBrand}</span>
+            </div>
+          </div>
+        `;
+                return card;
+            }
+
+            function renderPicks() {
+                if (!picksView) return;
+                picksView.innerHTML = '';
+
+                // Intro block
+        //         const intro = document.createElement('div');
+        //         intro.className = 'picks-intro reveal';
+        //         intro.innerHTML = `
+        //   <h3 class="title">${currentLang === 'en' ? 'My Picks' : '精选'}</h3>
+        //   <p class="sub">
+        //     ${currentLang === 'en'
+        //                 ? 'Just the cars I keep close — grouped by the feelings they carry.'
+        //                 : '这里放着我最喜欢、最推荐的车。它们按“感觉”分组，大部分都有着自己的小故事。'}
+        //   </p>
+        // `;
+        //         picksView.appendChild(intro);
+
+                // Sections
+                PICKS_SECTIONS.forEach((sec, idx) => {
+                    const wrapper = document.createElement('section');
+                    wrapper.className = 'picks-section reveal';
+
+                    const row = document.createElement('div');
+                    row.className = 'picks-row' + (sec.reverse ? ' reverse' : '');
+
+                    const text = document.createElement('div');
+                    text.className = 'picks-text';
+
+                    text.innerHTML = `
+            <h3>${currentLang === 'en' ? sec.title_en : sec.title_cn}</h3>
+            <p>${currentLang === 'en' ? sec.desc_en : sec.desc_cn}</p>
+            <div class="picks-badges">
+              <span class="picks-badge">${PICKS_TAGS[sec.key]} × Diecast</span>
+            </div>
+          `;
+
+                    const deco = document.createElement('div');
+                    deco.className = `picks-deco ${sec.deco.aspect || 'h16x9'}`;
+                    deco.innerHTML = `
+            <img src="${sec.deco.src}"
+              alt="${currentLang === 'en' ? sec.title_en : sec.title_cn}"
+              loading="lazy" decoding="async"
+              onerror="this.style.display='none'; this.parentElement.style.background='rgba(255,255,255,0.92)'; this.parentElement.style.borderColor='rgba(20,20,24,0.10)';">
+          `;
+
+                    // layout order
+                    if (sec.reverse) {
+                        row.appendChild(deco);
+                        row.appendChild(text);
+                    } else {
+                        row.appendChild(text);
+                        row.appendChild(deco);
+                    }
+
+                    wrapper.appendChild(row);
+
+                    // grid
+                    const grid = document.createElement('div');
+                    grid.className = 'picks-grid';
+
+                    const tag = PICKS_TAGS[sec.key];
+                    const cars = carData
+                        .filter(c => c.visible !== false)
+                        .filter(c => hasTag(c, tag));
+
+                    if (!cars || cars.length === 0) {
+                        const empty = document.createElement('div');
+                        empty.className = 'picks-empty';
+                        empty.textContent = currentLang === 'en'
+                            ? `No items found for "${tag}". (Tag mismatch?)`
+                            : `未找到带有 “${tag}” 标签的车辆。（请检查 cars.json 的 tags 是否一致）`;
+                        grid.appendChild(empty);
+                    } else {
+                        cars.forEach(c => grid.appendChild(buildPickCard(c)));
+                    }
+
+                    wrapper.appendChild(grid);
+                    picksView.appendChild(wrapper);
+                });
+
+                // bind reveal observer + subtle parallax for deco
+                initRevealObserver();
+                initPicksParallax();
+            }
+
+            let _revealObserver = null;
+
+            function initRevealObserver() {
+                // Fallback：如果浏览器不支持 IntersectionObserver，直接显示
+                if (!('IntersectionObserver' in window)) {
+                    document.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
+                    return;
+                }
+
+                // 如果 observer 已存在，不要 return ——继续 observe 新增的元素
+                if (!_revealObserver) {
+                    _revealObserver = new IntersectionObserver((entries) => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting) {
+                                entry.target.classList.add('in');
+                                _revealObserver.unobserve(entry.target);
+                            }
+                        });
+                    }, { root: null, threshold: 0.12 });
+                }
+
+                // 关键：每次都重新扫描并 observe（新生成的 reveal 才会被激活）
+                document.querySelectorAll('.reveal:not(.in)').forEach(el => _revealObserver.observe(el));
+            }
+
+
+            let _picksParallaxTick = false;
+            function initPicksParallax() {
+                const imgs = Array.from(document.querySelectorAll('.picks-deco img')).filter(Boolean);
+                if (!imgs.length) return;
+
+                function onScroll() {
+                    if (_picksParallaxTick) return;
+                    _picksParallaxTick = true;
+                    requestAnimationFrame(() => {
+                        _picksParallaxTick = false;
+                        const vy = window.scrollY || 0;
+                        imgs.forEach(img => {
+                            const rect = img.getBoundingClientRect();
+                            const center = rect.top + rect.height / 2;
+                            const delta = (center - window.innerHeight / 2);
+                            const t = Math.max(-40, Math.min(40, delta * -0.03));
+                            // img.style.transform = `translateY(${t}px) scale(1.03)`;
+                        });
+                    });
+                }
+
+                window.addEventListener('scroll', onScroll, { passive: true });
+                onScroll();
+            }
+
+            /* =========================
+               UI Update
+            ========================== */
             function updateUI() {
                 try {
                     setHeroText();
 
+                    // ===== NEW: PICKS page = no controls / no pagination / no modal usage =====
+                    const isPicks = currentCategory === 'PICKS';
+
+                    if (controlsBar) controlsBar.style.display = isPicks ? 'none' : 'flex';
+                    if (itemCountLabel) itemCountLabel.style.display = isPicks ? 'none' : 'block';
+
+                    // Views display
+                    if (picksView) picksView.style.display = isPicks ? 'block' : 'none';
+                    if (timelineView) timelineView.style.display = 'none';
+                    if (gallery) gallery.style.display = isPicks ? 'none' : 'grid';
+
+                    paginationContainers.forEach(c => { if (c) c.style.display = isPicks ? 'none' : 'flex'; });
+
+                    // For picks, render & return
+                    if (isPicks) {
+                        renderPicks();
+                        return;
+                    }
+
+                    // ===== existing logic (kept) =====
                     if (currentCategory === 'BMW') {
                         genericFiltersDiv.style.display = 'none';
                         bmwFiltersDiv.style.display = 'flex';
@@ -2220,7 +2763,6 @@
                     if (goGarageBtn) {
                         goGarageBtn.style.display = (currentCategory === 'BMW_TIMELINE') ? 'inline-flex' : 'none';
                     }
-
 
                     let filtered;
                     if (currentCategory === 'all') {
@@ -2281,12 +2823,14 @@
 
                         timelineView.style.display = 'block';
                         gallery.style.display = 'none';
+                        picksView.style.display = 'none';
                         paginationContainers.forEach(c => { if (c) c.style.display = 'none'; });
 
                         renderTimeline(filtered);
                         return;
                     } else {
                         timelineView.style.display = 'none';
+                        picksView.style.display = 'none';
                         gallery.style.display = 'grid';
                         paginationContainers.forEach(c => { if (c) c.style.display = 'flex'; });
                     }
@@ -2319,9 +2863,11 @@
                 }
             }
 
+            /* =========================
+               Nav switching (kept)
+            ========================== */
             document.querySelectorAll('.nav-btn').forEach(btn => {
                 btn.addEventListener('click', () => {
-
                     if (home.style.display !== 'none') {
                         switchView('app');
                     }
@@ -2349,7 +2895,9 @@
                 });
             });
 
-
+            /* =========================
+               Language switching (kept)
+            ========================== */
             document.querySelectorAll('.lang-switch button').forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     const lang = e.target.id === 'lang-en' ? 'en' : 'cn';
@@ -2360,26 +2908,6 @@
                     e.target.classList.add('active');
 
                     document.querySelectorAll('[data-en]').forEach(el => {
-                        const filter = el.dataset.filter || '';
-
-                        // if (filter.startsWith('BMW')) {
-                        //     if (currentLang === 'en') {
-                        //         const suffix =
-                        //             filter === 'BMW' ? ' Garage'
-                        //                 : filter === 'BMW_TIMELINE' ? ' Timeline'
-                        //                     : '';
-
-                        //         el.innerHTML =
-                        //             '<span class="mpower-b">B</span>' +
-                        //             '<span class="mpower-m">M</span>' +
-                        //             '<span class="mpower-w">W</span>' +
-                        //             `<span class="tab-text">${suffix}</span>`;
-                        //     } else {
-                        //         el.textContent = el.dataset.cn;
-                        //     }
-                        //     return;
-                        // }
-
                         el.textContent = currentLang === 'en' ? el.dataset.en : el.dataset.cn;
                     });
 
@@ -2400,6 +2928,9 @@
             }
 
             function openModal(car) {
+                // PICKS page must not open modal (double-safety)
+                if (currentCategory === 'PICKS') return;
+
                 const imgEl = getEl('modal-img');
                 let src = car.imagePath;
                 if (showRealCar && car.realCarImage) src = car.realCarImage;
@@ -2452,7 +2983,7 @@
 
             enterBimmer.addEventListener('click', () => enterApp('BMW_TIMELINE'));
             enterHotwheels.addEventListener('click', () => enterApp('Hotwheels'));
-            enterAll.addEventListener('click', () => enterApp('all'));
+            enterPicks.addEventListener('click', () => enterApp('PICKS'));
 
             brandHome.addEventListener('click', () => switchView('home'));
 

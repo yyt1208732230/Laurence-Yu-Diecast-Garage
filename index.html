@@ -733,7 +733,7 @@
             font-weight: 650;
         }
 
-        /* ================= Gallery ================= */
+                /* ================= Gallery / Flip Cards ================= */
         .gallery-grid {
             margin-top: 18px;
             display: grid;
@@ -741,39 +741,230 @@
             gap: 16px;
             padding-bottom: 22px;
             min-height: 320px;
+            perspective: 1800px;
+            align-items: stretch;
         }
 
         .card {
+            --card-h: 438px;
+            position: relative;
+            height: var(--card-h);
+            min-height: var(--card-h);
             border-radius: var(--radius);
-            overflow: hidden;
-            background: rgba(255, 255, 255, 0.92);
-            border: 1px solid var(--stroke);
-            box-shadow: 0 12px 34px rgba(15, 18, 22, 0.08);
             cursor: pointer;
-            transition: box-shadow .22s ease, border-color .22s ease, background .22s ease;
             opacity: 0;
             animation: cardIn .55s ease forwards;
+            perspective: 1600px;
+            transform-style: preserve-3d;
+            contain: layout paint;
         }
 
-        /* CRITICAL FIX: do NOT use transform here (stacking context); use translate only */
-        .card:hover {
-            translate: 0 -6px;
-            background: rgba(255, 255, 255, 0.98);
-            border-color: rgba(22, 88, 142, 0.18);
-            box-shadow: 0 18px 50px rgba(15, 18, 22, 0.12);
+        .card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            pointer-events: none;
+            border: 1px solid rgba(20, 20, 24, 0.16);
+            box-shadow:
+                inset 0 0 0 1px rgba(255, 255, 255, 0.82),
+                0 18px 38px rgba(15, 18, 22, 0.08);
+            z-index: 3;
+        }
+
+        .card::after {
+            content: '';
+            position: absolute;
+            inset: 1px;
+            border-radius: calc(var(--radius) - 1px);
+            pointer-events: none;
+            border: 1px solid rgba(22, 88, 142, 0.08);
+            z-index: 3;
+        }
+
+        .card-3d {
+            position: relative;
+            height: 100%;
+            border-radius: inherit;
+            transform-style: preserve-3d;
+            transition: transform .88s cubic-bezier(.22, .72, .12, 1);
+            will-change: transform;
+        }
+
+        .card-sheen {
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            pointer-events: none;
+            z-index: 4;
+            background: linear-gradient(125deg, rgba(255, 255, 255, 0.10), rgba(255, 255, 255, 0) 42%, rgba(255, 255, 255, 0.08) 72%, rgba(255, 255, 255, 0.14));
+            opacity: 0.14;
+            transition: opacity .35s ease, transform .88s cubic-bezier(.22, .72, .12, 1);
+        }
+
+        .card-shadow {
+            position: absolute;
+            inset: 12px 14px -10px 14px;
+            border-radius: 22px;
+            background: radial-gradient(70% 90% at 50% 50%, rgba(15, 18, 22, 0.14), rgba(15, 18, 22, 0));
+            filter: blur(16px);
+            opacity: 0.62;
+            transform: translateY(10px) scale(0.97);
+            transition: opacity .35s ease, transform .88s cubic-bezier(.22, .72, .12, 1);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .card-face {
+            position: relative;
+            height: 100%;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            border-radius: var(--radius);
+            overflow: hidden;
+            border: 1px solid rgba(20, 20, 24, 0.12);
+            background: linear-gradient(180deg, #ffffff, #f9fafb);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.95);
+            pointer-events: none;
+        }
+
+        .card-front,
+        .card-back {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-front {
+            z-index: 2;
+            pointer-events: auto;
+        }
+
+        .card-back {
+            position: absolute;
+            inset: 0;
+            transform: rotateY(180deg);
+            background: linear-gradient(180deg, #ffffff, #f7f8fa);
+            z-index: 1;
+        }
+
+        .card-back::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background: linear-gradient(180deg, rgba(129, 196, 255, 0.05), rgba(255, 255, 255, 0) 34%, rgba(22, 88, 142, 0.02) 74%, rgba(231, 34, 46, 0.03));
+            z-index: 0;
+        }
+
+        @media (hover: hover) and (pointer: fine) {
+            .card:hover .card-3d {
+                transform: rotateY(180deg) translateY(-6px);
+            }
+
+            .card:hover .card-shadow {
+                opacity: 0.9;
+                transform: translateY(16px) scale(1.02);
+            }
+
+            .card:hover .card-sheen {
+                opacity: 0.46;
+                transform: translateX(5px);
+            }
+        }
+
+        .card.is-flipped .card-3d,
+        .card.flip-all .card-3d {
+            transform: rotateY(180deg) translateY(-6px);
+        }
+
+        .card.is-flipped .card-shadow,
+        .card.flip-all .card-shadow {
+            opacity: 0.9;
+            transform: translateY(16px) scale(1.02);
+        }
+
+        .card.is-flipped .card-sheen,
+        .card.flip-all .card-sheen {
+            opacity: 0.44;
+            transform: translateX(4px);
+        }
+
+        .card.is-flipped .card-front,
+        .card.flip-all .card-front {
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .card.is-flipped .card-back,
+        .card.flip-all .card-back {
+            pointer-events: auto;
+            z-index: 2;
         }
 
         .card-image-wrapper {
-            width: 100%;
-            padding-top: 60%;
             position: relative;
-            background: rgba(21, 22, 26, 0.02);
-            overflow: hidden;
+            width: 100%;
+            min-height: 0;
+            background:
+                radial-gradient(120% 90% at 50% 0%, rgba(129, 196, 255, 0.10), rgba(129, 196, 255, 0) 46%),
+                linear-gradient(180deg, #f8f9fb, #f2f4f7);
+            border-bottom: 1px solid rgba(20, 20, 24, 0.08);
+            flex: 0 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2px 6px 0 6px;
+            margin-top: -1px;
         }
 
-        .card-image-wrapper img {
+        .card-image-frame,
+        .card-back-media-frame {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 4 / 3;
+            overflow: hidden;
+            border-radius: 16px;
+            border: 1px solid rgba(20, 20, 24, 0.12);
+            background: linear-gradient(180deg, #eef1f4, #e8ecf0);
+            box-shadow:
+                inset 0 0 0 1px rgba(255, 255, 255, 0.72),
+                0 12px 24px rgba(15, 18, 22, 0.08);
+        }
+
+        .card-front-badge {
             position: absolute;
-            inset: 0;
+            left: 18px;
+            top: 8px;
+            z-index: 2;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            max-width: calc(100% - 24px);
+            padding: 7px 10px;
+            border-radius: 999px;
+            border: 1px solid rgba(20, 20, 24, 0.10);
+            background: rgba(255, 255, 255, 0.94);
+            box-shadow: 0 10px 22px rgba(15, 18, 22, 0.08);
+            color: rgba(21, 22, 26, 0.82);
+            font-size: 0.68rem;
+            font-weight: 900;
+            letter-spacing: 0.2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .card-front-badge .dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 999px;
+            background: linear-gradient(180deg, var(--m1), var(--m2));
+            box-shadow: 0 0 0 5px rgba(129, 196, 255, 0.14);
+            flex: 0 0 auto;
+        }
+
+        .card-image-wrapper img,
+        .card-back-media img {
             width: 100%;
             height: 100%;
             object-fit: cover;
@@ -783,50 +974,328 @@
             filter: saturate(1.02) contrast(1.02);
         }
 
-        .card-image-wrapper img.loaded {
+        .card-image-wrapper img.loaded,
+        .card-back-media img.loaded {
             opacity: 1;
         }
 
-        .card:hover .card-image-wrapper img {
-            transform: scale(1.05);
+        @media (hover: hover) and (pointer: fine) {
+            .card:hover .card-image-wrapper img,
+            .card:hover .card-back-media img {
+                transform: scale(1.04);
+            }
+        }
+
+        .card-info,
+        .card-back-inner {
+            position: relative;
+            z-index: 2;
         }
 
         .card-info {
-            padding: 14px 14px 16px 14px;
+            padding: 12px 14px 14px 14px;
+            display: grid;
+            grid-template-rows: auto auto auto 1fr;
+            gap: 10px;
+            flex: 1 1 auto;
+            min-height: 0;
+            align-content: start;
+            background:
+                radial-gradient(150% 80% at 50% -8%, rgba(129, 196, 255, 0.14), rgba(129, 196, 255, 0) 46%),
+                radial-gradient(120% 85% at 88% 115%, rgba(231, 34, 46, 0.08), rgba(231, 34, 46, 0) 42%),
+                linear-gradient(180deg, rgba(255, 255, 255, 0.99), rgba(247, 248, 250, 0.98));
+            position: relative;
+        }
+
+        .card-info::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background:
+                linear-gradient(135deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0) 44%),
+                repeating-linear-gradient(180deg,
+                    rgba(21, 22, 26, 0.018) 0px,
+                    rgba(21, 22, 26, 0.018) 1px,
+                    transparent 1px,
+                    transparent 28px);
+            opacity: 0.8;
         }
 
         .card-brand {
-            font-size: 0.72rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: rgba(21, 22, 26, 0.52);
-            font-weight: 800;
+            display: none;
         }
 
         .card-title {
-            margin: 8px 0 10px 0;
+            position: relative;
+            z-index: 1;
+            margin: 0;
             font-size: 1.02rem;
-            font-weight: 800;
-            letter-spacing: 0.2px;
-            line-height: 1.35;
-            color: rgba(21, 22, 26, 0.92);
+            font-weight: 900;
+            letter-spacing: 0.18px;
+            line-height: 1.24;
+            color: rgba(21, 22, 26, 0.96);
+            min-height: calc(1.24em * 2);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-align: center;
+            padding: 1px 4px 0;
         }
 
-        .card-tags {
+        .card-front-subtitle,
+        .card-front-stats,
+        .card-front-footer,
+        .card-front-overlay,
+        .card-front-series {
+            display: none;
+        }
+
+        .card-front-desc {
+            position: relative;
+            z-index: 1;
+            margin: 0;
+            font-size: 0.74rem;
+            line-height: 1.45;
+            color: rgba(21, 22, 26, 0.62);
+            text-align: left;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            min-height: calc(1.45em * 3);
+            padding: 8px 10px 0;
+            border-top: 1px solid rgba(20, 20, 24, 0.07);
+        }
+
+        .card-tags,
+        .card-back-tags {
             display: flex;
             flex-wrap: wrap;
             gap: 6px;
         }
 
-        .mini-tag {
-            font-size: 0.72rem;
-            color: rgba(21, 22, 26, 0.70);
-            border: 1px solid rgba(20, 20, 24, 0.10);
-            background: rgba(255, 255, 255, 0.75);
-            padding: 4px 8px;
-            border-radius: 999px;
+        .card-tags {
+            position: relative;
+            z-index: 1;
+            justify-content: center;
+            align-content: flex-start;
+            min-height: 36px;
+            padding: 0 4px;
         }
 
+        .mini-tag {
+            font-size: 0.72rem;
+            color: rgba(21, 22, 26, 0.72);
+            border: 1px solid rgba(20, 20, 24, 0.10);
+            background: rgba(255, 255, 255, 0.92);
+            padding: 4px 8px;
+            border-radius: 999px;
+            font-weight: 800;
+            max-width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.82);
+        }
+
+        .card-back-media {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            background: linear-gradient(180deg, #f7f8fa, #f1f4f7);
+            border-bottom: 1px solid rgba(20, 20, 24, 0.08);
+            flex: 0 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 12px 10px 12px;
+        }
+
+        .card-back-media-frame {
+            max-height: 148px;
+        }
+
+        .card-back-status {
+            position: absolute;
+            left: 20px;
+            top: 18px;
+            z-index: 2;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 6px 9px;
+            border-radius: 999px;
+            border: 1px solid rgba(20, 20, 24, 0.10);
+            background: rgba(255, 255, 255, 0.92);
+            font-size: 0.68rem;
+            font-weight: 900;
+            color: rgba(21, 22, 26, 0.82);
+            box-shadow: 0 10px 18px rgba(15, 18, 22, 0.08);
+        }
+
+        .card-back-status .dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 999px;
+            background: linear-gradient(180deg, var(--m1), var(--m2));
+            box-shadow: 0 0 0 5px rgba(129, 196, 255, 0.14);
+        }
+
+        .card-back-inner {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+            padding: 10px 12px 12px 12px;
+            flex: 1 1 auto;
+            min-height: 0;
+            overflow: hidden;
+        }
+
+        .card-back-head {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        .card-back-title-wrap {
+            min-width: 0;
+            flex: 1 1 auto;
+        }
+
+        .card-back-kicker {
+            font-size: 0.62rem;
+            letter-spacing: 0.85px;
+            text-transform: uppercase;
+            font-weight: 800;
+            color: rgba(21, 22, 26, 0.48);
+        }
+
+        .card-back-title-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            min-width: 0;
+        }
+
+        .card-back-title,
+        .card-back-title-link {
+            margin: 4px 0 0 0;
+            font-size: 0.92rem;
+            font-weight: 900;
+            line-height: 1.3;
+            color: rgba(21, 22, 26, 0.94);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            min-width: 0;
+        }
+
+        .card-back-title-link {
+            text-decoration: none;
+            pointer-events: auto;
+            position: relative;
+            z-index: 50;
+        }
+
+        .card-back-title-link:hover {
+            color: var(--m2);
+        }
+
+        .card-back-link-icon {
+            flex: 0 0 auto;
+            margin-top: 4px;
+            width: 26px;
+            height: 26px;
+            border-radius: 999px;
+            border: 1px solid rgba(22, 88, 142, 0.18);
+            background: #ffffff;
+            color: rgba(21, 22, 26, 0.82);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            box-shadow: 0 8px 18px rgba(15, 18, 22, 0.06);
+            pointer-events: auto;
+            position: relative;
+            z-index: 50;
+        }
+
+        .card-back-link-icon:hover {
+            color: var(--m2);
+            border-color: rgba(22, 88, 142, 0.26);
+        }
+
+        .card-back-link-icon svg {
+            width: 13px;
+            height: 13px;
+        }
+
+        .card-back-year {
+            flex: 0 0 auto;
+            min-width: 52px;
+            text-align: center;
+            padding: 6px 7px;
+            border-radius: 10px;
+            border: 1px solid rgba(20, 20, 24, 0.10);
+            background: #ffffff;
+            color: rgba(21, 22, 26, 0.88);
+            font-size: 0.74rem;
+            font-weight: 900;
+        }
+
+        .card-back-specs {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 6px;
+        }
+
+        .spec-pill {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            padding: 7px 8px;
+            border-radius: 10px;
+            border: 1px solid rgba(20, 20, 24, 0.10);
+            background: rgba(255, 255, 255, 0.92);
+            min-width: 0;
+        }
+
+        .spec-pill .label {
+            font-size: 0.60rem;
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+            font-weight: 800;
+            color: rgba(21, 22, 26, 0.46);
+        }
+
+        .spec-pill .value {
+            font-size: 0.74rem;
+            font-weight: 800;
+            color: rgba(21, 22, 26, 0.88);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .card-back-desc {
+            margin: 0;
+            color: rgba(21, 22, 26, 0.66);
+            font-size: 0.74rem;
+            line-height: 1.42;
+            display: -webkit-box;
+            -webkit-line-clamp: 4;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            min-height: calc(1.42em * 4);
+        }
+
+        .card-back-actions {
+            display: none;
+        }
         /* ================= Pagination ================= */
         .pagination-container {
             display: flex;
@@ -1717,6 +2186,16 @@
             }
         }
 
+
+        @media (max-width: 900px) {
+            .card {
+                --card-h: 420px;
+            }
+
+            .card-back-media-frame {
+                max-height: 136px;
+            }
+        }
         @media (max-width: 560px) {
             :root {
                 --pad: 4%;
@@ -1754,6 +2233,115 @@
             .gallery-grid {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 10px;
+            }
+
+            .card {
+                --card-h: 362px;
+            }
+
+            .card-image-wrapper {
+                padding: 14px 10px 10px 10px;
+            }
+
+            .card-info {
+                padding: 9px 9px 10px 9px;
+                gap: 7px;
+                grid-template-rows: auto auto auto 1fr;
+            }
+
+            .card-title {
+                font-size: 0.84rem;
+                line-height: 1.2;
+                min-height: calc(1.2em * 2);
+                padding: 0 2px;
+            }
+
+            .card-tags {
+                gap: 4px;
+                min-height: 28px;
+                padding: 0 1px;
+            }
+
+            .mini-tag {
+                font-size: 0.60rem;
+                padding: 3px 6px;
+            }
+
+            .card-front-desc {
+                font-size: 0.58rem;
+                line-height: 1.3;
+                -webkit-line-clamp: 2;
+                min-height: calc(1.3em * 2);
+                padding: 6px 6px 0;
+            }
+
+            .card-back-media {
+                padding: 10px 10px 8px 10px;
+            }
+
+            .card-back-media-frame {
+                max-height: 108px;
+                border-radius: 12px;
+            }
+
+            .card-back-inner {
+                padding: 8px 9px 10px 9px;
+                gap: 6px;
+            }
+
+            .card-back-kicker {
+                font-size: 0.56rem;
+            }
+
+            .card-back-title,
+            .card-back-title-link {
+                font-size: 0.80rem;
+                line-height: 1.24;
+            }
+
+            .card-back-link-icon {
+                width: 22px;
+                height: 22px;
+            }
+
+            .card-back-link-icon svg {
+                width: 11px;
+                height: 11px;
+            }
+
+            .card-back-year {
+                min-width: 44px;
+                padding: 5px 6px;
+                font-size: 0.66rem;
+            }
+
+            .card-back-specs {
+                gap: 4px;
+            }
+
+            .spec-pill {
+                padding: 5px 6px;
+                border-radius: 9px;
+            }
+
+            .spec-pill .label {
+                font-size: 0.50rem;
+                letter-spacing: 0.55px;
+            }
+
+            .spec-pill .value {
+                font-size: 0.64rem;
+            }
+
+            .card-back-tags {
+                gap: 4px;
+            }
+
+            .card-back-desc {
+                font-size: 0.62rem;
+                line-height: 1.34;
+                -webkit-line-clamp: 3;
+                min-height: calc(1.34em * 3);
             }
 
             .series-card {
@@ -1865,7 +2453,7 @@
                             <circle cx="7" cy="17" r="2" />
                             <circle cx="17" cy="17" r="2" />
                         </svg>
-                        <span class="toggle-text mpower" data-en="See Real Cars" data-cn="观赏真车">See Real Cars</span>
+                        <span class="toggle-text mpower" id="flip-all-label" data-en="Flip All Cards" data-cn="翻转全部">Flip All Cards</span>
                     </button>
 
                     <button id="go-garage-btn" class="icon-btn" style="display:none;">
@@ -1984,7 +2572,7 @@
             let currentAllCategoryFilter = '';
 
             let bmwFilters = { series: '', color: '', decade: '' };
-            let showRealCar = false;
+            let flipAllCards = false;
 
             let tsTag, tsSeries, tsColor, tsYear, tsCategory;
 
@@ -2013,6 +2601,7 @@
             const paginationContainers = [getEl('pagination-top'), getEl('pagination-bottom')];
 
             const toggleBtn = getEl('view-toggle-btn');
+            const flipAllLabel = getEl('flip-all-label');
             const searchInput = getEl('search-input');
             const searchBtn = getEl('search-btn');
             const itemCountLabel = getEl('item-count');
@@ -2051,6 +2640,14 @@
             /* =========================
                Helpers
             ========================== */
+            function updateFlipAllButton() {
+                if (!toggleBtn || !flipAllLabel) return;
+                toggleBtn.classList.toggle('active', flipAllCards);
+                flipAllLabel.textContent = flipAllCards
+                    ? (currentLang === 'en' ? 'Show Front Cards' : '显示正面')
+                    : (currentLang === 'en' ? 'Flip All Cards' : '翻转全部');
+            }
+
             function switchView(view) {
                 if (view === 'home') {
                     home.style.display = 'flex';
@@ -2285,40 +2882,140 @@
                Card builders (kept)
             ========================== */
             function buildGalleryCard(car, index = 0) {
-                const card = document.createElement('div');
+                const card = document.createElement('article');
                 card.className = 'card';
+                if (flipAllCards) card.classList.add('flip-all');
                 card.style.animationDelay = `${Math.min(index * 0.05, 1.0)}s`;
-                card.onclick = () => openModal(car);
 
-                const tagsList = (car.tags || '').split(';').filter(t => t.trim() !== '');
-                const tagsHTML = tagsList.slice(0, 5).map(t => `<span class="mini-tag">${t}</span>`).join('');
+                const tagsList = (car.tags || '').split(';').map(t => t.trim()).filter(Boolean);
+                const frontTagsHTML = tagsList.slice(0, 3).map(t => `<span class="mini-tag">${t}</span>`).join('');
+                const backTagsHTML = tagsList.slice(0, 4).map(t => `<span class="mini-tag">${t}</span>`).join('');
 
-                let imgSrc = car.imagePath || 'images/placeholder.jpg';
-                if (showRealCar && car.realCarImage) imgSrc = car.realCarImage;
+                const frontImgSrc = car.imagePath || 'images/placeholder.jpg';
+                const backImgSrc = car.realCarImage || car.imagePath || 'images/placeholder.jpg';
 
                 const title = `${car.modelName || 'Unknown'}`;
+                const yearMatch = (car.tags || '').match(/\b(19|20)\d{2}\b/);
+                const yearText = yearMatch ? yearMatch[0] : '';
+                const yearHtml = yearText ? `<div class="card-back-year">${yearText}</div>` : '';
+                const descText = currentLang === 'en'
+                    ? (car.description_en || car.description_cn || '')
+                    : (car.description_cn || car.description_en || '');
+
+                const carBrandLabel = currentLang === 'en' ? 'Car Brand' : '车品牌';
+                const modelBrandLabel = currentLang === 'en' ? 'Model Brand' : '模型品牌';
+                const colorLabel = currentLang === 'en' ? 'Color' : '颜色';
+                const seriesLabel = currentLang === 'en' ? 'Series' : '系列';
+                const backStateText = car.realCarImage
+                    ? (currentLang === 'en' ? 'Real Car View' : '真车视图')
+                    : (currentLang === 'en' ? 'Model Detail' : '模型细节');
+                const fallbackSeries = currentLang === 'en' ? 'Not set' : '暂无';
+                const frontBadgeText = car.carBrand || car.modelBrand || (currentLang === 'en' ? 'Collection Piece' : '收藏展品');
+                const titleLink = car.realCarUrl
+                    ? `<a class="card-back-title-link" href="${car.realCarUrl}" target="_blank" rel="noopener noreferrer">${title}</a>`
+                    : `<h3 class="card-back-title">${title}</h3>`;
+                const infoIcon = car.realCarUrl
+                    ? `<a class="card-back-link-icon" href="${car.realCarUrl}" target="_blank" rel="noopener noreferrer" aria-label="Explore Model">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="M14 3h7v7"></path>
+                          <path d="M10 14L21 3"></path>
+                          <path d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"></path>
+                        </svg>
+                      </a>`
+                    : '';
 
                 card.innerHTML = `
-          <div class="card-image-wrapper">
-            <img
-              src="${imgSrc}"
-              alt="${title}"
-              loading="lazy"
-              decoding="async"
-              onload="this.classList.add('loaded')"
-              onerror="this.onerror=null; this.src='${car.imagePath || ''}'; if(this.src==window.location.href) this.style.display='none';"
-            >
+          <div class="card-shadow" aria-hidden="true"></div>
+          <div class="card-3d">
+            <div class="card-face card-front">
+              <div class="card-info">
+                <h3 class="card-title">${title}</h3>
+                <div class="card-image-wrapper">
+                  <div class="card-image-frame">
+                    <img
+                      src="${frontImgSrc}"
+                      alt="${title}"
+                      loading="lazy"
+                      decoding="async"
+                      onload="this.classList.add('loaded')"
+                      onerror="this.onerror=null; this.src='images/placeholder.jpg';"
+                    >
+                  </div>
+                </div>
+                <div class="card-tags">${frontTagsHTML}</div>
+                <p class="card-front-desc">${descText || ''}</p>
+              </div>
+            </div>
+
+            <div class="card-face card-back">
+              <div class="card-back-media">
+                
+                <div class="card-back-media-frame">
+                  <img
+                    src="${backImgSrc}"
+                    alt="${title}"
+                    loading="lazy"
+                    decoding="async"
+                    onload="this.classList.add('loaded')"
+                    onerror="this.onerror=null; this.src='${frontImgSrc}';"
+                  >
+                </div>
+              </div>
+              <div class="card-back-inner">
+                <div class="card-back-head">
+                  <div class="card-back-title-wrap">
+                    <div class="card-back-kicker">${car.carBrand || ''}</div>
+                    <div class="card-back-title-row">
+                      ${titleLink}
+                      ${infoIcon}
+                    </div>
+                  </div>
+                  ${yearHtml}
+                </div>
+
+                <div class="card-back-specs">
+                  <div class="spec-pill">
+                    <span class="label">${carBrandLabel}</span>
+                    <span class="value">${car.carBrand || '-'}</span>
+                  </div>
+                  <div class="spec-pill">
+                    <span class="label">${modelBrandLabel}</span>
+                    <span class="value">${car.modelBrand || '-'}</span>
+                  </div>
+                  <div class="spec-pill">
+                    <span class="label">${colorLabel}</span>
+                    <span class="value">${(currentLang === 'en' ? car.color : car.color_cn) || '-'}</span>
+                  </div>
+                  <div class="spec-pill">
+                    <span class="label">${seriesLabel}</span>
+                    <span class="value">${car.seriesNum || fallbackSeries}</span>
+                  </div>
+                </div>
+
+                <div class="card-back-tags">${backTagsHTML}</div>
+                <p class="card-back-desc">${descText || ''}</p>
+              </div>
+            </div>
           </div>
-          <div class="card-info">
-            <div class="card-brand">${car.modelBrand || ''}</div>
-            <h3 class="card-title">${title}</h3>
-            <div class="card-tags">${tagsHTML}</div>
-          </div>
+          <div class="card-sheen" aria-hidden="true"></div>
         `;
+
+                card.addEventListener('click', (event) => {
+                    const interactive = event.target.closest('a, button');
+                    if (interactive) return;
+                    card.classList.toggle('is-flipped');
+                });
+
+                card.querySelectorAll('.card-back-title-link, .card-back-link-icon').forEach(link => {
+                    link.addEventListener('click', (event) => {
+                        event.stopPropagation();
+                    });
+                });
+
                 return card;
             }
 
-            function buildSeriesCard(seriesNum, cars) {
+                        function buildSeriesCard(seriesNum, cars) {
                 const picked = pickRandom(cars || []);
                 if (!picked) return null;
 
@@ -2327,7 +3024,6 @@
                 card.onclick = () => openModal(picked);
 
                 let imgSrc = picked.imagePath || 'images/placeholder.jpg';
-                if (showRealCar && picked.realCarImage) imgSrc = picked.realCarImage;
 
                 const title = `${picked.modelName || 'Unknown'}`;
                 const count = (cars || []).length;
@@ -2726,6 +3422,8 @@
 
                     if (controlsBar) controlsBar.style.display = isPicks ? 'none' : 'flex';
                     if (itemCountLabel) itemCountLabel.style.display = isPicks ? 'none' : 'block';
+                    if (toggleBtn) toggleBtn.style.display = (isPicks || currentCategory === 'BMW_TIMELINE') ? 'none' : 'inline-flex';
+                    updateFlipAllButton();
 
                     // Views display
                     if (picksView) picksView.style.display = isPicks ? 'block' : 'none';
@@ -2913,13 +3611,16 @@
 
                     refreshOptions();
                     updateUI();
+                    updateFlipAllButton();
                 });
             });
 
             toggleBtn.addEventListener('click', () => {
-                showRealCar = !showRealCar;
-                toggleBtn.classList.toggle('active', showRealCar);
-                updateUI();
+                flipAllCards = !flipAllCards;
+                updateFlipAllButton();
+                document.querySelectorAll('#gallery .card').forEach(card => {
+                    card.classList.toggle('flip-all', flipAllCards);
+                });
             });
 
             function setText(id, text) {
@@ -2933,7 +3634,6 @@
 
                 const imgEl = getEl('modal-img');
                 let src = car.imagePath;
-                if (showRealCar && car.realCarImage) src = car.realCarImage;
                 if (imgEl) {
                     imgEl.src = src || '';
                     imgEl.onerror = function () { this.src = car.imagePath || ''; };
@@ -2979,6 +3679,7 @@
 
                 refreshOptions();
                 updateUI();
+                updateFlipAllButton();
             }
 
             enterBimmer.addEventListener('click', () => enterApp('BMW_TIMELINE'));
@@ -2987,6 +3688,7 @@
 
             brandHome.addEventListener('click', () => switchView('home'));
 
+            updateFlipAllButton();
             switchView('home');
         });
     </script>
