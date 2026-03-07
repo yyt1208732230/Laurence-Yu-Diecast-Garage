@@ -4469,5 +4469,23 @@
       "imagePath": "images/new2026/IMG_1130.webp",
       "realCarImage": "images/new2026/IMG_1286.webp",
       "realCarUrl": "https://www.rwcarbon.com/rw-carbon-project-bmw-f95-x5m-competition.html?srsltid=AfmBOopw8jMRfExue_rwthx0fIgHnhMiTIbiDBdeC6BTX0DK_RDSY76H"
+    },
+    {
+      "id": "n186",
+      "visible": true,
+      "category": "BMW",
+      "modelBrand": "Rhino Model",
+      "carBrand": "BMW",
+      "modelName": "BMW 850 CSi",
+      "seriesNum": "E31",
+      "price": "-",
+      "tags": "E31;1992;Green;1/64;Hidden gem",
+      "color": "Green",
+      "color_cn": "绿",
+      "description_en": "",
+      "description_cn": "",
+      "imagePath": "images/new2026/IMG_1134.webp",
+      "realCarImage": "images/new2026/IMG_1288.webp",
+      "realCarUrl": "https://www.bmw-m.com/en/topics/magazine-article-pool/bmw-850-csi-e31.html"
     }
   ]
