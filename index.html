@@ -3168,7 +3168,10 @@
                         </div>
 
                         <div class="picks-deco h239">
-                        <img src="${sec.image}">
+                        <img src="${sec.image}"
+                        alt="${currentLang === 'en' ? sec.title_en : sec.title_cn}"
+                        loading="lazy" decoding="async"
+                        onerror="this.style.display='none'; this.parentElement.style.background='rgba(255,255,255,0.92)'; this.parentElement.style.borderColor='rgba(20,20,24,0.10)';">
                         </div>
 
                         </div>
