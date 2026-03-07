@@ -733,7 +733,11 @@
             font-weight: 650;
         }
 
-                /* ================= Gallery / Flip Cards ================= */
+        .vintage-filter {
+            filter: sepia(0.5) contrast(0.9) brightness(1.1) blur(0.5px);
+        }
+
+        /* ================= Gallery / Flip Cards ================= */
         .gallery-grid {
             margin-top: 18px;
             display: grid;
@@ -980,6 +984,7 @@
         }
 
         @media (hover: hover) and (pointer: fine) {
+
             .card:hover .card-image-wrapper img,
             .card:hover .card-back-media img {
                 transform: scale(1.04);
@@ -1296,6 +1301,7 @@
         .card-back-actions {
             display: none;
         }
+
         /* ================= Pagination ================= */
         .pagination-container {
             display: flex;
@@ -1374,11 +1380,6 @@
             position: absolute;
             inset: 0;
             pointer-events: none;
-            background: linear-gradient(to bottom,
-                    rgba(246, 247, 249, 0.95),
-                    rgba(246, 247, 249, 0) 14%,
-                    rgba(246, 247, 249, 0) 86%,
-                    rgba(246, 247, 249, 0.95));
             opacity: 0.95;
         }
 
@@ -1768,8 +1769,8 @@
             inset: 0;
             pointer-events: none;
             background:
-                /* radial-gradient(680px 240px at 20% 10%, rgba(255, 255, 255, 0.62), rgba(255, 255, 255, 0) 60%), */
-                linear-gradient(to bottom, rgba(255, 255, 255, 0.08), rgba(246, 247, 249, 0.55));
+                /* radial-gradient(680px 240px at 20% 10%, rgba(255, 255, 255, 0.62), rgba(255, 255, 255, 0) 60%); */
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.08), rgba(246, 247, 249, 0.15));
             z-index: 2;
         }
 
@@ -1795,6 +1796,9 @@
             max-height: 520px;
         }
 
+        .picks-deco.h239{
+            aspect-ratio:2.39/1;
+        }
         .picks-grid {
             margin-top: 14px;
             padding: 0 16px 16px 16px;
@@ -2196,6 +2200,7 @@
                 max-height: 136px;
             }
         }
+
         @media (max-width: 560px) {
             :root {
                 --pad: 4%;
@@ -2405,7 +2410,7 @@
                     data-en="A die-cast car collection exhibition by an ordinary person who has loved automobiles since childhood."
                     data-cn="一个从小热爱汽车的普通人的车模收藏展。">
                     A die-cast car collection exhibition by an ordinary person who has loved automobiles since
-                    childhood. 
+                    childhood.
                 </p>
 
                 <div class="home-actions">
@@ -2453,7 +2458,8 @@
                             <circle cx="7" cy="17" r="2" />
                             <circle cx="17" cy="17" r="2" />
                         </svg>
-                        <span class="toggle-text mpower" id="flip-all-label" data-en="Flip All Cards" data-cn="翻转全部">Flip All Cards</span>
+                        <span class="toggle-text mpower" id="flip-all-label" data-en="Flip All Cards"
+                            data-cn="翻转全部">Flip All Cards</span>
                     </button>
 
                     <button id="go-garage-btn" class="icon-btn" style="display:none;">
@@ -3015,7 +3021,7 @@
                 return card;
             }
 
-                        function buildSeriesCard(seriesNum, cars) {
+            function buildSeriesCard(seriesNum, cars) {
                 const picked = pickRandom(cars || []);
                 if (!picked) return null;
 
@@ -3118,6 +3124,111 @@
                 });
 
                 timelineView.appendChild(wrap);
+            }
+
+            function renderBMWHistory() {
+
+                timelineView.innerHTML = "";
+
+                const bmwCars = carData.filter(c => c.category === "BMW" && c.visible !== false);
+
+                const decadeMap = {};
+
+                bmwCars.forEach(car => {
+                    const year = getYearFromCar(car);
+                    if (!year) return;
+
+                    const decade = yearToDecadeLabel(year);
+
+                    if (!decadeMap[decade]) decadeMap[decade] = {};
+
+                    const series = car.seriesNum || "--";
+
+                    if (!decadeMap[decade][series]) decadeMap[decade][series] = [];
+
+                    decadeMap[decade][series].push(car);
+
+                });
+
+                BMW_HISTORY_SECTIONS.forEach(sec => {
+
+                    const seriesMap = decadeMap[sec.decade];
+
+                    if (!seriesMap) return;
+
+                    const section = document.createElement("section");
+                    section.className = "picks-section reveal";
+
+                    section.innerHTML = `
+                        <div class="picks-row">
+
+                        <div class="picks-text">
+                        <h3>${currentLang === 'en' ? sec.title_en : sec.title_cn}</h3>
+                        <p>${currentLang === 'en' ? sec.desc_en : sec.desc_cn}</p>
+                        </div>
+
+                        <div class="picks-deco h239">
+                        <img src="${sec.image}">
+                        </div>
+
+                        </div>
+                        `;
+
+                    const grid = document.createElement("div");
+                    grid.className = "picks-grid";
+
+                    Object.keys(seriesMap).forEach(series => {
+
+                        const cars = seriesMap[series];
+                        const picked = cars[Math.floor(Math.random() * cars.length)];
+
+                        const card = document.createElement("div");
+                        let imgSrc = picked.imagePath || 'images/placeholder.jpg';
+                        const title = `${picked.modelName || 'Unknown'}`;
+                        const carNameLabel = currentLang === 'en' ? 'Showing' : '正在展示';
+                        const countLabel = currentLang === 'en' ? 'Series In Garage' : '系列在库';
+                        card.className = "pick-card";
+
+                        card.innerHTML = `
+                            <div class="pick-img">
+                                <img
+                                    class="vintage-filter"
+                                    src="${imgSrc}"
+                                    alt="${title}"
+                                    loading="lazy"
+                                    decoding="async"
+                                    onload="this.classList.add('loaded')"
+                                    onerror="this.onerror=null; this.src='${picked.imagePath || ''}'; if(this.src==window.location.href) this.style.display='none';"
+                                    >
+                            </div>
+
+                            <div class="pick-info">
+                            <p class="pick-name">${series}</p>
+                            <div class="pick-meta">
+                            <span><b>${carNameLabel}: </b> ${title}</span>
+                            <span><b>${countLabel}: </b> ${cars.length}</span>
+                            </div>
+                            </div>
+                            `;
+
+                        card.onclick = () => {
+                            currentCategory = "BMW";
+                            bmwFilters.series = series;
+                            updateUI();
+                            window.scrollTo(0, 0);
+                        };
+
+                        grid.appendChild(card);
+
+                    });
+
+                    section.appendChild(grid);
+
+                    timelineView.appendChild(section);
+
+                });
+
+                initRevealObserver();
             }
 
             function renderGallery(cars) {
@@ -3238,6 +3349,105 @@
                 }
             ];
 
+            const BMW_HISTORY_SECTIONS = [
+                {
+                    decade: "1910s",
+                    title_en: "1910s — Origins in Aviation",
+                    title_cn: "1910年代 — 航空时代的起点",
+                    desc_en: "BMW’s roots go back to the aviation industry. The company’s official foundation date is 7 March 1916, and in 1917 the BMW name and emblem appeared. During this decade, BMW was still focused on aircraft engine development rather than automobile production, establishing the technical precision and engineering culture that would later define the brand.",
+                    desc_cn: "宝马的起源并不在汽车，而是在航空工业。公司官方 foundation date 为 1916 年 3 月 7 日，1917 年 BMW 名称与标志正式出现。在这一时期，宝马仍专注于航空发动机研发，尚未进入汽车制造，但也正是在这个阶段，宝马奠定了后来品牌最核心的工程精度与技术传统。",
+                    image: "images/history/1910s.jpg"
+                },{
+                    decade: '1920s',
+                    title_en: '1920s · From Engines to Automobiles',
+                    title_cn: '1920年代 · 从引擎走向汽车',
+                    desc_en: 'BMW spent the decade laying down its core identity: the company structure was consolidated, Munich became its lasting home, the R 32 established BMW Motorrad in 1923, and by 1928 BMW had entered automobile production. It was the formative decade in which the brand learned to express engineering ambition on both two wheels and four.',
+                    desc_cn: '1920年代是宝马品牌根基真正成形的时期：公司架构逐步理顺，慕尼黑成为长期核心基地，1923 年 R 32 开启了 BMW Motorrad 的传奇，而 1928 年宝马正式进入汽车制造。这个十年里，宝马开始把“工程雄心”同时落实到两轮与四轮之上。',
+                    image: 'images/history/1920s.webp'
+                },
+                {
+                    decade: '1930s',
+                    title_en: '1930s · Design, Performance and Racing Spirit',
+                    title_cn: '1930年代 · 设计、性能与赛车精神',
+                    desc_en: 'In the 1930s BMW moved beyond licensed beginnings and built its own automotive character. Sports cars such as the 328, together with rising motorsport success, helped define the brand’s image as elegant, technically capable and competition-minded. It was the decade when BMW first looked unmistakably like BMW.',
+                    desc_cn: '1930年代，宝马逐渐摆脱早期授权制造的影子，开始建立真正属于自己的汽车语言。以 BMW 328 为代表的车型，加上持续累积的赛车成绩，使宝马逐步形成了优雅、技术感强且富有竞技精神的品牌形象。这个时期，宝马开始真正“像宝马”。',
+                    image: 'images/history/1930s.webp'
+                },
+                {
+                    decade: '1940s',
+                    title_en: '1940s · Rupture, Damage and Survival',
+                    title_cn: '1940年代 · 断裂、损毁与求生',
+                    desc_en: 'The 1940s were defined by disruption. War left BMW plants damaged and occupied, and normal industrial operations were severely restricted. In the immediate post-war years the company survived through stopgap production such as household goods. For BMW, this was less a decade of glory than a hard lesson in endurance.',
+                    desc_cn: '1940年代对宝马而言是充满断裂感的时期。战争使工厂遭受重创并被接管，正常工业生产受到严厉限制。战后初期，宝马甚至只能依靠家用器具等过渡性产品维持生存。这个十年并非宝马的高光阶段，而是一次关于韧性与求生的深刻考验。',
+                    image: 'images/history/1940s.jpg'
+                },
+                {
+                    decade: '1950s',
+                    title_en: '1950s · Crisis, Courage and Independence',
+                    title_cn: '1950年代 · 危机、勇气与独立',
+                    desc_en: 'BMW rebuilt cautiously after the war, but the road was difficult and the company came under serious pressure by the end of the decade. The failed takeover attempt of 1959 became a decisive turning point: BMW remained independent. That independence preserved the conditions for everything the brand would become in the decades that followed.',
+                    desc_cn: '战后重建中的宝马在1950年代走得并不轻松，直到十年末公司仍面临严峻危机。1959 年收购危机最终未能成行，宝马保住了独立性。正是这次关键转折，才为之后几十年宝马的发展留下了最重要的前提。',
+                    image: 'images/history/1950s.jpg'
+                },
+                {
+                    decade: '1960s',
+                    title_en: '1960s · The Neue Klasse Reset',
+                    title_cn: '1960年代 · Neue Klasse 的重启',
+                    desc_en: 'The launch of the Neue Klasse at the beginning of the 1960s gave BMW a modern, sporty and profitable direction. Models such as the BMW 1500 and the expanding Neue Klasse family reset the company’s trajectory and established the template for the modern sports sedan. This was the decade that turned BMW from a survivor into a rising force.',
+                    desc_cn: '1960年代初推出的 Neue Klasse，为宝马重新确立了现代、运动且可持续盈利的发展路线。以 BMW 1500 及其后续车型为代表的新世代产品，不仅改写了公司命运，也奠定了现代运动型轿车的基本模板。这个十年让宝马从“生存者”变成了“上升者”。',
+                    image: 'images/history/1960s.png'
+                },
+                {
+                    decade: '1970s',
+                    title_en: '1970s · Expansion and the Birth of M',
+                    title_cn: '1970年代 · 扩张时代与 M 的诞生',
+                    desc_en: 'During the 1970s BMW expanded its sales, production and global confidence. BMW Motorsport GmbH was founded in 1972, while the four-cylinder headquarters and BMW Museum opened in 1973. The decade linked motorsport, corporate identity and premium ambition into one coherent BMW story.',
+                    desc_cn: '1970年代，宝马在销量、生产与全球影响力上全面扩张。1972 年 BMW Motorsport GmbH 成立，1973 年“四缸大厦”总部与 BMW Museum 启用。赛车基因、企业形象与高端定位在这一时期逐渐融合，构成了今日宝马叙事的重要骨架。',
+                    image: 'images/history/1970s.webp'
+                },
+                {
+                    decade: '1980s',
+                    title_en: '1980s · Motorsport Myth and Technical Confidence',
+                    title_cn: '1980年代 · 赛车神话与技术自信',
+                    desc_en: 'BMW entered the 1980s with unmistakable self-confidence. Motorsport victories, including landmark successes in Formula One and touring car racing, amplified the brand’s performance image. Road cars and race programs increasingly spoke the same language: compact precision, driver focus and technical sharpness.',
+                    desc_cn: '进入1980年代的宝马已明显带有强烈自信。F1 与房车赛事中的里程碑式胜利，持续放大品牌的性能形象。公路车型与赛道项目开始更加紧密地共享同一种语言：紧凑、精准、以驾驶者为核心，并强调技术锋芒。',
+                    image: 'images/history/1980s.jpg'
+                },
+                {
+                    decade: '1990s',
+                    title_en: '1990s · Research, Global Reach and Premium Scale',
+                    title_cn: '1990年代 · 研发体系、全球布局与高端规模',
+                    desc_en: 'In the 1990s BMW strengthened its long-term industrial and research backbone. The Research and Innovation Centre became central to future product development, while BMW also expanded its international manufacturing footprint and premium reach. The brand grew more global without abandoning its engineering core.',
+                    desc_cn: '1990年代，宝马持续强化长期研发与工业能力。Research and Innovation Centre 成为未来产品开发的重要中枢，同时宝马也不断扩大全球制造布局与高端市场覆盖。品牌变得更全球化，但没有放弃其最核心的工程底色。',
+                    image: 'images/history/1990s.jpg'
+                },
+                {
+                    decade: '2000s',
+                    title_en: '2000s · Brand Architecture and Experience',
+                    title_cn: '2000年代 · 品牌架构与体验升级',
+                    desc_en: 'The 2000s broadened BMW’s premium universe. MINI entered the Group as a modern small-car premium brand, Rolls-Royce became part of BMW’s luxury portfolio, Leipzig production came online, and BMW Welt opened as a new public-facing portal for the brand. BMW was no longer just building cars; it was building an ecosystem of identity and experience.',
+                    desc_cn: '2000年代，宝马的高端版图明显扩展。MINI 以现代精品小车品牌身份进入集团体系，Rolls-Royce 纳入豪华版图，莱比锡工厂投产，BMW Welt 也成为品牌面向公众的重要门户。宝马不再只是造车，更在构建一整套品牌身份与体验系统。',
+                    image: 'images/history/2000s.webp'
+                },
+                {
+                    decade: '2010s',
+                    title_en: '2010s · Electrification and the Future Arrives',
+                    title_cn: '2010年代 · 电动化与未来真正到来',
+                    desc_en: 'With the launch of the BMW i3 in 2013, BMW entered a visibly new phase. The decade pushed electrification, mobility services and future-facing concept work into the center of the brand conversation. BMW celebrated its first century while simultaneously redefining what the next one should look like.',
+                    desc_cn: '随着 2013 年 BMW i3 上市，宝马在2010年代真正步入一个可被清晰感知的新阶段。电动化、出行服务与面向未来的概念探索，逐渐成为品牌叙事中心。宝马在庆祝百年历史的同时，也开始主动定义下一个百年。',
+                    image: 'images/history/2010s.jpg'   
+                },
+                {
+                    decade: '2020s',
+                    title_en: '2020s · Neue Klasse Again, Now in the Electric Era',
+                    title_cn: '2020年代 · 再次 Neue Klasse，这次属于电动时代',
+                    desc_en: 'In the 2020s BMW has tied sustainability, software, circularity and electrification even more tightly to its premium identity. Projects such as the iX, i Vision Circular, the expansion of R&D at FIZ, and the announced Neue Klasse show a company preparing for another deep technological leap. The decade is still unfolding, but its direction is already unmistakable.',
+                    desc_cn: '进入2020年代后，宝马把可持续、软件能力、循环理念与电动化更紧密地纳入高端品牌核心。iX、i Vision Circular、FIZ 研发扩建，以及全新 Neue Klasse 的推进，都显示出宝马正准备迎来又一次深层技术跃迁。这个十年仍在展开，但方向已经非常清晰。',
+                    image: 'images/history/2020s.webp'
+                }
+            ];
+
+
             function hasTag(car, tagName) {
                 return (car.tags || '').split(';').map(s => s.trim()).includes(tagName);
             }
@@ -3277,19 +3487,6 @@
             function renderPicks() {
                 if (!picksView) return;
                 picksView.innerHTML = '';
-
-                // Intro block
-        //         const intro = document.createElement('div');
-        //         intro.className = 'picks-intro reveal';
-        //         intro.innerHTML = `
-        //   <h3 class="title">${currentLang === 'en' ? 'My Picks' : '精选'}</h3>
-        //   <p class="sub">
-        //     ${currentLang === 'en'
-        //                 ? 'Just the cars I keep close — grouped by the feelings they carry.'
-        //                 : '这里放着我最喜欢、最推荐的车。它们按“感觉”分组，大部分都有着自己的小故事。'}
-        //   </p>
-        // `;
-        //         picksView.appendChild(intro);
 
                 // Sections
                 PICKS_SECTIONS.forEach((sec, idx) => {
@@ -3524,7 +3721,7 @@
                         picksView.style.display = 'none';
                         paginationContainers.forEach(c => { if (c) c.style.display = 'none'; });
 
-                        renderTimeline(filtered);
+                        renderBMWHistory();
                         return;
                     } else {
                         timelineView.style.display = 'none';
