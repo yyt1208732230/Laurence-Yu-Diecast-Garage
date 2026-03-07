@@ -2899,8 +2899,8 @@
                 const yearText = yearMatch ? yearMatch[0] : '';
                 const yearHtml = yearText ? `<div class="card-back-year">${yearText}</div>` : '';
                 const descText = currentLang === 'en'
-                    ? (car.description_en || car.description_cn || '')
-                    : (car.description_cn || car.description_en || '');
+                    ? (`${car.modelName || 'Unknown'} from ${car.modelBrand || 'Unknown'}. ${car.description_en || car.description_cn || ''}`)
+                    : (`模型品牌${car.modelBrand || '未知'}的${car.modelName || '未知品牌'} 。${car.description_cn || car.description_en || ''}`);
 
                 const carBrandLabel = currentLang === 'en' ? 'Car Brand' : '车品牌';
                 const modelBrandLabel = currentLang === 'en' ? 'Model Brand' : '模型品牌';
