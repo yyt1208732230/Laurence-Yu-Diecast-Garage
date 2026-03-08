@@ -1619,7 +1619,7 @@
             stroke: rgba(21, 22, 26, 0.72);
         }
 
-        #go-garage-btn:hover {
+        #go-garage-btn:hover, #go-history-btn:hover {
             border-color: rgba(22, 88, 142, 0.3);
             box-shadow: 0 0 0 3px rgba(129, 196, 255, 0.2);
         }
@@ -2380,10 +2380,8 @@
             <button class="nav-btn" data-filter="BMW" data-en="Bimmer Garage" data-cn="宝马库">Bimmer Garage</button>
             <button class="nav-btn" data-filter="Hotwheels" data-en="Hotwheels" data-cn="风火轮系列">Hotwheels</button>
 
-            <!-- NEW TAB -->
             <button class="nav-btn" data-filter="PICKS" data-en="My Picks" data-cn="个人推荐">My Picks</button>
 
-            <!-- Keep original All tab (still available in nav) -->
             <button class="nav-btn" data-filter="all" data-en="Show All in Gallery" data-cn="全部展示">Show All in
                 Gallery</button>
         </nav>
@@ -2394,7 +2392,6 @@
         </div>
     </header>
 
-    <!-- HOME -->
     <section id="home">
         <div class="home-bg" aria-hidden="true"></div>
 
@@ -2424,17 +2421,14 @@
                         <span data-en="Hotwheels" data-cn="风火轮系列">Hotwheels</span>
                     </button>
 
-                    <!-- REPLACED: third entry is now My Picks -->
                     <button class="cta tertiary" id="enter-picks">
                         <span data-en="Curated" data-cn="我的精选">Curated</span>
-                        <!-- <small data-en="(Curated)" data-cn="(精选)">(Curated)</small> -->
                     </button>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- APP -->
     <section id="app">
         <div class="hero-strip">
             <img id="hero-img" src="images/banner.jpg" alt="Banner"
@@ -2465,6 +2459,14 @@
 
                     <button id="go-garage-btn" class="icon-btn" style="display:none;">
                         <span class="toggle-text" data-en="Go, BMW Garage" data-cn="前往宝马车库">Go, BMW Garage</span>
+                    </button>
+
+                    <button id="go-history-btn" class="icon-btn" style="display:none;">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M19 12H5"></path>
+                            <path d="M12 19l-7-7 7-7"></path>
+                        </svg>
+                        <span class="toggle-text" data-en="Back to History" data-cn="返回发展史">Back to History</span>
                     </button>
 
                     <div id="generic-filters" style="display:none;">
@@ -2512,7 +2514,6 @@
 
             <section id="timeline-view" style="display:none;"></section>
 
-            <!-- NEW VIEW -->
             <section id="picks-view"></section>
 
             <main id="gallery" class="gallery-grid"></main>
@@ -2526,7 +2527,6 @@
         </footer>
     </section>
 
-    <!-- Modal -->
     <div id="modal" class="modal">
         <div class="modal-content">
             <span class="close-btn">&times;</span>
@@ -2625,6 +2625,7 @@
             const categoryFilterWrapper = getEl('category-filter-wrapper');
             const tagFilterWrapper = getEl('tag-filter-wrapper');
             const goGarageBtn = getEl('go-garage-btn');
+            const goHistoryBtn = getEl('go-history-btn');
 
             // Mobile nav toggle + outside click close
             navToggle.addEventListener('click', (e) => {
@@ -2641,6 +2642,13 @@
                 goGarageBtn.addEventListener('click', () => {
                     const garageNav = document.querySelector('.nav-btn[data-filter="BMW"]');
                     if (garageNav) garageNav.click();
+                });
+            }
+
+            if (goHistoryBtn) {
+                goHistoryBtn.addEventListener('click', () => {
+                    const historyNav = document.querySelector('.nav-btn[data-filter="BMW_TIMELINE"]');
+                    if (historyNav) historyNav.click();
                 });
             }
 
@@ -2789,10 +2797,9 @@
             searchInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') performSearch(); });
 
             /* =========================
-               Populate Options (kept, with PICKS bypass)
+               Populate Options (Updated)
             ========================== */
             function refreshOptions() {
-                // PICKS page has no filters
                 if (currentCategory === 'PICKS') return;
 
                 if (currentCategory !== 'BMW' && currentCategory !== 'BMW_TIMELINE') {
@@ -2806,7 +2813,15 @@
                         updateTomSelect(tsCategory, Array.from(cats).sort(), currentLang === 'en' ? 'All Categories' : '全部分类');
                     } else {
                         const allTags = new Set();
-                        const relevantCars = carData.filter(c => c.category === currentCategory && c.visible !== false);
+                        let relevantCars = [];
+                        
+                        // New Logic applied here
+                        if (currentCategory === 'Hotwheels') {
+                            relevantCars = carData.filter(c => c.modelBrand === 'Hot Wheels' && c.visible !== false);
+                        } else {
+                            relevantCars = carData.filter(c => c.category === currentCategory && c.visible !== false);
+                        }
+
                         relevantCars.forEach(car => {
                             if (car.tags) car.tags.split(';').forEach(tag => {
                                 const t = tag.trim();
@@ -2817,7 +2832,8 @@
                     }
                 }
 
-                const bmwCars = carData.filter(c => c.category === 'BMW');
+                // New Logic: strictly carBrand === 'BMW'
+                const bmwCars = carData.filter(c => c.carBrand === 'BMW' && c.visible !== false);
 
                 const seriesSet = new Set();
                 bmwCars.forEach(c => { if (c.seriesNum) seriesSet.add(c.seriesNum); });
@@ -3130,8 +3146,8 @@
             function renderBMWHistory() {
 
                 timelineView.innerHTML = "";
-
-                const bmwCars = carData.filter(c => c.category === "BMW" && c.visible !== false);
+                // New logic: carBrand === "BMW"
+                const bmwCars = carData.filter(c => c.carBrand === "BMW" && c.visible !== false);
 
                 const decadeMap = {};
 
@@ -3215,9 +3231,21 @@
                             </div>
                             `;
 
+                        // 修复：从History跳转到Garage
                         card.onclick = () => {
                             currentCategory = "BMW";
                             bmwFilters.series = series;
+                            
+                            // 修复：跳转后高亮菜单栏tab
+                            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+                            const garageNav = document.querySelector('.nav-btn[data-filter="BMW"]');
+                            if (garageNav) garageNav.classList.add('active');
+                            
+                            // 修复：TomSelect 下拉框回显已过滤的选项 (true代表静默执行，不触发onChange死循环)
+                            if (tsSeries) {
+                                tsSeries.setValue(series, true);
+                            }
+
                             updateUI();
                             window.scrollTo(0, 0);
                         };
@@ -3304,7 +3332,6 @@
                 HIDDEN: 'Hidden gem'
             };
 
-            // You can replace these decorative images with your own 16:9 / 9:16 HD assets
             const PICKS_SECTIONS = [
                 {
                     key: 'BEST_LOVE',
@@ -3563,13 +3590,11 @@
             let _revealObserver = null;
 
             function initRevealObserver() {
-                // Fallback：如果浏览器不支持 IntersectionObserver，直接显示
                 if (!('IntersectionObserver' in window)) {
                     document.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
                     return;
                 }
 
-                // 如果 observer 已存在，不要 return ——继续 observe 新增的元素
                 if (!_revealObserver) {
                     _revealObserver = new IntersectionObserver((entries) => {
                         entries.forEach(entry => {
@@ -3581,7 +3606,6 @@
                     }, { root: null, threshold: 0.12 });
                 }
 
-                // 关键：每次都重新扫描并 observe（新生成的 reveal 才会被激活）
                 document.querySelectorAll('.reveal:not(.in)').forEach(el => _revealObserver.observe(el));
             }
 
@@ -3602,7 +3626,6 @@
                             const center = rect.top + rect.height / 2;
                             const delta = (center - window.innerHeight / 2);
                             const t = Math.max(-40, Math.min(40, delta * -0.03));
-                            // img.style.transform = `translateY(${t}px) scale(1.03)`;
                         });
                     });
                 }
@@ -3618,7 +3641,6 @@
                 try {
                     setHeroText();
 
-                    // ===== NEW: PICKS page = no controls / no pagination / no modal usage =====
                     const isPicks = currentCategory === 'PICKS';
 
                     if (controlsBar) controlsBar.style.display = isPicks ? 'none' : 'flex';
@@ -3626,20 +3648,17 @@
                     if (toggleBtn) toggleBtn.style.display = (isPicks || currentCategory === 'BMW_TIMELINE') ? 'none' : 'inline-flex';
                     updateFlipAllButton();
 
-                    // Views display
                     if (picksView) picksView.style.display = isPicks ? 'block' : 'none';
                     if (timelineView) timelineView.style.display = 'none';
                     if (gallery) gallery.style.display = isPicks ? 'none' : 'grid';
 
                     paginationContainers.forEach(c => { if (c) c.style.display = isPicks ? 'none' : 'flex'; });
 
-                    // For picks, render & return
                     if (isPicks) {
                         renderPicks();
                         return;
                     }
 
-                    // ===== existing logic (kept) =====
                     if (currentCategory === 'BMW') {
                         genericFiltersDiv.style.display = 'none';
                         bmwFiltersDiv.style.display = 'flex';
@@ -3662,14 +3681,20 @@
                     if (goGarageBtn) {
                         goGarageBtn.style.display = (currentCategory === 'BMW_TIMELINE') ? 'inline-flex' : 'none';
                     }
+                    if (goHistoryBtn) {
+                        goHistoryBtn.style.display = (currentCategory === 'BMW') ? 'inline-flex' : 'none';
+                    }
 
-                    let filtered;
-                    if (currentCategory === 'all') {
-                        filtered = carData.filter(c => c.visible !== false);
-                    } else if (currentCategory === 'BMW_TIMELINE') {
-                        filtered = carData.filter(c => c.category === 'BMW' && c.visible !== false);
-                    } else {
-                        filtered = carData.filter(c => c.category === currentCategory && c.visible !== false);
+                    // 修复：更新底层过滤逻辑 (使用 carBrand 和 modelBrand 替代 category 判断)
+                    let filtered = carData.filter(c => c.visible !== false);
+                    
+                    if (currentCategory === 'BMW' || currentCategory === 'BMW_TIMELINE') {
+                        filtered = filtered.filter(c => c.carBrand === 'BMW');
+                    } else if (currentCategory === 'Hotwheels') {
+                        filtered = filtered.filter(c => c.modelBrand === 'Hot Wheels');
+                    } else if (currentCategory !== 'all' && currentCategory !== 'PICKS') {
+                        // 预留给未来可能添加的其他栏目（兜底逻辑）
+                        filtered = filtered.filter(c => c.category === currentCategory);
                     }
 
                     if (currentCategory === 'BMW') {
@@ -3699,7 +3724,7 @@
                             }
                         } else {
                             if (currentTagFilter && currentTagFilter !== '') {
-                                filtered = filtered.filter(c => (c.tags || '').split(';').includes(currentTagFilter));
+                                filtered = filtered.filter(c => (c.tags || '').split(';').map(t=>t.trim()).includes(currentTagFilter));
                             }
                         }
                     }
