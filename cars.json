@@ -3615,7 +3615,7 @@
       "carBrand": "HW Originals",
       "modelName": "Cone Shaker (Green)",
       "price": "--",
-      "tags": "Mainline/Silver/Premium;Cute cars",
+      "tags": "Mainline/Silver/Premium",
       "imagePath": "images/hotwheels/IMG_20260213_003346.jpg",
       "realCarImage": "", 
       "realCarUrl": ""
@@ -5560,7 +5560,7 @@
       "carBrand": "HW Originals",
       "modelName": "Cone Shaker",
       "price": "--",
-      "tags": "Mainline/Silver/Premium",
+      "tags": "Mainline/Silver/Premium;Cute cars",
       "imagePath": "images/new2026/IMG_1743.webp",
       "realCarImage": "images/new2026/IMG_1743.webp", 
       "realCarUrl": ""
