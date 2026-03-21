@@ -5744,5 +5744,23 @@
       "imagePath": "images/new2026/69b92e5eebdc617ffca549cc368daba4.webp",  
       "realCarImage": "images/new2026/bmw-m6-coupe-F13-08-4x3-li.webp",
       "realCarUrl": "https://www.bmw-m.com/en/topics/magazine-article-pool/bmw-m6-coupe-f13.html"
+    },
+    {
+      "id": "n261",
+      "visible": true,
+      "category": "BMW",  
+      "modelBrand": "Hot Wheels",
+      "carBrand": "BMW",
+      "modelName": "'73 BMW 3.0 CSL Race Car VOITURE DE COURSE",
+      "seriesNum": "E9",
+      "price": "-",
+      "tags": "E9;1973;Silver;1/64",
+      "color": "Silver",
+      "color_cn": "银",
+      "description_en": "",
+      "description_cn": "",
+      "imagePath": "images/new2026/IMG_1939.webp",  
+      "realCarImage": "images/new2026/IMG_1940.webp",
+      "realCarUrl": "https://www.dsf.my/2021/10/the-iconic-bmw-3-0-csl-just-celebrated-its-50th-birthday/"
     }
   ]
