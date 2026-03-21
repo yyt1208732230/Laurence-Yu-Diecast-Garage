@@ -2775,6 +2775,7 @@
             fetch('cars.json')
                 .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
                 .then(data => {
+                    data.sort(() => Math.random() - 0.5);
                     carData = data;
                     refreshOptions();
                     updateUI();
@@ -3800,6 +3801,7 @@
                     btn.classList.add('active');
 
                     currentCategory = btn.getAttribute('data-filter');
+                    carData.sort(() => Math.random() - 0.5);
 
                     currentTagFilter = '';
                     currentAllCategoryFilter = '';
@@ -3895,6 +3897,7 @@
                 });
 
                 currentCategory = category;
+                carData.sort(() => Math.random() - 0.5);
                 currentTagFilter = '';
                 currentAllCategoryFilter = '';
                 bmwFilters = { series: '', color: '', decade: '' };
@@ -3908,7 +3911,8 @@
                 updateFlipAllButton();
             }
 
-            enterBimmer.addEventListener('click', () => enterApp('BMW_TIMELINE'));
+            // enterBimmer.addEventListener('click', () => enterApp('BMW_TIMELINE'));
+            enterBimmer.addEventListener('click', () => enterApp('BMW'));
             enterHotwheels.addEventListener('click', () => enterApp('Hotwheels'));
             enterPicks.addEventListener('click', () => enterApp('PICKS'));
 
