@@ -21,7 +21,8 @@
             --font-display: "Cormorant Garamond", "Playfair Display", Georgia, serif;
 
             /* Layout */
-            --max: 1480px;
+            /* --max: 1480px; */
+            --max: 2000px;
             --pad: clamp(24px, 4vw, 80px);
             --radius: 14px;
             --radius2: 18px;
@@ -290,6 +291,7 @@
                     rgba(246, 247, 249, 0.35),
                     rgba(246, 247, 249, 0.55)),
                 url("images/home-bg.jpg");
+                /* url("images/home-bg.jpg"); */
             background-size: cover;
             background-position: center;
             filter: saturate(1.02) contrast(1.02);
@@ -733,7 +735,11 @@
             font-weight: 650;
         }
 
-        /* ================= Gallery ================= */
+        .vintage-filter {
+            filter: sepia(0.5) contrast(0.9) brightness(1.1) blur(0.5px);
+        }
+
+        /* ================= Gallery / Flip Cards ================= */
         .gallery-grid {
             margin-top: 18px;
             display: grid;
@@ -741,39 +747,231 @@
             gap: 16px;
             padding-bottom: 22px;
             min-height: 320px;
+            perspective: 1800px;
+            align-items: stretch;
         }
 
         .card {
+            /* --card-h: 438px; */
+            --card-h: 400px;
+            position: relative;
+            height: var(--card-h);
+            min-height: var(--card-h);
             border-radius: var(--radius);
-            overflow: hidden;
-            background: rgba(255, 255, 255, 0.92);
-            border: 1px solid var(--stroke);
-            box-shadow: 0 12px 34px rgba(15, 18, 22, 0.08);
             cursor: pointer;
-            transition: box-shadow .22s ease, border-color .22s ease, background .22s ease;
             opacity: 0;
             animation: cardIn .55s ease forwards;
+            perspective: 1600px;
+            transform-style: preserve-3d;
+            contain: layout paint;
         }
 
-        /* CRITICAL FIX: do NOT use transform here (stacking context); use translate only */
-        .card:hover {
-            translate: 0 -6px;
-            background: rgba(255, 255, 255, 0.98);
-            border-color: rgba(22, 88, 142, 0.18);
-            box-shadow: 0 18px 50px rgba(15, 18, 22, 0.12);
+        .card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            pointer-events: none;
+            border: 1px solid rgba(20, 20, 24, 0.16);
+            box-shadow:
+                inset 0 0 0 1px rgba(255, 255, 255, 0.82),
+                0 18px 38px rgba(15, 18, 22, 0.08);
+            z-index: 3;
+        }
+
+        .card::after {
+            content: '';
+            position: absolute;
+            inset: 1px;
+            border-radius: calc(var(--radius) - 1px);
+            pointer-events: none;
+            border: 1px solid rgba(22, 88, 142, 0.08);
+            z-index: 3;
+        }
+
+        .card-3d {
+            position: relative;
+            height: 100%;
+            border-radius: inherit;
+            transform-style: preserve-3d;
+            transition: transform .88s cubic-bezier(.22, .72, .12, 1);
+            will-change: transform;
+        }
+
+        .card-sheen {
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            pointer-events: none;
+            z-index: 4;
+            background: linear-gradient(125deg, rgba(255, 255, 255, 0.10), rgba(255, 255, 255, 0) 42%, rgba(255, 255, 255, 0.08) 72%, rgba(255, 255, 255, 0.14));
+            opacity: 0.14;
+            transition: opacity .35s ease, transform .88s cubic-bezier(.22, .72, .12, 1);
+        }
+
+        .card-shadow {
+            position: absolute;
+            inset: 12px 14px -10px 14px;
+            border-radius: 22px;
+            background: radial-gradient(70% 90% at 50% 50%, rgba(15, 18, 22, 0.14), rgba(15, 18, 22, 0));
+            filter: blur(16px);
+            opacity: 0.62;
+            transform: translateY(10px) scale(0.97);
+            transition: opacity .35s ease, transform .88s cubic-bezier(.22, .72, .12, 1);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .card-face {
+            position: relative;
+            height: 100%;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            border-radius: var(--radius);
+            overflow: hidden;
+            border: 1px solid rgba(20, 20, 24, 0.12);
+            background: linear-gradient(180deg, #ffffff, #f9fafb);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.95);
+            pointer-events: none;
+        }
+
+        .card-front,
+        .card-back {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-front {
+            z-index: 2;
+            pointer-events: auto;
+        }
+
+        .card-back {
+            position: absolute;
+            inset: 0;
+            transform: rotateY(180deg);
+            background: linear-gradient(180deg, #ffffff, #f7f8fa);
+            z-index: 1;
+        }
+
+        .card-back::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background: linear-gradient(180deg, rgba(129, 196, 255, 0.05), rgba(255, 255, 255, 0) 34%, rgba(22, 88, 142, 0.02) 74%, rgba(231, 34, 46, 0.03));
+            z-index: 0;
+        }
+
+        @media (hover: hover) and (pointer: fine) {
+            .card:hover .card-3d {
+                transform: rotateY(180deg) translateY(-6px);
+            }
+
+            .card:hover .card-shadow {
+                opacity: 0.9;
+                transform: translateY(16px) scale(1.02);
+            }
+
+            .card:hover .card-sheen {
+                opacity: 0.46;
+                transform: translateX(5px);
+            }
+        }
+
+        .card.is-flipped .card-3d,
+        .card.flip-all .card-3d {
+            transform: rotateY(180deg) translateY(-6px);
+        }
+
+        .card.is-flipped .card-shadow,
+        .card.flip-all .card-shadow {
+            opacity: 0.9;
+            transform: translateY(16px) scale(1.02);
+        }
+
+        .card.is-flipped .card-sheen,
+        .card.flip-all .card-sheen {
+            opacity: 0.44;
+            transform: translateX(4px);
+        }
+
+        .card.is-flipped .card-front,
+        .card.flip-all .card-front {
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .card.is-flipped .card-back,
+        .card.flip-all .card-back {
+            pointer-events: auto;
+            z-index: 2;
         }
 
         .card-image-wrapper {
-            width: 100%;
-            padding-top: 60%;
             position: relative;
-            background: rgba(21, 22, 26, 0.02);
-            overflow: hidden;
+            width: 100%;
+            min-height: 0;
+            background:
+                radial-gradient(120% 90% at 50% 0%, rgba(129, 196, 255, 0.10), rgba(129, 196, 255, 0) 46%),
+                linear-gradient(180deg, #f8f9fb, #f2f4f7);
+            border-bottom: 1px solid rgba(20, 20, 24, 0.08);
+            flex: 0 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2px 6px 0 6px;
+            margin-top: -1px;
         }
 
-        .card-image-wrapper img {
+        .card-image-frame,
+        .card-back-media-frame {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 4 / 3;
+            overflow: hidden;
+            border-radius: 16px;
+            border: 1px solid rgba(20, 20, 24, 0.12);
+            background: linear-gradient(180deg, #eef1f4, #e8ecf0);
+            box-shadow:
+                inset 0 0 0 1px rgba(255, 255, 255, 0.72),
+                0 12px 24px rgba(15, 18, 22, 0.08);
+        }
+
+        .card-front-badge {
             position: absolute;
-            inset: 0;
+            left: 18px;
+            top: 8px;
+            z-index: 2;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            max-width: calc(100% - 24px);
+            padding: 7px 10px;
+            border-radius: 999px;
+            border: 1px solid rgba(20, 20, 24, 0.10);
+            background: rgba(255, 255, 255, 0.94);
+            box-shadow: 0 10px 22px rgba(15, 18, 22, 0.08);
+            color: rgba(21, 22, 26, 0.82);
+            font-size: 0.68rem;
+            font-weight: 900;
+            letter-spacing: 0.2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .card-front-badge .dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 999px;
+            background: linear-gradient(180deg, var(--m1), var(--m2));
+            box-shadow: 0 0 0 5px rgba(129, 196, 255, 0.14);
+            flex: 0 0 auto;
+        }
+
+        .card-image-wrapper img,
+        .card-back-media img {
             width: 100%;
             height: 100%;
             object-fit: cover;
@@ -783,48 +981,328 @@
             filter: saturate(1.02) contrast(1.02);
         }
 
-        .card-image-wrapper img.loaded {
+        .card-image-wrapper img.loaded,
+        .card-back-media img.loaded {
             opacity: 1;
         }
 
-        .card:hover .card-image-wrapper img {
-            transform: scale(1.05);
+        @media (hover: hover) and (pointer: fine) {
+
+            .card:hover .card-image-wrapper img,
+            .card:hover .card-back-media img {
+                transform: scale(1.04);
+            }
+        }
+
+        .card-info,
+        .card-back-inner {
+            position: relative;
+            z-index: 2;
         }
 
         .card-info {
-            padding: 14px 14px 16px 14px;
+            padding: 12px 14px 14px 14px;
+            display: grid;
+            grid-template-rows: auto auto auto 1fr;
+            gap: 10px;
+            flex: 1 1 auto;
+            min-height: 0;
+            align-content: start;
+            background:
+                radial-gradient(150% 80% at 50% -8%, rgba(129, 196, 255, 0.14), rgba(129, 196, 255, 0) 46%),
+                radial-gradient(120% 85% at 88% 115%, rgba(231, 34, 46, 0.08), rgba(231, 34, 46, 0) 42%),
+                linear-gradient(180deg, rgba(255, 255, 255, 0.99), rgba(247, 248, 250, 0.98));
+            position: relative;
+        }
+
+        .card-info::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background:
+                linear-gradient(135deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0) 44%),
+                repeating-linear-gradient(180deg,
+                    rgba(21, 22, 26, 0.018) 0px,
+                    rgba(21, 22, 26, 0.018) 1px,
+                    transparent 1px,
+                    transparent 28px);
+            opacity: 0.8;
         }
 
         .card-brand {
-            font-size: 0.72rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: rgba(21, 22, 26, 0.52);
-            font-weight: 800;
+            display: none;
         }
 
         .card-title {
-            margin: 8px 0 10px 0;
+            position: relative;
+            z-index: 1;
+            margin: 0;
             font-size: 1.02rem;
-            font-weight: 800;
-            letter-spacing: 0.2px;
-            line-height: 1.35;
-            color: rgba(21, 22, 26, 0.92);
+            font-weight: 900;
+            letter-spacing: 0.18px;
+            line-height: 1.24;
+            color: rgba(21, 22, 26, 0.96);
+            min-height: calc(1.24em * 2);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-align: center;
+            padding: 1px 4px 0;
         }
 
-        .card-tags {
+        .card-front-subtitle,
+        .card-front-stats,
+        .card-front-footer,
+        .card-front-overlay,
+        .card-front-series {
+            display: none;
+        }
+
+        .card-front-desc {
+            position: relative;
+            z-index: 1;
+            margin: 0;
+            font-size: 0.74rem;
+            line-height: 1.45;
+            color: rgba(21, 22, 26, 0.62);
+            text-align: left;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            min-height: calc(1.45em * 3);
+            padding: 8px 10px 0;
+            border-top: 1px solid rgba(20, 20, 24, 0.07);
+        }
+
+        .card-tags,
+        .card-back-tags {
             display: flex;
             flex-wrap: wrap;
             gap: 6px;
         }
 
+        .card-tags {
+            position: relative;
+            z-index: 1;
+            justify-content: center;
+            align-content: flex-start;
+            min-height: 36px;
+            padding: 0 4px;
+        }
+
         .mini-tag {
             font-size: 0.72rem;
-            color: rgba(21, 22, 26, 0.70);
+            color: rgba(21, 22, 26, 0.72);
             border: 1px solid rgba(20, 20, 24, 0.10);
-            background: rgba(255, 255, 255, 0.75);
+            background: rgba(255, 255, 255, 0.92);
             padding: 4px 8px;
             border-radius: 999px;
+            font-weight: 800;
+            max-width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.82);
+        }
+
+        .card-back-media {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            background: linear-gradient(180deg, #f7f8fa, #f1f4f7);
+            border-bottom: 1px solid rgba(20, 20, 24, 0.08);
+            flex: 0 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 12px 10px 12px;
+        }
+
+        .card-back-media-frame {
+            max-height: 148px;
+        }
+
+        .card-back-status {
+            position: absolute;
+            left: 20px;
+            top: 18px;
+            z-index: 2;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 6px 9px;
+            border-radius: 999px;
+            border: 1px solid rgba(20, 20, 24, 0.10);
+            background: rgba(255, 255, 255, 0.92);
+            font-size: 0.68rem;
+            font-weight: 900;
+            color: rgba(21, 22, 26, 0.82);
+            box-shadow: 0 10px 18px rgba(15, 18, 22, 0.08);
+        }
+
+        .card-back-status .dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 999px;
+            background: linear-gradient(180deg, var(--m1), var(--m2));
+            box-shadow: 0 0 0 5px rgba(129, 196, 255, 0.14);
+        }
+
+        .card-back-inner {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+            padding: 10px 12px 12px 12px;
+            flex: 1 1 auto;
+            min-height: 0;
+            overflow: hidden;
+        }
+
+        .card-back-head {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        .card-back-title-wrap {
+            min-width: 0;
+            flex: 1 1 auto;
+        }
+
+        .card-back-kicker {
+            font-size: 0.62rem;
+            letter-spacing: 0.85px;
+            text-transform: uppercase;
+            font-weight: 800;
+            color: rgba(21, 22, 26, 0.48);
+        }
+
+        .card-back-title-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            min-width: 0;
+        }
+
+        .card-back-title,
+        .card-back-title-link {
+            margin: 4px 0 0 0;
+            font-size: 0.92rem;
+            font-weight: 900;
+            line-height: 1.3;
+            color: rgba(21, 22, 26, 0.94);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            min-width: 0;
+        }
+
+        .card-back-title-link {
+            text-decoration: none;
+            pointer-events: auto;
+            position: relative;
+            z-index: 50;
+        }
+
+        .card-back-title-link:hover {
+            color: var(--m2);
+        }
+
+        .card-back-link-icon {
+            flex: 0 0 auto;
+            margin-top: 4px;
+            width: 26px;
+            height: 26px;
+            border-radius: 999px;
+            border: 1px solid rgba(22, 88, 142, 0.18);
+            background: #ffffff;
+            color: rgba(21, 22, 26, 0.82);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            box-shadow: 0 8px 18px rgba(15, 18, 22, 0.06);
+            pointer-events: auto;
+            position: relative;
+            z-index: 50;
+        }
+
+        .card-back-link-icon:hover {
+            color: var(--m2);
+            border-color: rgba(22, 88, 142, 0.26);
+        }
+
+        .card-back-link-icon svg {
+            width: 13px;
+            height: 13px;
+        }
+
+        .card-back-year {
+            flex: 0 0 auto;
+            min-width: 52px;
+            text-align: center;
+            padding: 6px 7px;
+            border-radius: 10px;
+            border: 1px solid rgba(20, 20, 24, 0.10);
+            background: #ffffff;
+            color: rgba(21, 22, 26, 0.88);
+            font-size: 0.74rem;
+            font-weight: 900;
+        }
+
+        .card-back-specs {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 6px;
+        }
+
+        .spec-pill {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            padding: 7px 8px;
+            border-radius: 10px;
+            border: 1px solid rgba(20, 20, 24, 0.10);
+            background: rgba(255, 255, 255, 0.92);
+            min-width: 0;
+        }
+
+        .spec-pill .label {
+            font-size: 0.60rem;
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+            font-weight: 800;
+            color: rgba(21, 22, 26, 0.46);
+        }
+
+        .spec-pill .value {
+            font-size: 0.74rem;
+            font-weight: 800;
+            color: rgba(21, 22, 26, 0.88);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .card-back-desc {
+            margin: 0;
+            color: rgba(21, 22, 26, 0.66);
+            font-size: 0.74rem;
+            line-height: 1.42;
+            display: -webkit-box;
+            -webkit-line-clamp: 4;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            min-height: calc(1.42em * 4);
+        }
+
+        .card-back-actions {
+            display: none;
         }
 
         /* ================= Pagination ================= */
@@ -905,11 +1383,6 @@
             position: absolute;
             inset: 0;
             pointer-events: none;
-            background: linear-gradient(to bottom,
-                    rgba(246, 247, 249, 0.95),
-                    rgba(246, 247, 249, 0) 14%,
-                    rgba(246, 247, 249, 0) 86%,
-                    rgba(246, 247, 249, 0.95));
             opacity: 0.95;
         }
 
@@ -1148,7 +1621,7 @@
             stroke: rgba(21, 22, 26, 0.72);
         }
 
-        #go-garage-btn:hover {
+        #go-garage-btn:hover, #go-history-btn:hover {
             border-color: rgba(22, 88, 142, 0.3);
             box-shadow: 0 0 0 3px rgba(129, 196, 255, 0.2);
         }
@@ -1299,8 +1772,8 @@
             inset: 0;
             pointer-events: none;
             background:
-                /* radial-gradient(680px 240px at 20% 10%, rgba(255, 255, 255, 0.62), rgba(255, 255, 255, 0) 60%), */
-                linear-gradient(to bottom, rgba(255, 255, 255, 0.08), rgba(246, 247, 249, 0.55));
+                /* radial-gradient(680px 240px at 20% 10%, rgba(255, 255, 255, 0.62), rgba(255, 255, 255, 0) 60%); */
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.08), rgba(246, 247, 249, 0.15));
             z-index: 2;
         }
 
@@ -1326,6 +1799,9 @@
             max-height: 520px;
         }
 
+        .picks-deco.h239{
+            aspect-ratio:2.39/1;
+        }
         .picks-grid {
             margin-top: 14px;
             padding: 0 16px 16px 16px;
@@ -1717,6 +2193,17 @@
             }
         }
 
+
+        @media (max-width: 900px) {
+            .card {
+                --card-h: 420px;
+            }
+
+            .card-back-media-frame {
+                max-height: 136px;
+            }
+        }
+
         @media (max-width: 560px) {
             :root {
                 --pad: 4%;
@@ -1756,6 +2243,115 @@
                 gap: 10px;
             }
 
+            .card {
+                --card-h: 362px;
+            }
+
+            .card-image-wrapper {
+                padding: 14px 10px 10px 10px;
+            }
+
+            .card-info {
+                padding: 9px 9px 10px 9px;
+                gap: 7px;
+                grid-template-rows: auto auto auto 1fr;
+            }
+
+            .card-title {
+                font-size: 0.84rem;
+                line-height: 1.2;
+                min-height: calc(1.2em * 2);
+                padding: 0 2px;
+            }
+
+            .card-tags {
+                gap: 4px;
+                min-height: 28px;
+                padding: 0 1px;
+            }
+
+            .mini-tag {
+                font-size: 0.60rem;
+                padding: 3px 6px;
+            }
+
+            .card-front-desc {
+                font-size: 0.58rem;
+                line-height: 1.3;
+                -webkit-line-clamp: 2;
+                min-height: calc(1.3em * 2);
+                padding: 6px 6px 0;
+            }
+
+            .card-back-media {
+                padding: 10px 10px 8px 10px;
+            }
+
+            .card-back-media-frame {
+                max-height: 108px;
+                border-radius: 12px;
+            }
+
+            .card-back-inner {
+                padding: 8px 9px 10px 9px;
+                gap: 6px;
+            }
+
+            .card-back-kicker {
+                font-size: 0.56rem;
+            }
+
+            .card-back-title,
+            .card-back-title-link {
+                font-size: 0.80rem;
+                line-height: 1.24;
+            }
+
+            .card-back-link-icon {
+                width: 22px;
+                height: 22px;
+            }
+
+            .card-back-link-icon svg {
+                width: 11px;
+                height: 11px;
+            }
+
+            .card-back-year {
+                min-width: 44px;
+                padding: 5px 6px;
+                font-size: 0.66rem;
+            }
+
+            .card-back-specs {
+                gap: 4px;
+            }
+
+            .spec-pill {
+                padding: 5px 6px;
+                border-radius: 9px;
+            }
+
+            .spec-pill .label {
+                font-size: 0.50rem;
+                letter-spacing: 0.55px;
+            }
+
+            .spec-pill .value {
+                font-size: 0.64rem;
+            }
+
+            .card-back-tags {
+                gap: 4px;
+            }
+
+            .card-back-desc {
+                font-size: 0.62rem;
+                line-height: 1.34;
+                -webkit-line-clamp: 3;
+                min-height: calc(1.34em * 3);
+            }
+
             .series-card {
                 flex-basis: 250px;
                 max-width: 250px;
@@ -1786,10 +2382,8 @@
             <button class="nav-btn" data-filter="BMW" data-en="Bimmer Garage" data-cn="宝马库">Bimmer Garage</button>
             <button class="nav-btn" data-filter="Hotwheels" data-en="Hotwheels" data-cn="风火轮系列">Hotwheels</button>
 
-            <!-- NEW TAB -->
             <button class="nav-btn" data-filter="PICKS" data-en="My Picks" data-cn="个人推荐">My Picks</button>
 
-            <!-- Keep original All tab (still available in nav) -->
             <button class="nav-btn" data-filter="all" data-en="Show All in Gallery" data-cn="全部展示">Show All in
                 Gallery</button>
         </nav>
@@ -1800,7 +2394,6 @@
         </div>
     </header>
 
-    <!-- HOME -->
     <section id="home">
         <div class="home-bg" aria-hidden="true"></div>
 
@@ -1817,7 +2410,7 @@
                     data-en="A die-cast car collection exhibition by an ordinary person who has loved automobiles since childhood."
                     data-cn="一个从小热爱汽车的普通人的车模收藏展。">
                     A die-cast car collection exhibition by an ordinary person who has loved automobiles since
-                    childhood. 
+                    childhood.
                 </p>
 
                 <div class="home-actions">
@@ -1830,17 +2423,14 @@
                         <span data-en="Hotwheels" data-cn="风火轮系列">Hotwheels</span>
                     </button>
 
-                    <!-- REPLACED: third entry is now My Picks -->
                     <button class="cta tertiary" id="enter-picks">
                         <span data-en="Curated" data-cn="我的精选">Curated</span>
-                        <!-- <small data-en="(Curated)" data-cn="(精选)">(Curated)</small> -->
                     </button>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- APP -->
     <section id="app">
         <div class="hero-strip">
             <img id="hero-img" src="images/banner.jpg" alt="Banner"
@@ -1865,11 +2455,20 @@
                             <circle cx="7" cy="17" r="2" />
                             <circle cx="17" cy="17" r="2" />
                         </svg>
-                        <span class="toggle-text mpower" data-en="See Real Cars" data-cn="观赏真车">See Real Cars</span>
+                        <span class="toggle-text mpower" id="flip-all-label" data-en="Flip All Cards"
+                            data-cn="翻转全部">Flip All Cards</span>
                     </button>
 
                     <button id="go-garage-btn" class="icon-btn" style="display:none;">
-                        <span class="toggle-text" data-en="Go to Garage" data-cn="前往车库">Go to Garage</span>
+                        <span class="toggle-text" data-en="Go, BMW Garage" data-cn="前往宝马车库">Go, BMW Garage</span>
+                    </button>
+
+                    <button id="go-history-btn" class="icon-btn" style="display:none;">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M19 12H5"></path>
+                            <path d="M12 19l-7-7 7-7"></path>
+                        </svg>
+                        <span class="toggle-text" data-en="Back to History" data-cn="返回发展史">Back to History</span>
                     </button>
 
                     <div id="generic-filters" style="display:none;">
@@ -1917,7 +2516,6 @@
 
             <section id="timeline-view" style="display:none;"></section>
 
-            <!-- NEW VIEW -->
             <section id="picks-view"></section>
 
             <main id="gallery" class="gallery-grid"></main>
@@ -1931,7 +2529,6 @@
         </footer>
     </section>
 
-    <!-- Modal -->
     <div id="modal" class="modal">
         <div class="modal-content">
             <span class="close-btn">&times;</span>
@@ -1984,7 +2581,7 @@
             let currentAllCategoryFilter = '';
 
             let bmwFilters = { series: '', color: '', decade: '' };
-            let showRealCar = false;
+            let flipAllCards = false;
 
             let tsTag, tsSeries, tsColor, tsYear, tsCategory;
 
@@ -2013,6 +2610,7 @@
             const paginationContainers = [getEl('pagination-top'), getEl('pagination-bottom')];
 
             const toggleBtn = getEl('view-toggle-btn');
+            const flipAllLabel = getEl('flip-all-label');
             const searchInput = getEl('search-input');
             const searchBtn = getEl('search-btn');
             const itemCountLabel = getEl('item-count');
@@ -2029,6 +2627,7 @@
             const categoryFilterWrapper = getEl('category-filter-wrapper');
             const tagFilterWrapper = getEl('tag-filter-wrapper');
             const goGarageBtn = getEl('go-garage-btn');
+            const goHistoryBtn = getEl('go-history-btn');
 
             // Mobile nav toggle + outside click close
             navToggle.addEventListener('click', (e) => {
@@ -2048,9 +2647,24 @@
                 });
             }
 
+            if (goHistoryBtn) {
+                goHistoryBtn.addEventListener('click', () => {
+                    const historyNav = document.querySelector('.nav-btn[data-filter="BMW_TIMELINE"]');
+                    if (historyNav) historyNav.click();
+                });
+            }
+
             /* =========================
                Helpers
             ========================== */
+            function updateFlipAllButton() {
+                if (!toggleBtn || !flipAllLabel) return;
+                toggleBtn.classList.toggle('active', flipAllCards);
+                flipAllLabel.textContent = flipAllCards
+                    ? (currentLang === 'en' ? 'Show Front Cards' : '显示正面')
+                    : (currentLang === 'en' ? 'Flip All Cards' : '翻转全部');
+            }
+
             function switchView(view) {
                 if (view === 'home') {
                     home.style.display = 'flex';
@@ -2163,6 +2777,7 @@
             fetch('cars.json')
                 .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
                 .then(data => {
+                    data.sort(() => Math.random() - 0.5);
                     carData = data;
                     refreshOptions();
                     updateUI();
@@ -2185,10 +2800,9 @@
             searchInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') performSearch(); });
 
             /* =========================
-               Populate Options (kept, with PICKS bypass)
+               Populate Options (Updated)
             ========================== */
             function refreshOptions() {
-                // PICKS page has no filters
                 if (currentCategory === 'PICKS') return;
 
                 if (currentCategory !== 'BMW' && currentCategory !== 'BMW_TIMELINE') {
@@ -2202,7 +2816,15 @@
                         updateTomSelect(tsCategory, Array.from(cats).sort(), currentLang === 'en' ? 'All Categories' : '全部分类');
                     } else {
                         const allTags = new Set();
-                        const relevantCars = carData.filter(c => c.category === currentCategory && c.visible !== false);
+                        let relevantCars = [];
+                        
+                        // New Logic applied here
+                        if (currentCategory === 'Hotwheels') {
+                            relevantCars = carData.filter(c => c.modelBrand === 'Hot Wheels' && c.visible !== false);
+                        } else {
+                            relevantCars = carData.filter(c => c.category === currentCategory && c.visible !== false);
+                        }
+
                         relevantCars.forEach(car => {
                             if (car.tags) car.tags.split(';').forEach(tag => {
                                 const t = tag.trim();
@@ -2213,7 +2835,8 @@
                     }
                 }
 
-                const bmwCars = carData.filter(c => c.category === 'BMW');
+                // New Logic: strictly carBrand === 'BMW'
+                const bmwCars = carData.filter(c => c.carBrand === 'BMW' && c.visible !== false);
 
                 const seriesSet = new Set();
                 bmwCars.forEach(c => { if (c.seriesNum) seriesSet.add(c.seriesNum); });
@@ -2285,36 +2908,135 @@
                Card builders (kept)
             ========================== */
             function buildGalleryCard(car, index = 0) {
-                const card = document.createElement('div');
+                const card = document.createElement('article');
                 card.className = 'card';
+                if (flipAllCards) card.classList.add('flip-all');
                 card.style.animationDelay = `${Math.min(index * 0.05, 1.0)}s`;
-                card.onclick = () => openModal(car);
 
-                const tagsList = (car.tags || '').split(';').filter(t => t.trim() !== '');
-                const tagsHTML = tagsList.slice(0, 5).map(t => `<span class="mini-tag">${t}</span>`).join('');
+                const tagsList = (car.tags || '').split(';').map(t => t.trim()).filter(Boolean);
+                const frontTagsHTML = tagsList.slice(0, 3).map(t => `<span class="mini-tag">${t}</span>`).join('');
+                const backTagsHTML = tagsList.slice(0, 4).map(t => `<span class="mini-tag">${t}</span>`).join('');
 
-                let imgSrc = car.imagePath || 'images/placeholder.jpg';
-                if (showRealCar && car.realCarImage) imgSrc = car.realCarImage;
+                const frontImgSrc = car.imagePath || 'images/placeholder.jpg';
+                const backImgSrc = car.realCarImage || car.imagePath || 'images/placeholder.jpg';
 
                 const title = `${car.modelName || 'Unknown'}`;
+                const yearMatch = (car.tags || '').match(/\b(19|20)\d{2}\b/);
+                const yearText = yearMatch ? yearMatch[0] : '';
+                const yearHtml = yearText ? `<div class="card-back-year">${yearText}</div>` : '';
+                const descText = currentLang === 'en'
+                    ? (`${car.modelName || 'Unknown'} from ${car.modelBrand || 'Unknown'}. ${car.description_en || car.description_cn || ''}`)
+                    : (`模型品牌${car.modelBrand || '未知'}的${car.modelName || '未知品牌'} 。${car.description_cn || car.description_en || ''}`);
+
+                const carBrandLabel = currentLang === 'en' ? 'Car Brand' : '车品牌';
+                const modelBrandLabel = currentLang === 'en' ? 'Model Brand' : '模型品牌';
+                const colorLabel = currentLang === 'en' ? 'Color' : '颜色';
+                const seriesLabel = currentLang === 'en' ? 'Series' : '系列';
+                const backStateText = car.realCarImage
+                    ? (currentLang === 'en' ? 'Real Car View' : '真车视图')
+                    : (currentLang === 'en' ? 'Model Detail' : '模型细节');
+                const fallbackSeries = currentLang === 'en' ? 'Not set' : '暂无';
+                const frontBadgeText = car.carBrand || car.modelBrand || (currentLang === 'en' ? 'Collection Piece' : '收藏展品');
+                const titleLink = car.realCarUrl
+                    ? `<a class="card-back-title-link" href="${car.realCarUrl}" target="_blank" rel="noopener noreferrer">${title}</a>`
+                    : `<h3 class="card-back-title">${title}</h3>`;
+                const infoIcon = car.realCarUrl
+                    ? `<a class="card-back-link-icon" href="${car.realCarUrl}" target="_blank" rel="noopener noreferrer" aria-label="Explore Model">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="M14 3h7v7"></path>
+                          <path d="M10 14L21 3"></path>
+                          <path d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"></path>
+                        </svg>
+                      </a>`
+                    : '';
 
                 card.innerHTML = `
-          <div class="card-image-wrapper">
-            <img
-              src="${imgSrc}"
-              alt="${title}"
-              loading="lazy"
-              decoding="async"
-              onload="this.classList.add('loaded')"
-              onerror="this.onerror=null; this.src='${car.imagePath || ''}'; if(this.src==window.location.href) this.style.display='none';"
-            >
+          <div class="card-shadow" aria-hidden="true"></div>
+          <div class="card-3d">
+            <div class="card-face card-front">
+              <div class="card-info">
+                <h3 class="card-title">${title}</h3>
+                <div class="card-image-wrapper">
+                  <div class="card-image-frame">
+                    <img
+                      src="${frontImgSrc}"
+                      alt="${title}"
+                      loading="lazy"
+                      decoding="async"
+                      onload="this.classList.add('loaded')"
+                      onerror="this.onerror=null; this.src='images/placeholder.jpg';"
+                    >
+                  </div>
+                </div>
+                <div class="card-tags">${frontTagsHTML}</div>
+                <p class="card-front-desc">${descText || ''}</p>
+              </div>
+            </div>
+
+            <div class="card-face card-back">
+              <div class="card-back-media">
+                
+                <div class="card-back-media-frame">
+                  <img
+                    src="${backImgSrc}"
+                    alt="${title}"
+                    loading="lazy"
+                    decoding="async"
+                    onload="this.classList.add('loaded')"
+                    onerror="this.onerror=null; this.src='${frontImgSrc}';"
+                  >
+                </div>
+              </div>
+              <div class="card-back-inner">
+                <div class="card-back-head">
+                  <div class="card-back-title-wrap">
+                    <div class="card-back-kicker">${car.carBrand || ''}</div>
+                    <div class="card-back-title-row">
+                      ${titleLink}
+                      ${infoIcon}
+                    </div>
+                  </div>
+                  ${yearHtml}
+                </div>
+
+                <div class="card-back-specs">
+                  <div class="spec-pill">
+                    <span class="label">${carBrandLabel}</span>
+                    <span class="value">${car.carBrand || '-'}</span>
+                  </div>
+                  <div class="spec-pill">
+                    <span class="label">${modelBrandLabel}</span>
+                    <span class="value">${car.modelBrand || '-'}</span>
+                  </div>
+                  <div class="spec-pill">
+                    <span class="label">${colorLabel}</span>
+                    <span class="value">${(currentLang === 'en' ? car.color : car.color_cn) || '-'}</span>
+                  </div>
+                  <div class="spec-pill">
+                    <span class="label">${seriesLabel}</span>
+                    <span class="value">${car.seriesNum || fallbackSeries}</span>
+                  </div>
+                </div>
+
+                <div class="card-back-tags">${backTagsHTML}</div>
+              </div>
+            </div>
           </div>
-          <div class="card-info">
-            <div class="card-brand">${car.modelBrand || ''}</div>
-            <h3 class="card-title">${title}</h3>
-            <div class="card-tags">${tagsHTML}</div>
-          </div>
+          <div class="card-sheen" aria-hidden="true"></div>
         `;
+
+                card.addEventListener('click', (event) => {
+                    const interactive = event.target.closest('a, button');
+                    if (interactive) return;
+                    card.classList.toggle('is-flipped');
+                });
+
+                card.querySelectorAll('.card-back-title-link, .card-back-link-icon').forEach(link => {
+                    link.addEventListener('click', (event) => {
+                        event.stopPropagation();
+                    });
+                });
+
                 return card;
             }
 
@@ -2327,7 +3049,6 @@
                 card.onclick = () => openModal(picked);
 
                 let imgSrc = picked.imagePath || 'images/placeholder.jpg';
-                if (showRealCar && picked.realCarImage) imgSrc = picked.realCarImage;
 
                 const title = `${picked.modelName || 'Unknown'}`;
                 const count = (cars || []).length;
@@ -2424,6 +3145,126 @@
                 timelineView.appendChild(wrap);
             }
 
+            function renderBMWHistory() {
+
+                timelineView.innerHTML = "";
+                // New logic: carBrand === "BMW"
+                const bmwCars = carData.filter(c => c.carBrand === "BMW" && c.visible !== false);
+
+                const decadeMap = {};
+
+                bmwCars.forEach(car => {
+                    const year = getYearFromCar(car);
+                    if (!year) return;
+
+                    const decade = yearToDecadeLabel(year);
+
+                    if (!decadeMap[decade]) decadeMap[decade] = {};
+
+                    const series = car.seriesNum || "--";
+
+                    if (!decadeMap[decade][series]) decadeMap[decade][series] = [];
+
+                    decadeMap[decade][series].push(car);
+
+                });
+
+                BMW_HISTORY_SECTIONS.forEach(sec => {
+
+                    const seriesMap = decadeMap[sec.decade];
+
+                    if (!seriesMap) return;
+
+                    const section = document.createElement("section");
+                    section.className = "picks-section reveal";
+
+                    section.innerHTML = `
+                        <div class="picks-row">
+
+                        <div class="picks-text">
+                        <h3>${currentLang === 'en' ? sec.title_en : sec.title_cn}</h3>
+                        <p>${currentLang === 'en' ? sec.desc_en : sec.desc_cn}</p>
+                        </div>
+
+                        <div class="picks-deco h239">
+                        <img src="${sec.image}"
+                        alt="${currentLang === 'en' ? sec.title_en : sec.title_cn}"
+                        loading="lazy" decoding="async"
+                        onerror="this.style.display='none'; this.parentElement.style.background='rgba(255,255,255,0.92)'; this.parentElement.style.borderColor='rgba(20,20,24,0.10)';">
+                        </div>
+
+                        </div>
+                        `;
+
+                    const grid = document.createElement("div");
+                    grid.className = "picks-grid";
+
+                    Object.keys(seriesMap).forEach(series => {
+
+                        const cars = seriesMap[series];
+                        const picked = cars[Math.floor(Math.random() * cars.length)];
+
+                        const card = document.createElement("div");
+                        let imgSrc = picked.imagePath || 'images/placeholder.jpg';
+                        const title = `${picked.modelName || 'Unknown'}`;
+                        const carNameLabel = currentLang === 'en' ? 'Showing' : '正在展示';
+                        const countLabel = currentLang === 'en' ? 'Series In Garage' : '系列在库';
+                        card.className = "pick-card";
+
+                        card.innerHTML = `
+                            <div class="pick-img">
+                                <img
+                                    class="vintage-filter"
+                                    src="${imgSrc}"
+                                    alt="${title}"
+                                    loading="lazy"
+                                    decoding="async"
+                                    onload="this.classList.add('loaded')"
+                                    onerror="this.onerror=null; this.src='${picked.imagePath || ''}'; if(this.src==window.location.href) this.style.display='none';"
+                                    >
+                            </div>
+
+                            <div class="pick-info">
+                            <p class="pick-name">${series}</p>
+                            <div class="pick-meta">
+                            <span><b>${carNameLabel}: </b> ${title}</span>
+                            <span><b>${countLabel}: </b> ${cars.length}</span>
+                            </div>
+                            </div>
+                            `;
+
+                        // 修复：从History跳转到Garage
+                        card.onclick = () => {
+                            currentCategory = "BMW";
+                            bmwFilters.series = series;
+                            
+                            // 修复：跳转后高亮菜单栏tab
+                            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+                            const garageNav = document.querySelector('.nav-btn[data-filter="BMW"]');
+                            if (garageNav) garageNav.classList.add('active');
+                            
+                            // 修复：TomSelect 下拉框回显已过滤的选项 (true代表静默执行，不触发onChange死循环)
+                            if (tsSeries) {
+                                tsSeries.setValue(series, true);
+                            }
+
+                            updateUI();
+                            window.scrollTo(0, 0);
+                        };
+
+                        grid.appendChild(card);
+
+                    });
+
+                    section.appendChild(grid);
+
+                    timelineView.appendChild(section);
+
+                });
+
+                initRevealObserver();
+            }
+
             function renderGallery(cars) {
                 gallery.innerHTML = '';
                 if (!cars || cars.length === 0) {
@@ -2493,7 +3334,6 @@
                 HIDDEN: 'Hidden gem'
             };
 
-            // You can replace these decorative images with your own 16:9 / 9:16 HD assets
             const PICKS_SECTIONS = [
                 {
                     key: 'BEST_LOVE',
@@ -2542,6 +3382,105 @@
                 }
             ];
 
+            const BMW_HISTORY_SECTIONS = [
+                {
+                    decade: "1910s",
+                    title_en: "1910s — Origins in Aviation",
+                    title_cn: "1910年代 — 航空时代的起点",
+                    desc_en: "BMW’s roots go back to the aviation industry. The company’s official foundation date is 7 March 1916, and in 1917 the BMW name and emblem appeared. During this decade, BMW was still focused on aircraft engine development rather than automobile production, establishing the technical precision and engineering culture that would later define the brand.",
+                    desc_cn: "宝马的起源并不在汽车，而是在航空工业。公司官方 foundation date 为 1916 年 3 月 7 日，1917 年 BMW 名称与标志正式出现。在这一时期，宝马仍专注于航空发动机研发，尚未进入汽车制造，但也正是在这个阶段，宝马奠定了后来品牌最核心的工程精度与技术传统。",
+                    image: "images/history/1910s.jpg"
+                },{
+                    decade: '1920s',
+                    title_en: '1920s · From Engines to Automobiles',
+                    title_cn: '1920年代 · 从引擎走向汽车',
+                    desc_en: 'BMW spent the decade laying down its core identity: the company structure was consolidated, Munich became its lasting home, the R 32 established BMW Motorrad in 1923, and by 1928 BMW had entered automobile production. It was the formative decade in which the brand learned to express engineering ambition on both two wheels and four.',
+                    desc_cn: '1920年代是宝马品牌根基真正成形的时期：公司架构逐步理顺，慕尼黑成为长期核心基地，1923 年 R 32 开启了 BMW Motorrad 的传奇，而 1928 年宝马正式进入汽车制造。这个十年里，宝马开始把“工程雄心”同时落实到两轮与四轮之上。',
+                    image: 'images/history/1920s.webp'
+                },
+                {
+                    decade: '1930s',
+                    title_en: '1930s · Design, Performance and Racing Spirit',
+                    title_cn: '1930年代 · 设计、性能与赛车精神',
+                    desc_en: 'In the 1930s BMW moved beyond licensed beginnings and built its own automotive character. Sports cars such as the 328, together with rising motorsport success, helped define the brand’s image as elegant, technically capable and competition-minded. It was the decade when BMW first looked unmistakably like BMW.',
+                    desc_cn: '1930年代，宝马逐渐摆脱早期授权制造的影子，开始建立真正属于自己的汽车语言。以 BMW 328 为代表的车型，加上持续累积的赛车成绩，使宝马逐步形成了优雅、技术感强且富有竞技精神的品牌形象。这个时期，宝马开始真正“像宝马”。',
+                    image: 'images/history/1930s.webp'
+                },
+                {
+                    decade: '1940s',
+                    title_en: '1940s · Rupture, Damage and Survival',
+                    title_cn: '1940年代 · 断裂、损毁与求生',
+                    desc_en: 'The 1940s were defined by disruption. War left BMW plants damaged and occupied, and normal industrial operations were severely restricted. In the immediate post-war years the company survived through stopgap production such as household goods. For BMW, this was less a decade of glory than a hard lesson in endurance.',
+                    desc_cn: '1940年代对宝马而言是充满断裂感的时期。战争使工厂遭受重创并被接管，正常工业生产受到严厉限制。战后初期，宝马甚至只能依靠家用器具等过渡性产品维持生存。这个十年并非宝马的高光阶段，而是一次关于韧性与求生的深刻考验。',
+                    image: 'images/history/1940s.jpg'
+                },
+                {
+                    decade: '1950s',
+                    title_en: '1950s · Crisis, Courage and Independence',
+                    title_cn: '1950年代 · 危机、勇气与独立',
+                    desc_en: 'BMW rebuilt cautiously after the war, but the road was difficult and the company came under serious pressure by the end of the decade. The failed takeover attempt of 1959 became a decisive turning point: BMW remained independent. That independence preserved the conditions for everything the brand would become in the decades that followed.',
+                    desc_cn: '战后重建中的宝马在1950年代走得并不轻松，直到十年末公司仍面临严峻危机。1959 年收购危机最终未能成行，宝马保住了独立性。正是这次关键转折，才为之后几十年宝马的发展留下了最重要的前提。',
+                    image: 'images/history/1950s.jpg'
+                },
+                {
+                    decade: '1960s',
+                    title_en: '1960s · The Neue Klasse Reset',
+                    title_cn: '1960年代 · Neue Klasse 的重启',
+                    desc_en: 'The launch of the Neue Klasse at the beginning of the 1960s gave BMW a modern, sporty and profitable direction. Models such as the BMW 1500 and the expanding Neue Klasse family reset the company’s trajectory and established the template for the modern sports sedan. This was the decade that turned BMW from a survivor into a rising force.',
+                    desc_cn: '1960年代初推出的 Neue Klasse，为宝马重新确立了现代、运动且可持续盈利的发展路线。以 BMW 1500 及其后续车型为代表的新世代产品，不仅改写了公司命运，也奠定了现代运动型轿车的基本模板。这个十年让宝马从“生存者”变成了“上升者”。',
+                    image: 'images/history/1960s.png'
+                },
+                {
+                    decade: '1970s',
+                    title_en: '1970s · Expansion and the Birth of M',
+                    title_cn: '1970年代 · 扩张时代与 M 的诞生',
+                    desc_en: 'During the 1970s BMW expanded its sales, production and global confidence. BMW Motorsport GmbH was founded in 1972, while the four-cylinder headquarters and BMW Museum opened in 1973. The decade linked motorsport, corporate identity and premium ambition into one coherent BMW story.',
+                    desc_cn: '1970年代，宝马在销量、生产与全球影响力上全面扩张。1972 年 BMW Motorsport GmbH 成立，1973 年“四缸大厦”总部与 BMW Museum 启用。赛车基因、企业形象与高端定位在这一时期逐渐融合，构成了今日宝马叙事的重要骨架。',
+                    image: 'images/history/1970s.webp'
+                },
+                {
+                    decade: '1980s',
+                    title_en: '1980s · Motorsport Myth and Technical Confidence',
+                    title_cn: '1980年代 · 赛车神话与技术自信',
+                    desc_en: 'BMW entered the 1980s with unmistakable self-confidence. Motorsport victories, including landmark successes in Formula One and touring car racing, amplified the brand’s performance image. Road cars and race programs increasingly spoke the same language: compact precision, driver focus and technical sharpness.',
+                    desc_cn: '进入1980年代的宝马已明显带有强烈自信。F1 与房车赛事中的里程碑式胜利，持续放大品牌的性能形象。公路车型与赛道项目开始更加紧密地共享同一种语言：紧凑、精准、以驾驶者为核心，并强调技术锋芒。',
+                    image: 'images/history/1980s.jpg'
+                },
+                {
+                    decade: '1990s',
+                    title_en: '1990s · Research, Global Reach and Premium Scale',
+                    title_cn: '1990年代 · 研发体系、全球布局与高端规模',
+                    desc_en: 'In the 1990s BMW strengthened its long-term industrial and research backbone. The Research and Innovation Centre became central to future product development, while BMW also expanded its international manufacturing footprint and premium reach. The brand grew more global without abandoning its engineering core.',
+                    desc_cn: '1990年代，宝马持续强化长期研发与工业能力。Research and Innovation Centre 成为未来产品开发的重要中枢，同时宝马也不断扩大全球制造布局与高端市场覆盖。品牌变得更全球化，但没有放弃其最核心的工程底色。',
+                    image: 'images/history/1990s.jpg'
+                },
+                {
+                    decade: '2000s',
+                    title_en: '2000s · Brand Architecture and Experience',
+                    title_cn: '2000年代 · 品牌架构与体验升级',
+                    desc_en: 'The 2000s broadened BMW’s premium universe. MINI entered the Group as a modern small-car premium brand, Rolls-Royce became part of BMW’s luxury portfolio, Leipzig production came online, and BMW Welt opened as a new public-facing portal for the brand. BMW was no longer just building cars; it was building an ecosystem of identity and experience.',
+                    desc_cn: '2000年代，宝马的高端版图明显扩展。MINI 以现代精品小车品牌身份进入集团体系，Rolls-Royce 纳入豪华版图，莱比锡工厂投产，BMW Welt 也成为品牌面向公众的重要门户。宝马不再只是造车，更在构建一整套品牌身份与体验系统。',
+                    image: 'images/history/2000s.webp'
+                },
+                {
+                    decade: '2010s',
+                    title_en: '2010s · Electrification and the Future Arrives',
+                    title_cn: '2010年代 · 电动化与未来真正到来',
+                    desc_en: 'With the launch of the BMW i3 in 2013, BMW entered a visibly new phase. The decade pushed electrification, mobility services and future-facing concept work into the center of the brand conversation. BMW celebrated its first century while simultaneously redefining what the next one should look like.',
+                    desc_cn: '随着 2013 年 BMW i3 上市，宝马在2010年代真正步入一个可被清晰感知的新阶段。电动化、出行服务与面向未来的概念探索，逐渐成为品牌叙事中心。宝马在庆祝百年历史的同时，也开始主动定义下一个百年。',
+                    image: 'images/history/2010s.jpg'   
+                },
+                {
+                    decade: '2020s',
+                    title_en: '2020s · Neue Klasse Again, Now in the Electric Era',
+                    title_cn: '2020年代 · 再次 Neue Klasse，这次属于电动时代',
+                    desc_en: 'In the 2020s BMW has tied sustainability, software, circularity and electrification even more tightly to its premium identity. Projects such as the iX, i Vision Circular, the expansion of R&D at FIZ, and the announced Neue Klasse show a company preparing for another deep technological leap. The decade is still unfolding, but its direction is already unmistakable.',
+                    desc_cn: '进入2020年代后，宝马把可持续、软件能力、循环理念与电动化更紧密地纳入高端品牌核心。iX、i Vision Circular、FIZ 研发扩建，以及全新 Neue Klasse 的推进，都显示出宝马正准备迎来又一次深层技术跃迁。这个十年仍在展开，但方向已经非常清晰。',
+                    image: 'images/history/2020s.webp'
+                }
+            ];
+
+
             function hasTag(car, tagName) {
                 return (car.tags || '').split(';').map(s => s.trim()).includes(tagName);
             }
@@ -2581,19 +3520,6 @@
             function renderPicks() {
                 if (!picksView) return;
                 picksView.innerHTML = '';
-
-                // Intro block
-        //         const intro = document.createElement('div');
-        //         intro.className = 'picks-intro reveal';
-        //         intro.innerHTML = `
-        //   <h3 class="title">${currentLang === 'en' ? 'My Picks' : '精选'}</h3>
-        //   <p class="sub">
-        //     ${currentLang === 'en'
-        //                 ? 'Just the cars I keep close — grouped by the feelings they carry.'
-        //                 : '这里放着我最喜欢、最推荐的车。它们按“感觉”分组，大部分都有着自己的小故事。'}
-        //   </p>
-        // `;
-        //         picksView.appendChild(intro);
 
                 // Sections
                 PICKS_SECTIONS.forEach((sec, idx) => {
@@ -2666,13 +3592,11 @@
             let _revealObserver = null;
 
             function initRevealObserver() {
-                // Fallback：如果浏览器不支持 IntersectionObserver，直接显示
                 if (!('IntersectionObserver' in window)) {
                     document.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
                     return;
                 }
 
-                // 如果 observer 已存在，不要 return ——继续 observe 新增的元素
                 if (!_revealObserver) {
                     _revealObserver = new IntersectionObserver((entries) => {
                         entries.forEach(entry => {
@@ -2684,7 +3608,6 @@
                     }, { root: null, threshold: 0.12 });
                 }
 
-                // 关键：每次都重新扫描并 observe（新生成的 reveal 才会被激活）
                 document.querySelectorAll('.reveal:not(.in)').forEach(el => _revealObserver.observe(el));
             }
 
@@ -2705,7 +3628,6 @@
                             const center = rect.top + rect.height / 2;
                             const delta = (center - window.innerHeight / 2);
                             const t = Math.max(-40, Math.min(40, delta * -0.03));
-                            // img.style.transform = `translateY(${t}px) scale(1.03)`;
                         });
                     });
                 }
@@ -2721,26 +3643,24 @@
                 try {
                     setHeroText();
 
-                    // ===== NEW: PICKS page = no controls / no pagination / no modal usage =====
                     const isPicks = currentCategory === 'PICKS';
 
                     if (controlsBar) controlsBar.style.display = isPicks ? 'none' : 'flex';
                     if (itemCountLabel) itemCountLabel.style.display = isPicks ? 'none' : 'block';
+                    if (toggleBtn) toggleBtn.style.display = (isPicks || currentCategory === 'BMW_TIMELINE') ? 'none' : 'inline-flex';
+                    updateFlipAllButton();
 
-                    // Views display
                     if (picksView) picksView.style.display = isPicks ? 'block' : 'none';
                     if (timelineView) timelineView.style.display = 'none';
                     if (gallery) gallery.style.display = isPicks ? 'none' : 'grid';
 
                     paginationContainers.forEach(c => { if (c) c.style.display = isPicks ? 'none' : 'flex'; });
 
-                    // For picks, render & return
                     if (isPicks) {
                         renderPicks();
                         return;
                     }
 
-                    // ===== existing logic (kept) =====
                     if (currentCategory === 'BMW') {
                         genericFiltersDiv.style.display = 'none';
                         bmwFiltersDiv.style.display = 'flex';
@@ -2763,14 +3683,20 @@
                     if (goGarageBtn) {
                         goGarageBtn.style.display = (currentCategory === 'BMW_TIMELINE') ? 'inline-flex' : 'none';
                     }
+                    if (goHistoryBtn) {
+                        goHistoryBtn.style.display = (currentCategory === 'BMW') ? 'inline-flex' : 'none';
+                    }
 
-                    let filtered;
-                    if (currentCategory === 'all') {
-                        filtered = carData.filter(c => c.visible !== false);
-                    } else if (currentCategory === 'BMW_TIMELINE') {
-                        filtered = carData.filter(c => c.category === 'BMW' && c.visible !== false);
-                    } else {
-                        filtered = carData.filter(c => c.category === currentCategory && c.visible !== false);
+                    // 修复：更新底层过滤逻辑 (使用 carBrand 和 modelBrand 替代 category 判断)
+                    let filtered = carData.filter(c => c.visible !== false);
+                    
+                    if (currentCategory === 'BMW' || currentCategory === 'BMW_TIMELINE') {
+                        filtered = filtered.filter(c => c.carBrand === 'BMW');
+                    } else if (currentCategory === 'Hotwheels') {
+                        filtered = filtered.filter(c => c.modelBrand === 'Hot Wheels');
+                    } else if (currentCategory !== 'all' && currentCategory !== 'PICKS') {
+                        // 预留给未来可能添加的其他栏目（兜底逻辑）
+                        filtered = filtered.filter(c => c.category === currentCategory);
                     }
 
                     if (currentCategory === 'BMW') {
@@ -2800,7 +3726,7 @@
                             }
                         } else {
                             if (currentTagFilter && currentTagFilter !== '') {
-                                filtered = filtered.filter(c => (c.tags || '').split(';').includes(currentTagFilter));
+                                filtered = filtered.filter(c => (c.tags || '').split(';').map(t=>t.trim()).includes(currentTagFilter));
                             }
                         }
                     }
@@ -2826,7 +3752,7 @@
                         picksView.style.display = 'none';
                         paginationContainers.forEach(c => { if (c) c.style.display = 'none'; });
 
-                        renderTimeline(filtered);
+                        renderBMWHistory();
                         return;
                     } else {
                         timelineView.style.display = 'none';
@@ -2876,6 +3802,7 @@
                     btn.classList.add('active');
 
                     currentCategory = btn.getAttribute('data-filter');
+                    carData.sort(() => Math.random() - 0.5);
 
                     currentTagFilter = '';
                     currentAllCategoryFilter = '';
@@ -2913,13 +3840,16 @@
 
                     refreshOptions();
                     updateUI();
+                    updateFlipAllButton();
                 });
             });
 
             toggleBtn.addEventListener('click', () => {
-                showRealCar = !showRealCar;
-                toggleBtn.classList.toggle('active', showRealCar);
-                updateUI();
+                flipAllCards = !flipAllCards;
+                updateFlipAllButton();
+                document.querySelectorAll('#gallery .card').forEach(card => {
+                    card.classList.toggle('flip-all', flipAllCards);
+                });
             });
 
             function setText(id, text) {
@@ -2933,7 +3863,6 @@
 
                 const imgEl = getEl('modal-img');
                 let src = car.imagePath;
-                if (showRealCar && car.realCarImage) src = car.realCarImage;
                 if (imgEl) {
                     imgEl.src = src || '';
                     imgEl.onerror = function () { this.src = car.imagePath || ''; };
@@ -2969,6 +3898,7 @@
                 });
 
                 currentCategory = category;
+                carData.sort(() => Math.random() - 0.5);
                 currentTagFilter = '';
                 currentAllCategoryFilter = '';
                 bmwFilters = { series: '', color: '', decade: '' };
@@ -2979,14 +3909,17 @@
 
                 refreshOptions();
                 updateUI();
+                updateFlipAllButton();
             }
 
-            enterBimmer.addEventListener('click', () => enterApp('BMW_TIMELINE'));
+            // enterBimmer.addEventListener('click', () => enterApp('BMW_TIMELINE'));
+            enterBimmer.addEventListener('click', () => enterApp('BMW'));
             enterHotwheels.addEventListener('click', () => enterApp('Hotwheels'));
             enterPicks.addEventListener('click', () => enterApp('PICKS'));
 
             brandHome.addEventListener('click', () => switchView('home'));
 
+            updateFlipAllButton();
             switchView('home');
         });
     </script>

@@ -1030,6 +1030,27 @@
             opacity: 0.8;
         }
 
+        .card-note-badge {
+            position: absolute;
+            z-index: 4;
+            top: 12px;
+            right: 12px;
+            max-width: calc(100% - 24px);
+            padding: 5px 9px;
+            border-radius: 999px;
+            background: linear-gradient(90deg, var(--m1), var(--m2), var(--m3));
+            color: #fff;
+            font-size: 0.72rem;
+            font-weight: 900;
+            line-height: 1;
+            letter-spacing: 0.2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            box-shadow: 0 10px 24px rgba(15, 18, 22, 0.16);
+            pointer-events: none;
+        }
+
         .card-brand {
             display: none;
         }
@@ -2777,8 +2798,7 @@
             fetch('cars.json')
                 .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
                 .then(data => {
-                    data.sort(() => Math.random() - 0.5);
-                    carData = data;
+                    carData = data.slice().reverse();
                     refreshOptions();
                     updateUI();
                 })
@@ -2880,7 +2900,7 @@
             }
             function pickRandom(arr) {
                 if (!arr || arr.length === 0) return null;
-                return arr[Math.floor(Math.random() * arr.length)];
+                return arr[0];
             }
 
             function groupTimeline(cars) {
@@ -2916,6 +2936,10 @@
                 const tagsList = (car.tags || '').split(';').map(t => t.trim()).filter(Boolean);
                 const frontTagsHTML = tagsList.slice(0, 3).map(t => `<span class="mini-tag">${t}</span>`).join('');
                 const backTagsHTML = tagsList.slice(0, 4).map(t => `<span class="mini-tag">${t}</span>`).join('');
+                const noteText = (car.note || '').toString().trim();
+                const noteHtml = noteText && noteText.toLowerCase() !== 'none'
+                    ? `<div class="card-note-badge">${noteText}</div>`
+                    : '';
 
                 const frontImgSrc = car.imagePath || 'images/placeholder.jpg';
                 const backImgSrc = car.realCarImage || car.imagePath || 'images/placeholder.jpg';
@@ -2955,6 +2979,7 @@
           <div class="card-3d">
             <div class="card-face card-front">
               <div class="card-info">
+                ${noteHtml}
                 <h3 class="card-title">${title}</h3>
                 <div class="card-image-wrapper">
                   <div class="card-image-frame">
@@ -3202,7 +3227,7 @@
                     Object.keys(seriesMap).forEach(series => {
 
                         const cars = seriesMap[series];
-                        const picked = cars[Math.floor(Math.random() * cars.length)];
+                        const picked = cars[0];
 
                         const card = document.createElement("div");
                         let imgSrc = picked.imagePath || 'images/placeholder.jpg';
@@ -3802,7 +3827,6 @@
                     btn.classList.add('active');
 
                     currentCategory = btn.getAttribute('data-filter');
-                    carData.sort(() => Math.random() - 0.5);
 
                     currentTagFilter = '';
                     currentAllCategoryFilter = '';
@@ -3898,7 +3922,6 @@
                 });
 
                 currentCategory = category;
-                carData.sort(() => Math.random() - 0.5);
                 currentTagFilter = '';
                 currentAllCategoryFilter = '';
                 bmwFilters = { series: '', color: '', decade: '' };
