@@ -336,7 +336,7 @@
     "note": "none"
   },
   {
-    "id": "hw62",
+    "id": "hw62_2",
     "visible": true,
     "category": "Hotwheels",
     "modelBrand": "Hot Wheels",
@@ -1832,7 +1832,7 @@
     "note": "none"
   },
   {
-    "id": "78",
+    "id": "78_2",
     "visible": true,
     "category": "BMW",
     "modelBrand": "Almost Real",
@@ -2570,7 +2570,7 @@
     "note": "none"
   },
   {
-    "id": "hw11",
+    "id": "hw11_2",
     "visible": true,
     "category": "Hotwheels",
     "modelBrand": "Hot Wheels",
@@ -2878,7 +2878,7 @@
     "note": "none"
   },
   {
-    "id": "hw32",
+    "id": "hw32_2",
     "visible": true,
     "category": "Hotwheels",
     "modelBrand": "Hot Wheels",
@@ -6364,7 +6364,7 @@
     "imagePath": "images/new2026/b78bbc1c3180fb40670013ea47b56c9b.webp",
     "realCarImage": "images/new2026/bmw-isetta-fire-snogging-ball-thumb.jpg",
     "realCarUrl": "https://www.bmwgroup-classic.com/en/models/bmw-classics/product-description-page.ad-222-1.bmw-isetta-250-standard.html",
-    "note": "New!"
+    "note": "none"
   },
   {
     "id": "ar2655",
@@ -6382,7 +6382,7 @@
     "imagePath": "images/auto-update-webp/[arbox]_2655_a.webp",
     "realCarImage": "",
     "realCarUrl": "",
-    "note": "New!"
+    "note": "none"
   },
   {
     "id": "n26551",
@@ -6401,7 +6401,7 @@
     "imagePath": "images/auto-update-webp/[autocult]_26551_a.webp",
     "realCarImage": "",
     "realCarUrl": "https://wheelsofstil.de/the-1934-stoesser-bmw-kr6-find-of-the-year",
-    "note": "New!"
+    "note": "none"
   },
   {
     "id": "n26552",
@@ -6420,7 +6420,7 @@
     "imagePath": "images/auto-update-webp/[arbox]_26552_a.webp",
     "realCarImage": "",
     "realCarUrl": "https://en.wikipedia.org/wiki/BMW_Isetta",
-    "note": "New!"
+    "note": "none"
   },
   {
     "id": "n26553",
@@ -6439,7 +6439,7 @@
     "imagePath": "images/auto-update-webp/[arbox]_26553_a.webp",
     "realCarImage": "",
     "realCarUrl": "https://en.wikipedia.org/wiki/BMW_600",
-    "note": "New!"
+    "note": "none"
   },
   {
     "id": "n26554",
@@ -6458,7 +6458,7 @@
     "imagePath": "images/auto-update-webp/[dcm]_26554_a.webp",
     "realCarImage": "",
     "realCarUrl": "https://en.wikipedia.org/wiki/BMW_7_Series_(E32)",
-    "note": "New!"
+    "note": "none"
   },
   {
     "id": "n26555",
@@ -6477,7 +6477,7 @@
     "imagePath": "images/auto-update-webp/[youshouldsearchit]_26555_a.webp",
     "realCarImage": "",
     "realCarUrl": "",
-    "note": "New!"
+    "note": "none"
   },
   {
     "id": "n26556",
@@ -6496,6 +6496,173 @@
     "imagePath": "images/auto-update-webp/[universalhobbies]_26556_a.webp",
     "realCarImage": "",
     "realCarUrl": "",
+    "note": "none"
+  },
+  {
+    "id": "nbmw507b",
+    "visible": true,
+    "category": "BMW",
+    "modelBrand": "Hot Wheels",
+    "carBrand": "BMW",
+    "modelName": "BMW 507 #56 (2026 Vintage Club)",
+    "seriesNum": "507",
+    "price": "US $3.99",
+    "tags": "507;1956;Black;1/64",
+    "color": "Black",
+    "color_cn": "黑",
+    "description_en": "",
+    "description_cn": "",
+    "imagePath": "images/auto-update-webp/[hw]_bmw507b_a.webp",
+    "realCarImage": "",
+    "realCarUrl": "https://en.wikipedia.org/wiki/BMW_507",
+    "note": "New!"
+  },
+  {
+    "id": "nbmw645b",
+    "visible": true,
+    "category": "BMW",
+    "modelBrand": "Maisto",
+    "carBrand": "BMW",
+    "modelName": "BMW 645 Ci Convertible (Maisto Playerz, Blue)",
+    "seriesNum": "E64",
+    "price": "US $18.99",
+    "tags": "E64;2003;Blue;1/64",
+    "color": "Blue",
+    "color_cn": "蓝",
+    "description_en": "",
+    "description_cn": "",
+    "imagePath": "images/auto-update-webp/[maisto]_bmw645b_a.webp",
+    "realCarImage": "",
+    "realCarUrl": "https://en.wikipedia.org/wiki/BMW_6_Series_(E63)",
+    "note": "New!"
+  },
+  {
+    "id": "mb1972lotusb",
+    "visible": true,
+    "category": "Matchbox",
+    "modelBrand": "Matchbox",
+    "carBrand": "Lotus",
+    "modelName": "1972 Lotus Europa (2026 European Motorway 5-Pack, Light Blue)",
+    "price": "--",
+    "tags": "European Motorway 5-Pack;Blue;1/64",
+    "color": "Blue",
+    "color_cn": "蓝",
+    "description_en": "",
+    "description_cn": "",
+    "imagePath": "images/auto-update-webp/[mb]_1972lotusb_a.webp",
+    "realCarImage": "",
+    "realCarUrl": "https://en.wikipedia.org/wiki/Lotus_Europa",
+    "note": "New!"
+  },
+  {
+    "id": "mbbgatiidivow",
+    "visible": true,
+    "category": "Matchbox",
+    "modelBrand": "Matchbox",
+    "carBrand": "Bugatti",
+    "modelName": "2018 Bugatti Divo (2026 European Motorway 5-Pack, White/Blue)",
+    "price": "--",
+    "tags": "European Motorway 5-Pack;White;1/64",
+    "color": "White",
+    "color_cn": "白",
+    "description_en": "",
+    "description_cn": "",
+    "imagePath": "images/auto-update-webp/[mb]_bgatiidivow_a.webp",
+    "realCarImage": "",
+    "realCarUrl": "https://en.wikipedia.org/wiki/Bugatti_Divo",
+    "note": "New!"
+  },
+  {
+    "id": "nbmwm2db",
+    "visible": true,
+    "category": "BMW",
+    "modelBrand": "Matchbox",
+    "carBrand": "BMW",
+    "modelName": "2023 BMW M2 (2026 European Motorway 5-Pack, Dark Blue)",
+    "seriesNum": "G87",
+    "price": "-",
+    "tags": "G87;2023;Blue;1/64",
+    "color": "Blue",
+    "color_cn": "蓝",
+    "description_en": "",
+    "description_cn": "",
+    "imagePath": "images/auto-update-webp/[mb]_bmwm2db_a.webp",
+    "realCarImage": "",
+    "realCarUrl": "https://en.wikipedia.org/wiki/BMW_M2",
+    "note": "New!"
+  },
+  {
+    "id": "mbminipolice2011",
+    "visible": true,
+    "category": "Matchbox",
+    "modelBrand": "Matchbox",
+    "carBrand": "Mini",
+    "modelName": "2011 MINI Cooper Countryman Polizei (2026 European Motorway 5-Pack)",
+    "price": "--",
+    "tags": "European Motorway 5-Pack;Police Vehicles;Silver;1/62",
+    "color": "Silver",
+    "color_cn": "银",
+    "description_en": "",
+    "description_cn": "",
+    "imagePath": "images/auto-update-webp/[mb]_minipolice2011_a.webp",
+    "realCarImage": "",
+    "realCarUrl": "https://en.wikipedia.org/wiki/Mini_Countryman",
+    "note": "New!"
+  },
+  {
+    "id": "mbporsche911tar",
+    "visible": true,
+    "category": "Matchbox",
+    "modelBrand": "Matchbox",
+    "carBrand": "Porsche",
+    "modelName": "Porsche 911 Targa (2026 European Motorway 5-Pack, Gunmetal)",
+    "price": "--",
+    "tags": "European Motorway 5-Pack;Grey;1/64",
+    "color": "Grey",
+    "color_cn": "灰",
+    "description_en": "",
+    "description_cn": "",
+    "imagePath": "images/auto-update-webp/[mb]_porsche911tar_a.webp",
+    "realCarImage": "",
+    "realCarUrl": "https://en.wikipedia.org/wiki/Porsche_911_(992)",
+    "note": "New!"
+  },
+  {
+    "id": "nbmwm3trw",
+    "visible": false,
+    "category": "BMW",
+    "modelBrand": "Majorette",
+    "carBrand": "BMW",
+    "modelName": "BMW M3 Touring Racing #20",
+    "seriesNum": "G81",
+    "price": "-",
+    "tags": "G81;2022;White;1/64",
+    "color": "White",
+    "color_cn": "白",
+    "description_en": "",
+    "description_cn": "",
+    "imagePath": "images/auto-update-webp/[mjt]_bmwm3trw_a.webp",
+    "realCarImage": "",
+    "realCarUrl": "https://en.wikipedia.org/wiki/BMW_M3",
+    "note": "New!"
+  },
+  {
+    "id": "nbmwm3w",
+    "visible": true,
+    "category": "BMW",
+    "modelBrand": "Majorette",
+    "carBrand": "BMW",
+    "modelName": "BMW M3 Touring Safety Car",
+    "seriesNum": "G81",
+    "price": "€3.00",
+    "tags": "G81;2022;White;1/64",
+    "color": "White",
+    "color_cn": "白",
+    "description_en": "",
+    "description_cn": "",
+    "imagePath": "images/auto-update-webp/[mjt]_bmwm3w_a.webp",
+    "realCarImage": "",
+    "realCarUrl": "https://en.wikipedia.org/wiki/BMW_M3",
     "note": "New!"
   }
 ]
