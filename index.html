@@ -2792,15 +2792,17 @@
             align-items: stretch;
             margin-top: 0;
             padding-bottom: 0;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(min(100%, 520px), 1fr));
         }
 
         body.v2 .card {
             border-radius: 0;
             animation: none;
             opacity: 1;
-            --card-h: min(72vh, 620px);
-            min-height: 520px;
+            --card-h: auto;
+            height: auto;
+            aspect-ratio: 16 / 9;
+            min-height: clamp(280px, 32vw, 380px);
             overflow: hidden;
         }
 
@@ -3223,8 +3225,10 @@
             }
 
             body.v2 .card {
-                --card-h: 78vh;
-                min-height: 520px;
+                --card-h: auto;
+                height: auto;
+                aspect-ratio: 16 / 10;
+                min-height: clamp(240px, 64vw, 360px);
             }
 
             body.v2 .card-title {
