@@ -3343,6 +3343,7 @@
         <div class="hero-strip">
             <div id="hero-img" class="hero-media" role="img" aria-label="Banner video"
                 data-scrub-duration="3" data-scrub-fps="60" data-scrub-frames="180"
+                data-mobile-scrub-duration="6" data-mobile-scrub-fps="60" data-mobile-scrub-frames="360"
                 data-video-src="images/banner-b.mp4" data-poster-src="images/banner.jpeg"></div>
             <div class="hero-overlay">
                 <div>
@@ -3642,9 +3643,9 @@
             ========================== */
             let _parallaxTicking = false;
             let _heroVideoCanScrub = false;
-            let _heroVideoDuration = 3.333333;
+            let _heroVideoDuration = 3;
             let _heroVideoFps = 60;
-            let _heroVideoFrameCount = 200;
+            let _heroVideoFrameCount = 180;
             let _heroScrubEndY = 1;
             let _heroScroller = null;
             let _heroFallbackVideo = null;
@@ -3658,16 +3659,36 @@
                 all: 'images/banner-e.mp4'
             };
             const heroMobileVideoMap = {
-                BMW_TIMELINE: 'images/banner-a-2.mp4',
-                BMW: 'images/banner-b-2.mp4',
+                BMW_TIMELINE: 'images/banner-a-ph.mp4',
+                BMW: 'images/banner-b-ph.mp4',
                 Hotwheels: 'images/banner-c-ph-2.mp4',
-                PICKS: 'images/banner-d-2.mp4',
+                PICKS: 'images/banner-d-ph.mp4',
                 all: 'images/banner-e.mp4'
             };
             const heroVideoFallbackMap = {
-                all: 'images/banner-b.mp4'
+                all: 'images/home-bg.jpg'
             };
-            const MOBILE_HERO_SCRUB_END_VIEWPORT_RATIO = 0.55;
+            const HERO_SCRUB_DEFAULTS = {
+                desktop: { duration: 3, fps: 60, frames: 180 },
+                mobile: { duration: 6, fps: 60, frames: 360 }
+            };
+            const heroScrubConfig = {
+                desktop: {
+                    BMW_TIMELINE: { duration: 3, fps: 60, frames: 180 },
+                    BMW: { duration: 3, fps: 60, frames: 180 },
+                    Hotwheels: { duration: 3, fps: 60, frames: 180 },
+                    PICKS: { duration: 3, fps: 60, frames: 180 },
+                    all: { duration: 3, fps: 60, frames: 180 }
+                },
+                mobile: {
+                    BMW_TIMELINE: { duration: 4, fps: 60, frames: 240 },
+                    BMW: { duration: 4, fps: 60, frames: 240 },
+                    Hotwheels: { duration: 6, fps: 60, frames: 360 },
+                    PICKS: { duration: 8, fps: 60, frames: 480 },
+                    all: { duration: 6, fps: 60, frames: 360 }
+                }
+            };
+            const MOBILE_HERO_SCRUB_END_VIEWPORT_RATIO = 0.0;
             let _heroVideoRequestId = 0;
 
             function _usesMobileHeroVideo() {
@@ -3678,6 +3699,11 @@
 
             function _useFixedHeroBackground() {
                 return app?.classList.contains('hero-video-fixed');
+            }
+
+            function _getHeroScrubConfig(isMobileHero) {
+                const deviceKey = isMobileHero ? 'mobile' : 'desktop';
+                return heroScrubConfig[deviceKey]?.[currentCategory] || HERO_SCRUB_DEFAULTS[deviceKey];
             }
 
             function _destroyHeroVideo() {
@@ -3698,38 +3724,61 @@
                 if (heroImg) {
                     heroImg.innerHTML = '';
                     heroImg.style.display = '';
+                    heroImg.style.backgroundImage = '';
+                    heroImg.style.backgroundPosition = '';
+                    heroImg.style.backgroundSize = '';
                     heroImg.parentElement.style.background = '';
                 }
                 _heroVideoCanScrub = false;
                 _heroLastProgress = -1;
             }
 
-            async function _resolveHeroVideoSrc(src, fallbackSrc) {
-                if (!fallbackSrc || fallbackSrc === src) return src;
+            async function _videoExists(src) {
                 try {
                     const response = await fetch(src, { method: 'HEAD', cache: 'no-store' });
-                    return response.ok ? src : fallbackSrc;
+                    return response.ok;
                 } catch (err) {
-                    return fallbackSrc;
+                    return false;
                 }
+            }
+
+            function _showHeroStaticFallback(imageSrc) {
+                _destroyHeroVideo();
+                heroImg.dataset.videoSrc = '';
+                heroImg.dataset.videoFallbackSrc = imageSrc || '';
+                heroImg.style.backgroundImage = `url("${imageSrc}")`;
+                heroImg.style.backgroundPosition = 'center';
+                heroImg.style.backgroundSize = 'cover';
+                _heroVideoCanScrub = false;
+                _refreshHeroScrubOnNextFrame();
             }
 
             function _setHeroVideoForCategory() {
                 if (!heroImg) return;
                 const category = currentCategory;
                 const map = _usesMobileHeroVideo() ? heroMobileVideoMap : heroVideoMap;
-                const requestedSrc = map[category] || heroVideoMap[category] || heroVideoMap.BMW;
+                // const requestedSrc = map[category] || heroVideoMap[category] || heroVideoMap.BMW;
+                const requestedSrc = map[category] || heroVideoMap[category];
                 const fallbackSrc = heroVideoFallbackMap[category] || '';
                 const requestId = ++_heroVideoRequestId;
                 if (app) app.classList.toggle('hero-video-fixed', Boolean(requestedSrc));
+                if (heroImg.dataset.videoSrc !== requestedSrc) {
+                    _destroyHeroVideo();
+                }
 
-                _resolveHeroVideoSrc(requestedSrc, fallbackSrc).then(nextSrc => {
+                _videoExists(requestedSrc).then(exists => {
                     if (requestId !== _heroVideoRequestId) return;
+                    if (!exists && fallbackSrc) {
+                        _showHeroStaticFallback(fallbackSrc);
+                        return;
+                    }
+
+                    const nextSrc = requestedSrc;
                     if (heroImg.dataset.videoSrc === nextSrc && (_heroScroller || _heroFallbackVideo)) return;
 
                     _destroyHeroVideo();
                     heroImg.dataset.videoSrc = nextSrc;
-                    heroImg.dataset.videoFallbackSrc = fallbackSrc;
+                    heroImg.dataset.videoFallbackSrc = '';
                     _initHeroScroller();
                     _refreshHeroScrubOnNextFrame();
                 });
@@ -3802,20 +3851,19 @@
 
             function _syncHeroVideoMeta(video = _heroFallbackVideo) {
                 if (!heroImg) return;
-                const preferredDuration = Number.parseFloat(heroImg.dataset.scrubDuration || '');
-                const preferredFps = Number.parseFloat(heroImg.dataset.scrubFps || '');
-                const preferredFrames = Number.parseInt(heroImg.dataset.scrubFrames || '', 10);
+                const isMobileHero = _usesMobileHeroVideo();
+                const scrubConfig = _getHeroScrubConfig(isMobileHero);
                 const actualDuration = video && Number.isFinite(video.duration) && video.duration > 0
                     ? video.duration
-                    : 3.333333;
-                _heroVideoDuration = Number.isFinite(preferredDuration) && preferredDuration > 0
-                    ? Math.min(preferredDuration, actualDuration)
+                    : scrubConfig.duration;
+                _heroVideoDuration = Number.isFinite(scrubConfig.duration) && scrubConfig.duration > 0
+                    ? Math.min(scrubConfig.duration, actualDuration)
                     : actualDuration;
-                _heroVideoFps = Number.isFinite(preferredFps) && preferredFps > 0
-                    ? preferredFps
-                    : 60;
-                _heroVideoFrameCount = Number.isFinite(preferredFrames) && preferredFrames > 0
-                    ? preferredFrames
+                _heroVideoFps = Number.isFinite(scrubConfig.fps) && scrubConfig.fps > 0
+                    ? scrubConfig.fps
+                    : HERO_SCRUB_DEFAULTS[isMobileHero ? 'mobile' : 'desktop'].fps;
+                _heroVideoFrameCount = Number.isFinite(scrubConfig.frames) && scrubConfig.frames > 0
+                    ? scrubConfig.frames
                     : Math.max(1, Math.round(_heroVideoDuration * _heroVideoFps));
                 _heroVideoCanScrub = true;
                 _applyParallax();
@@ -3844,13 +3892,6 @@
                 source.src = heroImg.dataset.videoSrc || 'images/banner-b.mp4';
                 source.type = 'video/mp4';
                 fallbackVideo.appendChild(source);
-
-                if (heroImg.dataset.videoFallbackSrc) {
-                    const fallbackSource = document.createElement('source');
-                    fallbackSource.src = heroImg.dataset.videoFallbackSrc;
-                    fallbackSource.type = 'video/mp4';
-                    fallbackVideo.appendChild(fallbackSource);
-                }
 
                 heroImg.innerHTML = '';
                 heroImg.appendChild(fallbackVideo);
@@ -5168,13 +5209,13 @@
             window.onclick = (e) => { if (e.target == modal) { modal.style.display = 'none'; document.body.style.overflow = 'auto'; } };
 
             function enterApp(category) {
+                currentCategory = category;
                 switchView('app');
 
                 document.querySelectorAll('.nav-btn').forEach(b => {
                     b.classList.toggle('active', b.getAttribute('data-filter') === category);
                 });
 
-                currentCategory = category;
                 showRealCarImages = false;
                 currentTagFilter = '';
                 currentAllCategoryFilter = '';
