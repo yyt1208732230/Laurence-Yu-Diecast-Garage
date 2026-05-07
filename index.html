@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Laurence Diecast V2</title>
+    <title>Laurence Diecast V3</title>
 
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:wght@700&display=swap"
@@ -485,7 +485,9 @@
             isolation: isolate;
         }
 
-        .hero-strip img {
+        .hero-strip img,
+        .hero-strip video,
+        .hero-strip .hero-media {
             width: 100%;
             height: 100%;
             object-fit: cover;
@@ -493,6 +495,20 @@
             transform: translateY(0);
             will-change: transform;
             filter: saturate(1.02) contrast(1.02);
+        }
+
+        .hero-strip video,
+        .hero-strip .hero-media {
+            display: block;
+        }
+
+        .hero-strip .hero-media canvas,
+        .hero-strip .hero-media video {
+            display: block !important;
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: cover !important;
+            max-width: none !important;
         }
 
         .hero-strip::after {
@@ -2643,7 +2659,9 @@
             border-bottom: 0;
         }
 
-        body.v2 .hero-strip img {
+        body.v2 .hero-strip img,
+        body.v2 .hero-strip video,
+        body.v2 .hero-strip .hero-media {
             display: block;
             opacity: 0.72;
             filter: saturate(0.92) contrast(1.08);
@@ -3284,8 +3302,9 @@
 
     <section id="app">
         <div class="hero-strip">
-            <img id="hero-img" src="images/banner.jpg" alt="Banner"
-                onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(180deg, rgba(255,255,255,0.70), rgba(255,255,255,0.92))'">
+            <div id="hero-img" class="hero-media" role="img" aria-label="Banner video"
+                data-scrub-duration="2.533333" data-scrub-fps="60" data-scrub-frames="152"
+                data-video-src="images/banner-a.mp4" data-poster-src="images/banner.jpeg"></div>
             <div class="hero-overlay">
                 <div>
                     <h2 class="hero-title" id="hero-title">Gallery</h2>
@@ -3423,6 +3442,7 @@
     </button>
 
     <script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/scrolly-video@0.0.24/dist/scrolly-video.js"></script>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -3536,6 +3556,8 @@
                 home.style.display = 'none';
                 app.style.display = 'block';
                 window.scrollTo(0, 0);
+                _initHeroScroller();
+                _refreshHeroScrubOnNextFrame();
             }
 
             function setHeroText() {
@@ -3577,20 +3599,200 @@
             }
 
             /* =========================
-               Parallax (kept)
+               Scroll-scrubbed hero video + parallax (kept)
             ========================== */
             let _parallaxTicking = false;
+            let _heroVideoCanScrub = false;
+            let _heroVideoDuration = 2.533333;
+            let _heroVideoFps = 60;
+            let _heroVideoFrameCount = 152;
+            let _heroScrubEndY = 1;
+            let _heroScroller = null;
+            let _heroFallbackVideo = null;
+            let _heroLastProgress = -1;
+
+            function _getDocumentTop(el) {
+                let y = 0;
+                let node = el;
+                while (node) {
+                    y += node.offsetTop || 0;
+                    node = node.offsetParent;
+                }
+                return y;
+            }
+
+            function _measureHeroScrubEnd() {
+                if (!heroImg || !app || getComputedStyle(app).display === 'none') return _heroScrubEndY;
+
+                const hero = heroImg.closest('.hero-strip');
+                const controlStyles = controlsBar ? getComputedStyle(controlsBar) : null;
+                const stickyTop = controlStyles ? Number.parseFloat(controlStyles.top) : 0;
+                const topInset = Number.isFinite(stickyTop) ? stickyTop : 0;
+                const shell = controlsBar?.closest('.shell') || hero?.nextElementSibling;
+                const targetTop = hero
+                    ? _getDocumentTop(hero) + hero.offsetHeight
+                    : (shell ? _getDocumentTop(shell) : window.innerHeight);
+
+                _heroScrubEndY = Math.max(1, targetTop - topInset);
+                return _heroScrubEndY;
+            }
+
+            function _refreshHeroScrubOnNextFrame() {
+                requestAnimationFrame(() => {
+                    _measureHeroScrubEnd();
+                    _applyParallax();
+                });
+            }
+
+            function _syncHeroVideoMeta(video = _heroFallbackVideo) {
+                if (!heroImg) return;
+                const preferredDuration = Number.parseFloat(heroImg.dataset.scrubDuration || '');
+                const preferredFps = Number.parseFloat(heroImg.dataset.scrubFps || '');
+                const preferredFrames = Number.parseInt(heroImg.dataset.scrubFrames || '', 10);
+                const actualDuration = video && Number.isFinite(video.duration) && video.duration > 0
+                    ? video.duration
+                    : 2.533333;
+                _heroVideoDuration = Number.isFinite(preferredDuration) && preferredDuration > 0
+                    ? Math.min(preferredDuration, actualDuration)
+                    : actualDuration;
+                _heroVideoFps = Number.isFinite(preferredFps) && preferredFps > 0
+                    ? preferredFps
+                    : 60;
+                _heroVideoFrameCount = Number.isFinite(preferredFrames) && preferredFrames > 0
+                    ? preferredFrames
+                    : Math.max(1, Math.round(_heroVideoDuration * _heroVideoFps));
+                _heroVideoCanScrub = true;
+                _applyParallax();
+            }
+
+            function _createHeroVideoFallback() {
+                if (!heroImg || _heroFallbackVideo) return;
+
+                const fallbackVideo = document.createElement('video');
+                fallbackVideo.className = 'hero-video-fallback';
+                fallbackVideo.preload = 'auto';
+                fallbackVideo.muted = true;
+                fallbackVideo.playsInline = true;
+                fallbackVideo.disablePictureInPicture = true;
+                fallbackVideo.poster = heroImg.dataset.posterSrc || 'images/banner.jpeg';
+                fallbackVideo.addEventListener('loadedmetadata', () => _syncHeroVideoMeta(fallbackVideo), { once: true });
+                fallbackVideo.addEventListener('canplay', () => _syncHeroVideoMeta(fallbackVideo), { once: true });
+                fallbackVideo.addEventListener('error', () => {
+                    heroImg.style.display = 'none';
+                    heroImg.parentElement.style.background = 'linear-gradient(180deg, rgba(255,255,255,0.70), rgba(255,255,255,0.92))';
+                }, { once: true });
+
+                const source = document.createElement('source');
+                source.src = heroImg.dataset.videoSrc || 'images/banner-a.mp4';
+                source.type = 'video/mp4';
+                fallbackVideo.appendChild(source);
+
+                heroImg.innerHTML = '';
+                heroImg.appendChild(fallbackVideo);
+                _heroFallbackVideo = fallbackVideo;
+                if (fallbackVideo.readyState >= 1) _syncHeroVideoMeta(fallbackVideo);
+            }
+
+            function _initHeroScroller() {
+                if (!heroImg || _heroScroller || _heroFallbackVideo) return;
+                _syncHeroVideoMeta();
+
+                if (typeof window.ScrollyVideo !== 'function') {
+                    _createHeroVideoFallback();
+                    return;
+                }
+
+                try {
+                    _heroScroller = new window.ScrollyVideo({
+                        scrollyVideoContainer: heroImg,
+                        src: heroImg.dataset.videoSrc || 'images/banner-a.mp4',
+                        cover: true,
+                        sticky: false,
+                        full: false,
+                        trackScroll: false,
+                        lockScroll: false,
+                        useWebCodecs: true,
+                        transitionSpeed: 16,
+                        frameThreshold: 1 / _heroVideoFps,
+                        onReady: () => {
+                            _heroVideoCanScrub = true;
+                            _applyParallax();
+                        }
+                    });
+                    _heroVideoCanScrub = true;
+                } catch (err) {
+                    console.warn('ScrollyVideo failed, using video fallback.', err);
+                    _heroScroller = null;
+                    _createHeroVideoFallback();
+                }
+            }
+
+            function _setHeroScrollerProgress(progress) {
+                if (_heroScroller) {
+                    if (Math.abs(_heroLastProgress - progress) < 0.0015) return true;
+                    _heroLastProgress = progress;
+                    try {
+                        const options = { transitionSpeed: 16 };
+                        if (typeof _heroScroller.setVideoPercentage === 'function') {
+                            _heroScroller.setVideoPercentage(progress, options);
+                            return true;
+                        }
+                        if (typeof _heroScroller.setCurrentTimePercent === 'function') {
+                            _heroScroller.setCurrentTimePercent(progress);
+                            return true;
+                        }
+                        if (typeof _heroScroller.setPercentage === 'function') {
+                            _heroScroller.setPercentage(progress);
+                            return true;
+                        }
+                    } catch (err) {
+                        console.warn('ScrollyVideo scrub failed, using video fallback.', err);
+                        _heroScroller = null;
+                        _createHeroVideoFallback();
+                    }
+                }
+
+                if (!_heroFallbackVideo) return false;
+
+                const duration = _heroVideoDuration || 2.533333;
+                let targetTime = progress * duration;
+                if (_heroVideoFrameCount > 1 && _heroVideoFps > 0) {
+                    const targetFrame = Math.round(progress * (_heroVideoFrameCount - 1));
+                    targetTime = Math.min(duration, targetFrame / _heroVideoFps);
+                }
+                const frameThreshold = _heroVideoFps > 0 ? (0.5 / _heroVideoFps) : 0.008;
+                if (Math.abs(_heroFallbackVideo.currentTime - targetTime) < frameThreshold) return true;
+                try {
+                    _heroFallbackVideo.currentTime = targetTime;
+                    return true;
+                } catch (err) {
+                    _heroVideoCanScrub = false;
+                    return false;
+                }
+            }
+
+            function _scrubHeroVideo(scrollY) {
+                if (!heroImg || !_heroVideoCanScrub) return;
+                const scrubRange = _measureHeroScrubEnd();
+                const progress = Math.max(0, Math.min(1, scrollY / scrubRange));
+                _setHeroScrollerProgress(progress);
+            }
+
             function _applyParallax() {
                 _parallaxTicking = false;
                 if (!heroImg) return;
-                const y = Math.min(window.scrollY || 0, 260);
+                const scrollY = window.scrollY || 0;
+                const y = Math.min(scrollY, 260);
                 heroImg.style.transform = `translateY(${y * 0.12}px)`;
+                _scrubHeroVideo(scrollY);
             }
             window.addEventListener('scroll', () => {
                 if (_parallaxTicking) return;
                 _parallaxTicking = true;
                 requestAnimationFrame(_applyParallax);
             }, { passive: true });
+            window.addEventListener('resize', _refreshHeroScrubOnNextFrame, { passive: true });
+            _applyParallax();
 
             if (backToTopBtn) {
                 const updateBackToTop = () => {
@@ -4551,6 +4753,7 @@
                     setDisplay(itemCountLabel, isPicks ? 'none' : 'block');
                     setDisplay(toggleBtn, (isPicks || currentCategory === 'BMW_TIMELINE') ? 'none' : 'inline-flex');
                     updateFlipAllButton();
+                    _refreshHeroScrubOnNextFrame();
 
                     setDisplay(picksView, isPicks ? 'block' : 'none');
                     setDisplay(timelineView, 'none');
