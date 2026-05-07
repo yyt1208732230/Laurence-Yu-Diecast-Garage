@@ -25,13 +25,13 @@ Do not continue if `cars.json` cannot be parsed as a valid JSON array.
 Input directory:
 
 ```text
-images\auto-update-raw
+E:\Git Projects\Laurence Yu Diecast Garage\images\auto-update-raw
 ```
 
 Output directory:
 
 ```text
-images\auto-update-webp
+E:\Git Projects\Laurence Yu Diecast Garage\images\auto-update-webp
 ```
 
 Log file:
@@ -44,6 +44,7 @@ Files that may be changed by the daily automation:
 
 - `cars.json`
 - `auto-update.log`
+- New or replaced `.webp` images inside `\images\auto-update-raw`
 - New or replaced `.webp` images inside `images\auto-update-webp`
 
 Files that must not be changed by the daily automation unless explicitly requested:

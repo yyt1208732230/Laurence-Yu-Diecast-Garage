@@ -3303,8 +3303,8 @@
     <section id="app">
         <div class="hero-strip">
             <div id="hero-img" class="hero-media" role="img" aria-label="Banner video"
-                data-scrub-duration="2.533333" data-scrub-fps="60" data-scrub-frames="152"
-                data-video-src="images/banner-a.mp4" data-poster-src="images/banner.jpeg"></div>
+                data-scrub-duration="3.333333" data-scrub-fps="60" data-scrub-frames="200"
+                data-video-src="images/banner-b.mp4" data-poster-src="images/banner.jpeg"></div>
             <div class="hero-overlay">
                 <div>
                     <h2 class="hero-title" id="hero-title">Gallery</h2>
@@ -3603,9 +3603,9 @@
             ========================== */
             let _parallaxTicking = false;
             let _heroVideoCanScrub = false;
-            let _heroVideoDuration = 2.533333;
+            let _heroVideoDuration = 3.333333;
             let _heroVideoFps = 60;
-            let _heroVideoFrameCount = 152;
+            let _heroVideoFrameCount = 200;
             let _heroScrubEndY = 1;
             let _heroScroller = null;
             let _heroFallbackVideo = null;
@@ -3671,7 +3671,7 @@
                 const preferredFrames = Number.parseInt(heroImg.dataset.scrubFrames || '', 10);
                 const actualDuration = video && Number.isFinite(video.duration) && video.duration > 0
                     ? video.duration
-                    : 2.533333;
+                    : 3.333333;
                 _heroVideoDuration = Number.isFinite(preferredDuration) && preferredDuration > 0
                     ? Math.min(preferredDuration, actualDuration)
                     : actualDuration;
@@ -3703,7 +3703,7 @@
                 }, { once: true });
 
                 const source = document.createElement('source');
-                source.src = heroImg.dataset.videoSrc || 'images/banner-a.mp4';
+                source.src = heroImg.dataset.videoSrc || 'images/banner-b.mp4';
                 source.type = 'video/mp4';
                 fallbackVideo.appendChild(source);
 
@@ -3725,7 +3725,7 @@
                 try {
                     _heroScroller = new window.ScrollyVideo({
                         scrollyVideoContainer: heroImg,
-                        src: heroImg.dataset.videoSrc || 'images/banner-a.mp4',
+                        src: heroImg.dataset.videoSrc || 'images/banner-b.mp4',
                         cover: true,
                         sticky: false,
                         full: false,
@@ -3774,7 +3774,7 @@
 
                 if (!_heroFallbackVideo) return false;
 
-                const duration = _heroVideoDuration || 2.533333;
+                const duration = _heroVideoDuration || 3.333333;
                 let targetTime = progress * duration;
                 if (_heroVideoFrameCount > 1 && _heroVideoFps > 0) {
                     const targetFrame = Math.round(progress * (_heroVideoFrameCount - 1));
