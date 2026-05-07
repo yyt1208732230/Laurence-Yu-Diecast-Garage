@@ -3615,6 +3615,71 @@
             let _heroFallbackVideo = null;
             let _heroLastProgress = -1;
 
+            const heroVideoMap = {
+                BMW_TIMELINE: 'images/banner-a-2.mp4',
+                BMW: 'images/banner-b-2.mp4',
+                Hotwheels: 'images/banner-c.mp4',
+                PICKS: 'images/banner-d-2.mp4',
+                all: 'images/banner-e.mp4'
+            };
+            const heroVideoFallbackMap = {
+                all: 'images/banner-all.mp4'
+            };
+            let _heroVideoRequestId = 0;
+
+            function _destroyHeroVideo() {
+                if (_heroFallbackVideo) {
+                    _heroFallbackVideo.pause();
+                    _heroFallbackVideo.removeAttribute('src');
+                    _heroFallbackVideo.load();
+                    _heroFallbackVideo = null;
+                }
+                if (_heroScroller) {
+                    try {
+                        if (typeof _heroScroller.destroy === 'function') _heroScroller.destroy();
+                    } catch (err) {
+                        console.warn('ScrollyVideo cleanup failed.', err);
+                    }
+                    _heroScroller = null;
+                }
+                if (heroImg) {
+                    heroImg.innerHTML = '';
+                    heroImg.style.display = '';
+                    heroImg.parentElement.style.background = '';
+                }
+                _heroVideoCanScrub = false;
+                _heroLastProgress = -1;
+            }
+
+            async function _resolveHeroVideoSrc(src, fallbackSrc) {
+                if (!fallbackSrc || fallbackSrc === src) return src;
+                try {
+                    const response = await fetch(src, { method: 'HEAD', cache: 'no-store' });
+                    return response.ok ? src : fallbackSrc;
+                } catch (err) {
+                    return fallbackSrc;
+                }
+            }
+
+            function _setHeroVideoForCategory() {
+                if (!heroImg) return;
+                const category = currentCategory;
+                const requestedSrc = heroVideoMap[category] || heroVideoMap.BMW;
+                const fallbackSrc = heroVideoFallbackMap[category] || '';
+                const requestId = ++_heroVideoRequestId;
+
+                _resolveHeroVideoSrc(requestedSrc, fallbackSrc).then(nextSrc => {
+                    if (requestId !== _heroVideoRequestId) return;
+                    if (heroImg.dataset.videoSrc === nextSrc && (_heroScroller || _heroFallbackVideo)) return;
+
+                    _destroyHeroVideo();
+                    heroImg.dataset.videoSrc = nextSrc;
+                    heroImg.dataset.videoFallbackSrc = fallbackSrc;
+                    _initHeroScroller();
+                    _refreshHeroScrubOnNextFrame();
+                });
+            }
+
             function _isTouchOrSmallScreen() {
                 return window.matchMedia('(pointer: coarse)').matches
                     || window.matchMedia('(max-width: 820px)').matches;
@@ -3710,6 +3775,13 @@
                 source.src = heroImg.dataset.videoSrc || 'images/banner-b.mp4';
                 source.type = 'video/mp4';
                 fallbackVideo.appendChild(source);
+
+                if (heroImg.dataset.videoFallbackSrc) {
+                    const fallbackSource = document.createElement('source');
+                    fallbackSource.src = heroImg.dataset.videoFallbackSrc;
+                    fallbackSource.type = 'video/mp4';
+                    fallbackVideo.appendChild(fallbackSource);
+                }
 
                 heroImg.innerHTML = '';
                 heroImg.appendChild(fallbackVideo);
@@ -4770,6 +4842,7 @@
             function updateUI() {
                 try {
                     setHeroText();
+                    _setHeroVideoForCategory();
 
                     const isPicks = currentCategory === 'PICKS';
 
