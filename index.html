@@ -2678,6 +2678,41 @@
             display: none;
         }
 
+        body.v2 #app.hero-video-fixed {
+            position: relative;
+            background: #000;
+        }
+
+        body.v2 #app.hero-video-fixed .hero-strip {
+            overflow: visible;
+            background: transparent;
+        }
+
+        body.v2 #app.hero-video-fixed .hero-strip .hero-media {
+            position: fixed;
+            inset: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+            pointer-events: none;
+            transform: none !important;
+        }
+
+        body.v2 #app.hero-video-fixed .hero-strip::after {
+            position: fixed;
+            z-index: 1;
+        }
+
+        body.v2 #app.hero-video-fixed .hero-strip .hero-overlay {
+            z-index: 3;
+        }
+
+        body.v2 #app.hero-video-fixed .shell {
+            position: relative;
+            z-index: 4;
+            background: rgba(0, 0, 0, 0.78);
+        }
+
         body.v2 .hero-strip .hero-overlay {
             align-items: flex-end;
             padding: 0 var(--pad);
@@ -3307,7 +3342,7 @@
     <section id="app">
         <div class="hero-strip">
             <div id="hero-img" class="hero-media" role="img" aria-label="Banner video"
-                data-scrub-duration="3.333333" data-scrub-fps="60" data-scrub-frames="200"
+                data-scrub-duration="3" data-scrub-fps="60" data-scrub-frames="180"
                 data-video-src="images/banner-b.mp4" data-poster-src="images/banner.jpeg"></div>
             <div class="hero-overlay">
                 <div>
@@ -3622,10 +3657,28 @@
                 PICKS: 'images/banner-d-2.mp4',
                 all: 'images/banner-e.mp4'
             };
-            const heroVideoFallbackMap = {
-                all: 'images/banner-all.mp4'
+            const heroMobileVideoMap = {
+                BMW_TIMELINE: 'images/banner-a-2.mp4',
+                BMW: 'images/banner-b-2.mp4',
+                Hotwheels: 'images/banner-c-ph-2.mp4',
+                PICKS: 'images/banner-d-2.mp4',
+                all: 'images/banner-e.mp4'
             };
+            const heroVideoFallbackMap = {
+                all: 'images/banner-b.mp4'
+            };
+            const MOBILE_HERO_SCRUB_END_VIEWPORT_RATIO = 0.55;
             let _heroVideoRequestId = 0;
+
+            function _usesMobileHeroVideo() {
+                return window.matchMedia('(pointer: coarse)').matches
+                    || window.matchMedia('(hover: none)').matches
+                    || window.matchMedia('(max-width: 1180px)').matches;
+            }
+
+            function _useFixedHeroBackground() {
+                return app?.classList.contains('hero-video-fixed');
+            }
 
             function _destroyHeroVideo() {
                 if (_heroFallbackVideo) {
@@ -3664,9 +3717,11 @@
             function _setHeroVideoForCategory() {
                 if (!heroImg) return;
                 const category = currentCategory;
-                const requestedSrc = heroVideoMap[category] || heroVideoMap.BMW;
+                const map = _usesMobileHeroVideo() ? heroMobileVideoMap : heroVideoMap;
+                const requestedSrc = map[category] || heroVideoMap[category] || heroVideoMap.BMW;
                 const fallbackSrc = heroVideoFallbackMap[category] || '';
                 const requestId = ++_heroVideoRequestId;
+                if (app) app.classList.toggle('hero-video-fixed', Boolean(requestedSrc));
 
                 _resolveHeroVideoSrc(requestedSrc, fallbackSrc).then(nextSrc => {
                     if (requestId !== _heroVideoRequestId) return;
@@ -3717,6 +3772,18 @@
                 const controlStyles = controlsBar ? getComputedStyle(controlsBar) : null;
                 const stickyTop = controlStyles ? Number.parseFloat(controlStyles.top) : 0;
                 const topInset = Number.isFinite(stickyTop) ? stickyTop : 0;
+
+                if (_usesMobileHeroVideo() && heroTitle) {
+                    const titleTop = _getDocumentTop(heroTitle);
+                    const viewportTargetY = window.innerHeight * MOBILE_HERO_SCRUB_END_VIEWPORT_RATIO;
+                    const mobileTargetTop = titleTop - viewportTargetY;
+
+                    if (Number.isFinite(mobileTargetTop) && mobileTargetTop > 1) {
+                        _heroScrubEndY = mobileTargetTop;
+                        return _heroScrubEndY;
+                    }
+                }
+
                 const shell = controlsBar?.closest('.shell') || hero?.nextElementSibling;
                 const targetTop = hero
                     ? _getDocumentTop(hero) + hero.offsetHeight
@@ -3762,6 +3829,8 @@
                 fallbackVideo.preload = 'auto';
                 fallbackVideo.muted = true;
                 fallbackVideo.playsInline = true;
+                fallbackVideo.autoplay = false;
+                fallbackVideo.loop = false;
                 fallbackVideo.disablePictureInPicture = true;
                 fallbackVideo.poster = heroImg.dataset.posterSrc || 'images/banner.jpeg';
                 fallbackVideo.addEventListener('loadedmetadata', () => _syncHeroVideoMeta(fallbackVideo), { once: true });
@@ -3877,6 +3946,11 @@
             function _applyParallax() {
                 _parallaxTicking = false;
                 if (!heroImg) return;
+                if (_useFixedHeroBackground()) {
+                    heroImg.style.transform = 'none';
+                    _scrubHeroVideo(window.scrollY || 0);
+                    return;
+                }
                 const scrollY = window.scrollY || 0;
                 const y = Math.min(scrollY, 260);
                 heroImg.style.transform = `translateY(${y * 0.12}px)`;
@@ -3887,7 +3961,10 @@
                 _parallaxTicking = true;
                 requestAnimationFrame(_applyParallax);
             }, { passive: true });
-            window.addEventListener('resize', _refreshHeroScrubOnNextFrame, { passive: true });
+            window.addEventListener('resize', () => {
+                _setHeroVideoForCategory();
+                _refreshHeroScrubOnNextFrame();
+            }, { passive: true });
             _applyParallax();
 
             if (backToTopBtn) {
