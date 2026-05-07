@@ -3611,6 +3611,26 @@
             let _heroFallbackVideo = null;
             let _heroLastProgress = -1;
 
+            function _isTouchOrSmallScreen() {
+                return window.matchMedia('(pointer: coarse)').matches
+                    || window.matchMedia('(max-width: 820px)').matches;
+            }
+
+            function _isAppleWebKitMobile() {
+                const ua = navigator.userAgent || '';
+                const platform = navigator.platform || '';
+                const iOSDevice = /iPad|iPhone|iPod/.test(ua)
+                    || (platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+                return iOSDevice || (/AppleWebKit/.test(ua) && _isTouchOrSmallScreen());
+            }
+
+            function _shouldUseHeroScroller() {
+                if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return false;
+                if (_isTouchOrSmallScreen()) return false;
+                if (_isAppleWebKitMobile()) return false;
+                return true;
+            }
+
             function _getDocumentTop(el) {
                 let y = 0;
                 let node = el;
@@ -3697,7 +3717,7 @@
                 if (!heroImg || _heroScroller || _heroFallbackVideo) return;
                 _syncHeroVideoMeta();
 
-                if (typeof window.ScrollyVideo !== 'function') {
+                if (!_shouldUseHeroScroller() || typeof window.ScrollyVideo !== 'function') {
                     _createHeroVideoFallback();
                     return;
                 }
