@@ -3578,7 +3578,7 @@
 
             let currentLang = 'en';
             let carData = [];
-            let currentCategory = 'BMW';   // default when entering app
+            let currentCategory = '';   // empty until the first explicit app entry
             let currentTagFilter = '';
             let currentSearchQuery = '';
             let currentAllCategoryFilter = '';
@@ -3847,6 +3847,14 @@
                 const requestedSrc = map[category] || heroVideoMap[category];
                 const fallbackSrc = heroVideoFallbackMap[category] || '';
                 const requestId = ++_heroVideoRequestId;
+                if (!requestedSrc) {
+                    if (app) app.classList.remove('hero-video-fixed');
+                    _destroyHeroVideo();
+                    heroImg.dataset.videoSrc = '';
+                    heroImg.dataset.videoFallbackSrc = '';
+                    _refreshHeroScrubOnNextFrame();
+                    return;
+                }
                 if (app) app.classList.toggle('hero-video-fixed', Boolean(requestedSrc));
                 if (heroImg.dataset.videoSrc !== requestedSrc) {
                     _destroyHeroVideo();
