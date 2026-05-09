@@ -2547,20 +2547,51 @@
         }
 
         body.v2 .home-shell {
-            width: min(1180px, 100%);
+            width: min(1440px, 100%);
             background: transparent;
             border: 0;
             box-shadow: none;
             backdrop-filter: none;
             -webkit-backdrop-filter: none;
-            padding: clamp(110px, 18vh, 190px) var(--pad) clamp(70px, 12vh, 120px);
-            margin: 0;
+            overflow: visible;
+            padding: clamp(92px, 15vh, 170px) var(--pad) clamp(62px, 10vh, 110px);
+            margin: 0 0 0 0;
+        }
+
+        body.v2 .home-layout {
+            display: grid;
+            grid-template-columns: minmax(150px, auto) minmax(520px, 660px);
+            align-items: center;
+            justify-content: end;
+            gap: clamp(42px, 7vw, 118px);
+            width: 100%;
         }
 
         body.v2 .home-content {
             max-width: 660px;
             text-align: left;
             align-items: flex-start;
+        }
+
+        body.v2 .home-polaroid {
+            width: clamp(180px, 19vw, 300px);
+            min-width: 140px;
+            margin: 0;
+            padding: 10px 10px 36px;
+            box-shadow: 0 24px 64px rgba(0, 0, 0, 0.34);
+            transform: rotate(-2deg);
+            justify-self: end;
+        }
+
+        body.v2 .home-polaroid-media {
+            overflow: hidden;
+            background: #111;
+        }
+
+        body.v2 .home-polaroid img {
+            display: block;
+            width: 100%;
+            height: auto;
         }
 
         body.v2 .home-title {
@@ -3107,6 +3138,21 @@
                 height: 64px;
             }
 
+            body.v2 .home-shell {
+                padding-top: 86px;
+            }
+
+            body.v2 .home-layout {
+                grid-template-columns: minmax(110px, 180px) minmax(0, 1fr);
+                gap: clamp(22px, 5vw, 42px);
+            }
+
+            body.v2 .home-polaroid {
+                width: min(24vw, 150px);
+                min-width: 104px;
+                padding: 7px 7px 24px;
+            }
+
             body.v2 .main-nav {
                 top: 64px;
                 background: rgba(0, 0, 0, 0.94);
@@ -3209,6 +3255,27 @@
         }
 
         @media (max-width: 560px) {
+            body.v2 #home {
+                align-items: flex-start;
+            }
+
+            body.v2 .home-shell {
+                padding-top: 84px;
+            }
+
+            body.v2 .home-layout {
+                grid-template-columns: 1fr;
+                align-items: start;
+                gap: 24px;
+            }
+
+            body.v2 .home-polaroid {
+                width: min(38vw, 132px);
+                min-width: 104px;
+                justify-self: start;
+                transform: rotate(-1.5deg);
+            }
+
             body.v2 .home-content {
                 text-align: left;
             }
@@ -3306,34 +3373,51 @@
         <div class="home-bg" aria-hidden="true"></div>
 
         <div class="home-shell">
-            <div class="home-content">
-                <div class="home-kicker">
-                    <span class="dot"></span>
-                    <span data-en="Private Collection" data-cn="个人收藏">Private Collection</span>
-                    <span class="dot"></span>
-                </div>
+            <div class="home-layout">
+                <figure class="home-polaroid" aria-label="Laurence diecast garage sign photo">
+                    <div class="home-polaroid-media">
+                        <img src="images/new2026/myLoveCars_sign.jpg" alt="My Love Cars sign" loading="eager"
+                            decoding="async">
+                    </div>
+                </figure>
 
-                <h1 class="home-title"><span>LAURENCE DIECAST</span></h1>
-                <p class="home-subtitle"
-                    data-en="A die-cast car collection exhibition by an ordinary person who has loved automobiles since childhood."
-                    data-cn="一个从小热爱汽车的普通人的车模收藏展。">
-                    A die-cast car collection exhibition by an ordinary person who has loved automobiles since
-                    childhood.
-                </p>
+                <div class="home-content">
+                    <div class="home-kicker">
+                        <span class="dot"></span>
+                        <span data-en="Private Collection" data-cn="个人收藏">Private Collection</span>
+                        <span class="dot"></span>
+                    </div>
 
-                <div class="home-actions">
-                    <button class="cta primary" id="enter-bimmer">
-                        <span class="mpower" data-en="BMW" data-cn="宝马">BMW</span>
-                        <small>(Bimmer)</small>
-                    </button>
+                    <h1 class="home-title"><span>LAURENCE DIECAST</span></h1>
+                    <p class="home-subtitle"
+                        data-en="A die-cast car collection exhibition by an ordinary person who has loved automobiles since childhood."
+                        data-cn="一个从小热爱汽车的普通人的车模收藏展。">
+                        A die-cast car collection exhibition by an ordinary person who has loved automobiles since
+                        childhood.
+                    </p>
 
-                    <button class="cta secondary" id="enter-hotwheels">
-                        <span data-en="Hotwheels" data-cn="风火轮系列">Hotwheels</span>
-                    </button>
+                    <div class="home-actions">
+                        <button class="cta primary" id="enter-bimmer">
+                            <span class="mpower" data-en="BMW" data-cn="宝马">BMW</span>
+                            <small>(Bimmer)</small>
+                        </button>
 
-                    <button class="cta tertiary" id="enter-picks">
-                        <span data-en="Curated" data-cn="我的精选">Curated</span>
-                    </button>
+                        <button class="cta secondary" id="enter-bmw-museum">
+                            <span data-en="My BMW Museum" data-cn="宝马陈列馆">My BMW Museum</span>
+                        </button>
+
+                        <button class="cta secondary" id="enter-hotwheels">
+                            <span data-en="Hotwheels" data-cn="风火轮系列">Hotwheels</span>
+                        </button>
+
+                        <button class="cta tertiary" id="enter-picks">
+                            <span data-en="Curated" data-cn="我的精选">Curated</span>
+                        </button>
+
+                        <button class="cta tertiary" id="enter-show-all">
+                            <span data-en="Show All" data-cn="全部在库">Show All</span>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -3514,8 +3598,10 @@
 
             const brandHome = getEl('brand-home');
             const enterBimmer = getEl('enter-bimmer');
+            const enterBmwMuseum = getEl('enter-bmw-museum');
             const enterHotwheels = getEl('enter-hotwheels');
             const enterPicks = getEl('enter-picks');
+            const enterShowAll = getEl('enter-show-all');
 
             const heroImg = getEl('hero-img');
             const heroTitle = getEl('hero-title');
@@ -5232,8 +5318,10 @@
 
             // enterBimmer.addEventListener('click', () => enterApp('BMW_TIMELINE'));
             enterBimmer.addEventListener('click', () => enterApp('BMW'));
+            enterBmwMuseum.addEventListener('click', () => enterApp('BMW_TIMELINE'));
             enterHotwheels.addEventListener('click', () => enterApp('Hotwheels'));
             enterPicks.addEventListener('click', () => enterApp('PICKS'));
+            enterShowAll.addEventListener('click', () => enterApp('all'));
 
             brandHome.addEventListener('click', () => switchView('home'));
 
