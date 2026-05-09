@@ -3344,7 +3344,7 @@
             <div id="hero-img" class="hero-media" role="img" aria-label="Banner video"
                 data-scrub-duration="3" data-scrub-fps="60" data-scrub-frames="180"
                 data-mobile-scrub-duration="6" data-mobile-scrub-fps="60" data-mobile-scrub-frames="360"
-                data-video-src="images/banner-b.mp4" data-poster-src="images/banner.jpeg"></div>
+                data-video-src="images/banner-b.mp4" data-poster-src="images/home-bg-2.jpg"></div>
             <div class="hero-overlay">
                 <div>
                     <h2 class="hero-title" id="hero-title">Gallery</h2>
@@ -3880,7 +3880,7 @@
                 fallbackVideo.autoplay = false;
                 fallbackVideo.loop = false;
                 fallbackVideo.disablePictureInPicture = true;
-                fallbackVideo.poster = heroImg.dataset.posterSrc || 'images/banner.jpeg';
+                fallbackVideo.poster = heroImg.dataset.posterSrc || 'images/home-bg-2.jpg';
                 fallbackVideo.addEventListener('loadedmetadata', () => _syncHeroVideoMeta(fallbackVideo), { once: true });
                 fallbackVideo.addEventListener('canplay', () => _syncHeroVideoMeta(fallbackVideo), { once: true });
                 fallbackVideo.addEventListener('error', () => {
