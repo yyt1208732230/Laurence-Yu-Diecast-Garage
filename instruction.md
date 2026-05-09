@@ -560,3 +560,177 @@ English:
 - Validate external link format.
 - Start a local static server and run a browser smoke test.
 - After updates, avoid unrelated reformatting of the entire `index.html` or `cars.json`; keep diffs readable.
+
+## 22. Current Hero Video System / 当前 Hero 视频系统
+
+本节以当前版本的 `index.html` 为准，后续修改 hero/banner 视频时优先参考这里。
+
+### 22.1 Active V2 Visual System
+
+- 当前页面使用 `body.v2` 视觉系统。
+- `#app .hero-strip` 是进入主应用后的首屏 hero 区域。
+- `#hero-img.hero-media` 是实际承载 hero 视频或静态 fallback 图片的媒体层。
+- 在 `body.v2 #app.hero-video-fixed` 状态下，hero 视频媒体层固定为全屏背景：
+  - 视频画面固定在 viewport，不随页面内容向上滑走。
+  - hero title / subtitle 仍然属于 hero 内容层，会随正常页面滚动离开视口。
+  - `.shell` 内容层位于视频背景之上，并使用半透明黑色背景保证内容可读。
+
+### 22.2 Desktop And Mobile Video Maps
+
+桌面端视频映射由 `heroVideoMap` 控制：
+
+```js
+const heroVideoMap = {
+    BMW_TIMELINE: 'images/banner-a-2.mp4',
+    BMW: 'images/banner-b-2.mp4',
+    Hotwheels: 'images/banner-c.mp4',
+    PICKS: 'images/banner-d-2.mp4',
+    all: 'images/banner-e.mp4'
+};
+```
+
+移动端/Pad 视频映射由 `heroMobileVideoMap` 控制：
+
+```js
+const heroMobileVideoMap = {
+    BMW_TIMELINE: 'images/banner-e.mp4',
+    BMW: 'images/banner-e.mp4',
+    Hotwheels: 'images/banner-c-ph-2.mp4',
+    PICKS: 'images/banner-e.mp4',
+    all: 'images/banner-e.mp4'
+};
+```
+
+设备判断使用 `_usesMobileHeroVideo()`：
+
+- `pointer: coarse`
+- `hover: none`
+- `max-width: 1180px`
+
+任一条件成立时使用移动端映射。否则使用桌面端映射。
+
+### 22.3 Static Fallback Image
+
+视频 fallback 不再使用备用 mp4。当前 fallback 是静态图片：
+
+```js
+const heroVideoFallbackMap = {
+    all: 'images/home-bg.jpg'
+};
+```
+
+逻辑规则：
+
+- `_videoExists(src)` 通过 `HEAD` 请求检查目标视频是否存在。
+- 如果目标视频存在，正常加载视频。
+- 如果目标视频不存在且当前 tab 有 fallback，则 `_showHeroStaticFallback(imageSrc)` 会清空视频 DOM，并把 `#hero-img` 设置为静态背景图。
+- 当前只有 `all` 配置了静态 fallback：`images/home-bg.jpg`。
+
+### 22.4 Scroll-Scrub Playback
+
+Hero 视频不依赖 autoplay loop。动画进度由页面滚动位置驱动：
+
+```js
+progress = clamp(scrollY / scrubRange, 0, 1)
+```
+
+效果：
+
+- 向下滚动：`progress` 增大，视频正向播放。
+- 向上滚动：`progress` 减小，视频反向回退。
+- 滚动到 scrub range 末端：视频到达结束帧。
+
+桌面端优先使用 `ScrollyVideo`：
+
+- `_initHeroScroller()` 创建 ScrollyVideo 实例。
+- `_setHeroScrollerProgress(progress)` 尝试调用 `setVideoPercentage` / `setCurrentTimePercent` / `setPercentage`。
+
+移动端、触摸设备、iOS/Safari 或 ScrollyVideo 不可用时使用 fallback `<video>`：
+
+- `_createHeroVideoFallback()` 创建 muted、playsInline、非 autoplay、非 loop 的 video。
+- `_setHeroScrollerProgress(progress)` 将 progress 换算为帧号和 `currentTime`。
+
+### 22.5 Desktop And Mobile Scrub Range
+
+桌面端 scrub range 保持原始计算方式：
+
+```js
+scrubEnd = heroBottomDocumentTop - stickyControlsTop
+```
+
+移动端/Pad 使用单独计算逻辑：
+
+```js
+scrubEnd = heroTitleDocumentTop - window.innerHeight * MOBILE_HERO_SCRUB_END_VIEWPORT_RATIO
+```
+
+当前配置：
+
+```js
+const MOBILE_HERO_SCRUB_END_VIEWPORT_RATIO = 0.0;
+```
+
+含义：
+
+- 移动端动画结束帧对应 hero title 顶部到达 viewport 中指定比例的位置。
+- `0.0` 表示 hero title 顶部到达屏幕顶部时，视频播放到结束帧。
+- 如果需要让视频更早播放完，可以调大该值，例如 `0.55` 表示 title 顶部到达屏幕垂直 55% 处时播放到结束帧。
+
+### 22.6 Per-Tab Scrub Config
+
+每个 tab、每个设备类型都有独立的 `duration / fps / frames` 配置。配置集中在 `heroScrubConfig`：
+
+```js
+const heroScrubConfig = {
+    desktop: {
+        BMW_TIMELINE: { duration: 3, fps: 60, frames: 180 },
+        BMW: { duration: 3, fps: 60, frames: 180 },
+        Hotwheels: { duration: 3, fps: 60, frames: 180 },
+        PICKS: { duration: 3, fps: 60, frames: 180 },
+        all: { duration: 3, fps: 60, frames: 180 }
+    },
+    mobile: {
+        BMW_TIMELINE: { duration: 6, fps: 60, frames: 360 },
+        BMW: { duration: 6, fps: 60, frames: 360 },
+        Hotwheels: { duration: 6, fps: 60, frames: 360 },
+        PICKS: { duration: 6, fps: 60, frames: 360 },
+        all: { duration: 6, fps: 60, frames: 360 }
+    }
+};
+```
+
+Rules:
+
+- Desktop defaults are 3 seconds, 60 fps, 180 frames.
+- Mobile/Pad defaults are 6 seconds, 60 fps, 360 frames.
+- To tune one video, edit only the matching device and tab entry.
+- `_getHeroScrubConfig(isMobileHero)` chooses the active config based on the current device and `currentCategory`.
+- `_syncHeroVideoMeta()` applies the selected config and clamps configured duration to the actual video duration when the browser exposes it.
+
+### 22.7 Mobile Tab Switching Rule
+
+Mobile tab switching has a special source-swap rule to avoid briefly showing the previous video:
+
+- When `_usesMobileHeroVideo()` is true and the requested video differs from the current one, `_setHeroVideoForCategory()` immediately destroys the old video and initializes the requested mobile source.
+- This immediate mobile source swap is intentionally mobile-only.
+- Desktop keeps the normal check-and-init flow.
+
+Important:
+
+- Do not reintroduce an opacity-based `is-loading` hide state for this issue unless explicitly requested; it had too much visual impact.
+- If a mobile tab briefly shows the previous video again, inspect `_setHeroVideoForCategory()` before changing CSS.
+
+### 22.8 Editing Checklist For Hero Videos
+
+When changing hero videos:
+
+1. Confirm the video file exists in `images/`.
+2. Update `heroVideoMap` for desktop or `heroMobileVideoMap` for mobile/Pad.
+3. Update the matching `heroScrubConfig` entry for `duration`, `fps`, and `frames`.
+4. If changing mobile timing, check `MOBILE_HERO_SCRUB_END_VIEWPORT_RATIO`.
+5. Serve the site through HTTP, not `file://`, because `cars.json`, video checks, and video seeking depend on browser/network behavior.
+6. Test at least:
+   - Desktop Bimmer.
+   - Mobile Hotwheels, especially `images/banner-c-ph-2.mp4`.
+   - Show All fallback behavior if `banner-e.mp4` is missing.
+7. Keep the video scroll-scrub behavior: do not switch to autoplay loop unless explicitly requested.
