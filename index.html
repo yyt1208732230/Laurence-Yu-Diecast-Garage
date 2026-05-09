@@ -3343,7 +3343,7 @@
 <body class="v2">
     <header>
         <div class="brand" id="brand-home">
-            <img src="images/logo.png" class="logo" alt="Laurence Diecast logo" />
+            <img src="images/logo_white.png" class="logo" alt="Laurence Diecast logo" />
             <div class="brand-title">
                 <div class="sub">Diecast Collection</div>
             </div>
@@ -4317,7 +4317,7 @@
                     ? `<div class="card-note-badge">${noteText}</div>`
                     : '';
 
-                const modelImgSrc = car.imagePath || 'images/logo.png';
+                const modelImgSrc = car.imagePath || 'images/logo_white.png';
                 const realImgSrc = car.realCarImage || '';
                 const displayImgSrc = (showRealCarImages && realImgSrc) ? realImgSrc : modelImgSrc;
                 const frontImgSrc = displayImgSrc;
@@ -4368,7 +4368,7 @@
                       loading="lazy"
                       decoding="async"
                       onload="this.classList.add('loaded')"
-                      onerror="this.onerror=null; this.src='images/logo.png';"
+                      onerror="this.onerror=null; this.src='images/logo_white.png';"
                     >
                   </div>
                 </div>
@@ -4452,7 +4452,7 @@
                 card.className = 'series-card';
                 card.onclick = () => openModal(picked);
 
-                let imgSrc = picked.imagePath || 'images/logo.png';
+                let imgSrc = picked.imagePath || 'images/logo_white.png';
 
                 const title = `${picked.modelName || 'Unknown'}`;
                 const count = (cars || []).length;
@@ -4609,7 +4609,7 @@
                         const picked = cars[0];
 
                         const card = document.createElement("div");
-                        let imgSrc = picked.imagePath || 'images/logo.png';
+                        let imgSrc = picked.imagePath || 'images/logo_white.png';
                         const title = `${picked.modelName || 'Unknown'}`;
                         const carNameLabel = currentLang === 'en' ? 'Showing' : '正在展示';
                         const countLabel = currentLang === 'en' ? 'Series In Garage' : '系列在库';
@@ -4894,7 +4894,7 @@
                 card.className = 'pick-card';
 
                 const title = `${car.modelName || 'Unknown'}`;
-                const imgSrc = car.imagePath || 'images/logo.png';
+                const imgSrc = car.imagePath || 'images/logo_white.png';
 
                 const carBrand = car.carBrand || '';
                 const modelBrand = car.modelBrand || '';
@@ -4907,7 +4907,7 @@
               loading="lazy"
               decoding="async"
               onload="this.classList.add('loaded')"
-              onerror="this.onerror=null; this.src='images/logo.png';"
+              onerror="this.onerror=null; this.src='images/logo_white.png';"
             >
           </div>
           <div class="pick-info">
