@@ -3467,14 +3467,14 @@
 
                     <div id="generic-filters" style="display:none;">
                         <div class="filter-wrapper" id="category-filter-wrapper" style="display:none;">
-                            <select id="category-select" placeholder="Filter by Category..." autocomplete="off">
-                                <option value="">All Categories</option>
+                            <select id="category-select" placeholder="Filter by Model Brand..." autocomplete="off">
+                                <option value="">All Model Brands</option>
                             </select>
                         </div>
 
                         <div class="filter-wrapper" id="tag-filter-wrapper">
-                            <select id="tag-select" placeholder="Filter by Tag..." autocomplete="off">
-                                <option value="">All Tags</option>
+                            <select id="tag-select" placeholder="Filter by Car Brand..." autocomplete="off">
+                                <option value="">All Car Brands</option>
                             </select>
                         </div>
                     </div>
@@ -4161,7 +4161,7 @@
                 if (el) el.style.display = value;
             }
 
-            tsTag = initTS('tag-select', "Filter by Tag...", (val) => {
+            tsTag = initTS('tag-select', "Filter by Car Brand...", (val) => {
                 currentTagFilter = val; currentPage = 1; updateUI();
             });
             tsSeries = initTS('bmw-series-select', "All Series", (val) => {
@@ -4173,7 +4173,7 @@
             tsYear = initTS('bmw-year-select', "All Decades", (val) => {
                 bmwFilters.decade = val; currentPage = 1; updateUI();
             });
-            tsCategory = initTS('category-select', "Filter by Category...", (val) => {
+            tsCategory = initTS('category-select', "Filter by Model Brand...", (val) => {
                 currentAllCategoryFilter = val; currentPage = 1; updateUI();
             });
 
@@ -4213,14 +4213,14 @@
                 if (currentCategory !== 'BMW' && currentCategory !== 'BMW_TIMELINE') {
 
                     if (currentCategory === 'all') {
-                        const cats = new Set();
+                        const modelBrands = new Set();
                         carData
                             .filter(c => c.visible !== false)
-                            .forEach(c => { if (c.category) cats.add(c.category); });
+                            .forEach(c => { if (c.modelBrand) modelBrands.add(c.modelBrand); });
 
-                        updateTomSelect(tsCategory, Array.from(cats).sort(), currentLang === 'en' ? 'All Categories' : '鍏ㄩ儴鍒嗙被');
+                        updateTomSelect(tsCategory, Array.from(modelBrands).sort(), currentLang === 'en' ? 'All Model Brands' : '全部模型品牌');
                     } else {
-                        const allTags = new Set();
+                        const carBrands = new Set();
                         let relevantCars = [];
                         
                         // New Logic applied here
@@ -4231,12 +4231,9 @@
                         }
 
                         relevantCars.forEach(car => {
-                            if (car.tags) car.tags.split(';').forEach(tag => {
-                                const t = tag.trim();
-                                if (t) allTags.add(t);
-                            });
+                            if (car.carBrand) carBrands.add(car.carBrand);
                         });
-                        updateTomSelect(tsTag, Array.from(allTags).sort(), currentLang === 'en' ? 'All Tags' : '鍏ㄩ儴鏍囩');
+                        updateTomSelect(tsTag, Array.from(carBrands).sort(), currentLang === 'en' ? 'All Car Brands' : '全部汽车品牌');
                     }
                 }
 
@@ -5136,11 +5133,11 @@
                     } else if (currentCategory !== 'BMW_TIMELINE') {
                         if (currentCategory === 'all') {
                             if (currentAllCategoryFilter && currentAllCategoryFilter !== '') {
-                                filtered = filtered.filter(c => c.category === currentAllCategoryFilter);
+                                filtered = filtered.filter(c => c.modelBrand === currentAllCategoryFilter);
                             }
                         } else {
                             if (currentTagFilter && currentTagFilter !== '') {
-                                filtered = filtered.filter(c => (c.tags || '').split(';').map(t=>t.trim()).includes(currentTagFilter));
+                                filtered = filtered.filter(c => c.carBrand === currentTagFilter);
                             }
                         }
                     }

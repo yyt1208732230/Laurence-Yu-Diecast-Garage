@@ -6515,7 +6515,7 @@
     "imagePath": "images/auto-update-webp/[hw]_bmw507b_a.webp",
     "realCarImage": "images/new2026/bme507-1-thumb-960xauto-180327.webp",
     "realCarUrl": "https://radical-mag.com/en/2025/01/02/bmw-507-70136-2/",
-    "note": "New!"
+    "note": "none"
   },
   {
     "id": "nbmw645b",
@@ -6534,7 +6534,7 @@
     "imagePath": "images/auto-update-webp/[maisto]_bmw645b_a.webp",
     "realCarImage": "images/new2026/bmw-645ci-convertible-photo-5461-s-original.webp",
     "realCarUrl": "https://en.wikipedia.org/wiki/BMW_6_Series_(E63)",
-    "note": "New!"
+    "note": "none"
   },
   {
     "id": "mb1972lotusb",
@@ -6552,7 +6552,7 @@
     "imagePath": "images/auto-update-webp/[mb]_1972lotusb_a.webp",
     "realCarImage": "",
     "realCarUrl": "https://en.wikipedia.org/wiki/Lotus_Europa",
-    "note": "New!"
+    "note": "none"
   },
   {
     "id": "mbbgatiidivow",
@@ -6570,7 +6570,7 @@
     "imagePath": "images/auto-update-webp/[mb]_bgatiidivow_a.webp",
     "realCarImage": "",
     "realCarUrl": "https://en.wikipedia.org/wiki/Bugatti_Divo",
-    "note": "New!"
+    "note": "none"
   },
   {
     "id": "nbmwm2db",
@@ -6589,7 +6589,7 @@
     "imagePath": "images/auto-update-webp/[mb]_bmwm2db_a.webp",
     "realCarImage": "images/new2026/BMW-MY26-M2CS-g87_cs_dynamics_fb-retouched.webp",
     "realCarUrl": "https://en.wikipedia.org/wiki/BMW_M2",
-    "note": "New!"
+    "note": "none"
   },
   {
     "id": "mbminipolice2011",
@@ -6607,7 +6607,7 @@
     "imagePath": "images/auto-update-webp/[mb]_minipolice2011_a.webp",
     "realCarImage": "images/new2026/Bavaria-Police-MINI-Cooper-S-06.webp",
     "realCarUrl": "https://commons.wikimedia.org/wiki/File:Mini_Police,_IAA_2021,_Munich_%28IAA10365%29.jpg",
-    "note": "New!"
+    "note": "none"
   },
   {
     "id": "mbporsche911tar",
@@ -6625,7 +6625,7 @@
     "imagePath": "images/auto-update-webp/[mb]_porsche911tar_a.webp",
     "realCarImage": "",
     "realCarUrl": "https://en.wikipedia.org/wiki/Porsche_911_(992)",
-    "note": "New!"
+    "note": "none"
   },
   {
     "id": "nbmwm3trw",
@@ -6644,7 +6644,7 @@
     "imagePath": "images/auto-update-webp/[mjt]_bmwm3trw_a.webp",
     "realCarImage": "images/new2026/BMW-M3-GT4-custom-build-37-scaled.webp",
     "realCarUrl": "https://en.wikipedia.org/wiki/BMW_M3",
-    "note": "New!"
+    "note": "none"
   },
   {
     "id": "nbmwm3w",
@@ -6663,6 +6663,62 @@
     "imagePath": "images/auto-update-webp/[mjt]_bmwm3w_a.webp",
     "realCarImage": "images/new2026/22-06-26_11-06-49.webp",
     "realCarUrl": "https://www.bmw-m.com/en/all-models/overview-m-and-m-performance/bmw-m3-competition-touring/2024/bmw-m3-touring.html",
+    "note": "none"
+  },
+  {
+    "id": "hw260512",
+    "visible": true,
+    "category": "Hotwheels",
+    "modelBrand": "Hot Wheels",
+    "carBrand": "Mazda",
+    "modelName": "Mazda MX-5 Miata",
+    "price": "--",
+    "tags": "Mainline/Silver/Premium",
+    "imagePath": "images/new2026/IMG_3089.webp",
+    "realCarImage": "images/new2026/IMG_3089.webp",
+    "realCarUrl": "",
+    "note": "New!"
+  },
+  {
+    "id": "hw26051202",
+    "visible": true,
+    "category": "Hotwheels",
+    "modelBrand": "Hot Wheels",
+    "carBrand": "Mazda",
+    "modelName": "Mad Mike Mazda RX-3 Wagon/Remorque",
+    "price": "--",
+    "tags": "Mainline/Silver/Premium",
+    "imagePath": "images/new2026/IMG_3086.webp",
+    "realCarImage": "images/new2026/IMG_3086.webp",
+    "realCarUrl": "",
+    "note": "New!"
+  },
+  {
+    "id": "hw26051203",
+    "visible": true,
+    "category": "Hotwheels",
+    "modelBrand": "Hot Wheels",
+    "carBrand": "HW Originals",
+    "modelName": "Potimus Prime",
+    "price": "--",
+    "tags": "Mainline/Silver/Premium",
+    "imagePath": "images/new2026/IMG_3088.webp",
+    "realCarImage": "images/new2026/IMG_3088.webp",
+    "realCarUrl": "",
+    "note": "New!"
+  },
+  {
+    "id": "hw26051204",
+    "visible": true,
+    "category": "Hotwheels",
+    "modelBrand": "Hot Wheels",
+    "carBrand": "HW Originals",
+    "modelName": "2 Jet Z",
+    "price": "--",
+    "tags": "Treasure Hunt",
+    "imagePath": "images/new2026/IMG_3087.webp",
+    "realCarImage": "images/new2026/IMG_3087.webp",
+    "realCarUrl": "",
     "note": "New!"
   }
 ]
