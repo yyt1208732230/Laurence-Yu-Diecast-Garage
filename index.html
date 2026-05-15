@@ -2854,7 +2854,7 @@
         }
 
         body.v2 .gallery-grid {
-            gap: 0;
+            gap: clamp(10px, 1vw, 16px);
             align-items: stretch;
             margin-top: 0;
             padding-bottom: 0;
@@ -3348,18 +3348,18 @@
 
         .favorite-heart-front {
             position: absolute;
-            top: 14px;
-            left: 14px;
+            top: 12px;
+            left: 12px;
             z-index: 6;
-            width: 34px;
-            height: 34px;
+            width: auto;
+            height: auto;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             border: 0;
             background: transparent;
             box-shadow: none;
-            font-size: 1.08rem;
+            font-size: clamp(1rem, 1.6vw, 1.28rem);
         }
 
         .favorite-heart-inline {
@@ -3371,12 +3371,30 @@
         }
 
         body.v2 #gallery .card {
-            min-height: clamp(340px, 35vw, 430px);
+            width: 100%;
+            max-width: 100%;
+            min-width: 0;
             isolation: isolate;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+
+        body.v2 #gallery .card-3d {
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+
+        body.v2 #gallery .card-face {
+            width: 100%;
+            max-width: 100%;
+            overflow: hidden;
+            box-sizing: border-box;
         }
 
         body.v2 #gallery.gallery-grid {
-            gap: 2px;
+            gap: clamp(10px, 1vw, 16px);
+            overflow: hidden;
         }
 
         body.v2 #gallery .card-back {
@@ -3392,10 +3410,13 @@
             min-height: 0;
             overflow: hidden;
             display: grid;
-            grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+            grid-template-columns: minmax(0, 0.94fr) minmax(0, 1.06fr);
             gap: clamp(12px, 2vw, 22px);
             padding: clamp(16px, 2.2vw, 28px);
             color: #f0f0fa;
+            background:
+                radial-gradient(110% 90% at 82% 16%, rgba(240, 240, 250, 0.08), transparent 48%),
+                linear-gradient(135deg, rgba(10, 12, 15, 0.98), rgba(0, 0, 0, 0.96));
         }
 
         body.v2 #gallery .card-back-main,
@@ -3404,6 +3425,7 @@
             min-height: 0;
             display: flex;
             flex-direction: column;
+            box-sizing: border-box;
         }
 
         body.v2 #gallery .card-back-main {
@@ -3576,11 +3598,12 @@
         }
 
         body.v2 #gallery .card-back-media-frame {
-            width: min(100%, 380px);
-            max-height: none;
+            width: 100%;
+            max-height: 48%;
             align-self: center;
             aspect-ratio: 16 / 9;
             flex: 0 1 auto;
+            box-sizing: border-box;
             border-radius: 0;
             border: 2px solid rgba(240, 240, 250, 0.84);
             background: #f7f7f7;
@@ -3589,9 +3612,31 @@
 
         body.v2 #gallery .card-back-media-frame img {
             display: block;
+            width: 100%;
+            height: 100%;
             max-width: 100%;
             object-fit: cover;
             background: #f7f7f7;
+        }
+
+        @media (hover: hover) and (pointer: fine) {
+            body.v2 #gallery .card:hover .card-3d {
+                transform: rotateY(180deg);
+            }
+
+            body.v2 #gallery .card:hover .card-shadow {
+                transform: none;
+            }
+        }
+
+        body.v2 #gallery .card.is-flipped .card-3d,
+        body.v2 #gallery .card.flip-all .card-3d {
+            transform: rotateY(180deg);
+        }
+
+        body.v2 #gallery .card.is-flipped .card-shadow,
+        body.v2 #gallery .card.flip-all .card-shadow {
+            transform: none;
         }
 
         body.v2 #gallery .card-back-price {
@@ -3617,10 +3662,6 @@
         }
 
         @media (max-width: 900px) {
-            body.v2 #gallery .card {
-                min-height: 410px;
-            }
-
             body.v2 #gallery .card-back-layout {
                 grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
                 gap: 12px;
@@ -3640,14 +3681,11 @@
             .favorite-heart-front {
                 top: 10px;
                 left: 10px;
-                width: 30px;
-                height: 30px;
                 font-size: 0.96rem;
             }
 
             body.v2 #gallery .card {
-                aspect-ratio: auto;
-                min-height: 448px;
+                aspect-ratio: 16 / 10;
             }
 
             body.v2 #gallery .card-back-layout {
