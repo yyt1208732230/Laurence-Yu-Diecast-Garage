@@ -3337,6 +3337,410 @@
                 font-size: 1.35rem;
             }
         }
+
+        /* ================= Gallery card back refresh ================= */
+        .favorite-heart {
+            color: #e7222e;
+            text-shadow: none;
+            line-height: 1;
+            pointer-events: none;
+        }
+
+        .favorite-heart-front {
+            position: absolute;
+            top: 14px;
+            left: 14px;
+            z-index: 6;
+            width: 34px;
+            height: 34px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 0;
+            background: transparent;
+            box-shadow: none;
+            font-size: 1.08rem;
+        }
+
+        .favorite-heart-inline {
+            display: inline-flex;
+            align-items: center;
+            flex: 0 0 auto;
+            font-size: 1rem;
+            margin-left: 8px;
+        }
+
+        body.v2 #gallery .card {
+            min-height: clamp(340px, 35vw, 430px);
+            isolation: isolate;
+        }
+
+        body.v2 #gallery.gallery-grid {
+            gap: 2px;
+        }
+
+        body.v2 #gallery .card-back {
+            background:
+                radial-gradient(120% 100% at 82% 8%, rgba(240, 240, 250, 0.10), transparent 46%),
+                linear-gradient(135deg, #0b0d10, #000000 58%, #111317);
+        }
+
+        body.v2 #gallery .card-back-layout {
+            position: relative;
+            z-index: 2;
+            height: 100%;
+            min-height: 0;
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+            gap: clamp(12px, 2vw, 22px);
+            padding: clamp(16px, 2.2vw, 28px);
+            color: #f0f0fa;
+        }
+
+        body.v2 #gallery .card-back-main,
+        body.v2 #gallery .card-back-visual {
+            min-width: 0;
+            min-height: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        body.v2 #gallery .card-back-main {
+            gap: 10px;
+            overflow: hidden;
+        }
+
+        body.v2 #gallery .card-back-visual {
+            gap: 8px;
+            justify-content: flex-start;
+            overflow: hidden;
+        }
+
+        body.v2 #gallery .card-back-id-row,
+        body.v2 #gallery .card-back-name-row,
+        body.v2 #gallery .card-back-note-row {
+            display: flex;
+            align-items: center;
+            min-width: 0;
+        }
+
+        body.v2 #gallery .card-back-id-row {
+            min-height: 22px;
+        }
+
+        body.v2 #gallery .card-back-id {
+            min-width: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-size: clamp(0.62rem, 0.95vw, 0.78rem);
+            font-weight: 500;
+            letter-spacing: 0.02em;
+            color: rgba(240, 240, 250, 0.72);
+            text-shadow: none;
+        }
+
+        body.v2 #gallery .card-back-name-row {
+            gap: 8px;
+            align-items: flex-start;
+        }
+
+        body.v2 #gallery .card-back-title {
+            margin: 0;
+            padding: 0;
+            min-height: 0;
+            flex: 1 1 auto;
+            font-size: clamp(1rem, 2.2vw, 1.85rem);
+            line-height: 0.98;
+            letter-spacing: 0;
+            color: #ffffff;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        body.v2 #gallery .card-back-resource-link {
+            position: relative;
+            z-index: 10;
+            flex: 0 0 auto;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            min-height: 28px;
+            padding: 5px 8px;
+            border: 1px solid rgba(240, 240, 250, 0.42);
+            background: rgba(240, 240, 250, 0.08);
+            color: #f0f0fa;
+            text-decoration: none;
+            font-size: 0.68rem;
+            font-weight: 800;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            pointer-events: auto;
+        }
+
+        body.v2 #gallery .card-back-resource-link svg {
+            width: 14px;
+            height: 14px;
+            flex: 0 0 auto;
+        }
+
+        body.v2 #gallery .card-back-tags {
+            max-height: 58px;
+            overflow: auto;
+            padding-right: 2px;
+            align-content: flex-start;
+            scrollbar-width: thin;
+        }
+
+        body.v2 #gallery .card-back-specs {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 7px;
+        }
+
+        body.v2 #gallery .spec-pill {
+            min-height: 46px;
+            padding: 8px 9px;
+            border-radius: 6px;
+            background: rgba(240, 240, 250, 0.07);
+        }
+
+        body.v2 #gallery .spec-pill .label {
+            font-size: 0.56rem;
+            letter-spacing: 0.08em;
+        }
+
+        body.v2 #gallery .spec-pill .value {
+            font-size: 0.76rem;
+            line-height: 1.15;
+        }
+
+        body.v2 #gallery .card-back-description {
+            min-height: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            padding-top: 5px;
+            border-top: 1px solid rgba(240, 240, 250, 0.18);
+            overflow: hidden;
+        }
+
+        body.v2 #gallery .card-back-desc-label {
+            color: #f0f0fa;
+            font-size: 0.78rem;
+            font-weight: 900;
+            letter-spacing: 0.04em;
+        }
+
+        body.v2 #gallery .card-back-desc {
+            margin: 0;
+            min-height: 0;
+            color: rgba(240, 240, 250, 0.76);
+            font-size: 0.72rem;
+            line-height: 1.42;
+            letter-spacing: 0.02em;
+            text-transform: none;
+            -webkit-line-clamp: 5;
+        }
+
+        body.v2 #gallery .card-back-note-row {
+            justify-content: flex-end;
+            min-height: 24px;
+        }
+
+        body.v2 #gallery .card-back-note {
+            max-width: 100%;
+            padding: 7px 12px;
+            border: 1px solid rgba(240, 240, 250, 0.52);
+            background: rgba(240, 240, 250, 0.10);
+            color: #ffffff;
+            font-size: 0.76rem;
+            font-weight: 900;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        body.v2 #gallery .card-back-real-label {
+            text-align: center;
+            font-size: clamp(0.62rem, 1vw, 0.78rem);
+            font-weight: 600;
+            line-height: 1;
+            color: rgba(240, 240, 250, 0.68);
+            letter-spacing: 0.04em;
+            text-transform: none;
+        }
+
+        body.v2 #gallery .card-back-media-frame {
+            width: min(100%, 380px);
+            max-height: none;
+            align-self: center;
+            aspect-ratio: 16 / 9;
+            flex: 0 1 auto;
+            border-radius: 0;
+            border: 2px solid rgba(240, 240, 250, 0.84);
+            background: #f7f7f7;
+            box-shadow: 0 16px 38px rgba(0, 0, 0, 0.32);
+        }
+
+        body.v2 #gallery .card-back-media-frame img {
+            display: block;
+            max-width: 100%;
+            object-fit: cover;
+            background: #f7f7f7;
+        }
+
+        body.v2 #gallery .card-back-price {
+            display: flex;
+            justify-content: center;
+            align-items: baseline;
+            gap: 6px;
+            color: #f0f0fa;
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.02em;
+            text-align: center;
+        }
+
+        body.v2 #gallery .card-back-price strong {
+            font-size: 0.82rem;
+            color: #ffffff;
+        }
+
+        body.v2 .picks-section {
+            min-height: 0;
+            padding-bottom: 0;
+        }
+
+        @media (max-width: 900px) {
+            body.v2 #gallery .card {
+                min-height: 410px;
+            }
+
+            body.v2 #gallery .card-back-layout {
+                grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+                gap: 12px;
+                padding: 14px;
+            }
+
+            body.v2 #gallery .card-back-main {
+                gap: 8px;
+            }
+
+            body.v2 #gallery .card-back-tags {
+                max-height: 48px;
+            }
+        }
+
+        @media (max-width: 560px) {
+            .favorite-heart-front {
+                top: 10px;
+                left: 10px;
+                width: 30px;
+                height: 30px;
+                font-size: 0.96rem;
+            }
+
+            body.v2 #gallery .card {
+                aspect-ratio: auto;
+                min-height: 448px;
+            }
+
+            body.v2 #gallery .card-back-layout {
+                grid-template-columns: minmax(0, 0.96fr) minmax(0, 1.04fr);
+                gap: 9px;
+                padding: 11px;
+            }
+
+            body.v2 #gallery .card-back-main {
+                gap: 7px;
+            }
+
+            body.v2 #gallery .card-back-id {
+                font-size: 0.56rem;
+            }
+
+            body.v2 .favorite-heart-inline {
+                font-size: 0.82rem;
+                margin-left: 5px;
+            }
+
+            body.v2 #gallery .card-back-title {
+                font-size: 0.95rem;
+                -webkit-line-clamp: 3;
+            }
+
+            body.v2 #gallery .card-back-resource-link {
+                min-height: 24px;
+                padding: 4px 6px;
+                font-size: 0.58rem;
+            }
+
+            body.v2 #gallery .card-back-resource-link span {
+                display: none;
+            }
+
+            body.v2 #gallery .card-back-tags {
+                gap: 4px;
+                max-height: 42px;
+            }
+
+            body.v2 #gallery .card-back-specs {
+                gap: 5px;
+            }
+
+            body.v2 #gallery .spec-pill {
+                min-height: 40px;
+                padding: 6px;
+            }
+
+            body.v2 #gallery .spec-pill .label {
+                font-size: 0.46rem;
+            }
+
+            body.v2 #gallery .spec-pill .value {
+                font-size: 0.60rem;
+            }
+
+            body.v2 #gallery .card-back-desc-label {
+                font-size: 0.68rem;
+            }
+
+            body.v2 #gallery .card-back-desc {
+                font-size: 0.58rem;
+                line-height: 1.32;
+                -webkit-line-clamp: 4;
+            }
+
+            body.v2 #gallery .card-back-note-row {
+                min-height: 20px;
+            }
+
+            body.v2 #gallery .card-back-note {
+                padding: 5px 7px;
+                font-size: 0.58rem;
+            }
+
+            body.v2 #gallery .card-back-real-label {
+                font-size: 0.58rem;
+            }
+
+            body.v2 #gallery .card-back-price {
+                flex-direction: column;
+                align-items: center;
+                gap: 1px;
+                font-size: 0.56rem;
+                line-height: 1.1;
+            }
+
+            body.v2 #gallery .card-back-price strong {
+                font-size: 0.64rem;
+            }
+        }
     </style>
 </head>
 
@@ -4184,6 +4588,7 @@
                 .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
                 .then(data => {
                     carData = data.slice().reverse();
+                    refreshMyPickVehicleIds();
                     refreshOptions();
                     updateUI();
                 })
@@ -4316,45 +4721,57 @@
 
                 const tagsList = (car.tags || '').split(';').map(t => t.trim()).filter(Boolean);
                 const frontTagsHTML = tagsList.slice(0, 3).map(t => `<span class="mini-tag">${t}</span>`).join('');
-                const backTagsHTML = tagsList.slice(0, 4).map(t => `<span class="mini-tag">${t}</span>`).join('');
+                const backTagsHTML = tagsList.length
+                    ? tagsList.map(t => `<span class="mini-tag">${t}</span>`).join('')
+                    : `<span class="mini-tag">${currentLang === 'en' ? 'No tags' : '暂无标签'}</span>`;
                 const noteText = (car.note || '').toString().trim();
                 const noteHtml = noteText && noteText.toLowerCase() !== 'none'
                     ? `<div class="card-note-badge">${noteText}</div>`
+                    : '';
+                const backNoteHtml = noteText && noteText.toLowerCase() !== 'none'
+                    ? `<div class="card-back-note">${noteText}</div>`
+                    : '';
+                const isFavorite = isMyPickCar(car);
+                const favoriteHeartFrontHtml = isFavorite
+                    ? `<span class="favorite-heart favorite-heart-front" aria-label="My Pick">&#10084;</span>`
+                    : '';
+                const favoriteHeartInlineHtml = isFavorite
+                    ? `<span class="favorite-heart favorite-heart-inline" aria-label="My Pick">&#10084;</span>`
                     : '';
 
                 const modelImgSrc = car.imagePath || 'images/logo_white.png';
                 const realImgSrc = car.realCarImage || '';
                 const displayImgSrc = (showRealCarImages && realImgSrc) ? realImgSrc : modelImgSrc;
                 const frontImgSrc = displayImgSrc;
-                const backImgSrc = displayImgSrc;
+                const backImgSrc = realImgSrc || modelImgSrc;
+                const hasRealBackImage = Boolean(realImgSrc);
 
                 const title = `${car.modelName || 'Unknown'}`;
-                const yearMatch = (car.tags || '').match(/\b(19|20)\d{2}\b/);
-                const yearText = yearMatch ? yearMatch[0] : '';
-                const yearHtml = yearText ? `<div class="card-back-year">${yearText}</div>` : '';
+                const collectionId = (car.id || '').toString().trim() || '--';
                 const descText = currentLang === 'en'
                     ? (`${car.modelName || 'Unknown'} from ${car.modelBrand || 'Unknown'}. ${car.description_en || car.description_cn || ''}`)
                     : (`模型品牌${car.modelBrand || '未知'}的${car.modelName || '未知品牌'} 。${car.description_cn || car.description_en || ''}`);
+                const backDescText = (currentLang === 'en' ? car.description_en : car.description_cn) || '-';
 
                 const carBrandLabel = currentLang === 'en' ? 'Car Brand' : '车品牌';
                 const modelBrandLabel = currentLang === 'en' ? 'Model Brand' : '模型品牌';
                 const colorLabel = currentLang === 'en' ? 'Color' : '颜色';
-                const seriesLabel = currentLang === 'en' ? 'Series' : '系列';
-                const backStateText = showRealCarImages && car.realCarImage
-                    ? (currentLang === 'en' ? 'Real Car View' : '真车视图')
-                    : (currentLang === 'en' ? 'Model Detail' : '模型细节');
+                const seriesLabel = currentLang === 'en' ? 'Series No.' : '系列号';
+                const descLabel = currentLang === 'en' ? 'Description' : '描述';
+                const linkLabel = currentLang === 'en' ? 'link' : '链接';
+                const priceLabel = currentLang === 'en' ? 'Model Est. Price' : '模型估价';
                 const fallbackSeries = currentLang === 'en' ? 'Not set' : '暂无';
-                const frontBadgeText = car.carBrand || car.modelBrand || (currentLang === 'en' ? 'Collection Piece' : '收藏展品');
-                const titleLink = car.realCarUrl
-                    ? `<a class="card-back-title-link" href="${car.realCarUrl}" target="_blank" rel="noopener noreferrer">${title}</a>`
-                    : `<h3 class="card-back-title">${title}</h3>`;
-                const infoIcon = car.realCarUrl
-                    ? `<a class="card-back-link-icon" href="${car.realCarUrl}" target="_blank" rel="noopener noreferrer" aria-label="Explore Model">
+                const realWorldLabelHtml = hasRealBackImage
+                    ? `<div class="card-back-real-label">${currentLang === 'en' ? 'Car in Real-world' : '真实车辆'}</div>`
+                    : '';
+                const resourceLinkHtml = car.realCarUrl
+                    ? `<a class="card-back-resource-link" href="${car.realCarUrl}" target="_blank" rel="noopener noreferrer" aria-label="Explore Model">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                           <path d="M14 3h7v7"></path>
                           <path d="M10 14L21 3"></path>
                           <path d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"></path>
                         </svg>
+                        <span>${linkLabel}</span>
                       </a>`
                     : '';
 
@@ -4362,6 +4779,7 @@
           <div class="card-shadow" aria-hidden="true"></div>
           <div class="card-3d">
             <div class="card-face card-front">
+              ${favoriteHeartFrontHtml}
               <div class="card-info">
                 ${noteHtml}
                 <h3 class="card-title">${title}</h3>
@@ -4383,52 +4801,64 @@
             </div>
 
             <div class="card-face card-back">
-              <div class="card-back-media">
-                
-                <div class="card-back-media-frame">
-                  <img
-                    src="${backImgSrc}"
-                    alt="${title}"
-                    loading="lazy"
-                    decoding="async"
-                    onload="this.classList.add('loaded')"
-                    onerror="this.onerror=null; this.src='${frontImgSrc}';"
-                  >
-                </div>
-              </div>
-              <div class="card-back-inner">
-                <div class="card-back-head">
-                  <div class="card-back-title-wrap">
-                    <div class="card-back-kicker">${car.carBrand || ''}</div>
-                    <div class="card-back-title-row">
-                      ${titleLink}
-                      ${infoIcon}
+              <div class="card-back-layout">
+                <section class="card-back-main">
+                  <div class="card-back-id-row">
+                    <span class="card-back-id">Collection ID: ${collectionId}</span>
+                    ${favoriteHeartInlineHtml}
+                  </div>
+
+                  <div class="card-back-name-row">
+                    <h3 class="card-back-title">${title}</h3>
+                    ${resourceLinkHtml}
+                  </div>
+
+                  <div class="card-back-tags">${backTagsHTML}</div>
+
+                  <div class="card-back-specs">
+                    <div class="spec-pill">
+                      <span class="label">${carBrandLabel}</span>
+                      <span class="value">${car.carBrand || '-'}</span>
+                    </div>
+                    <div class="spec-pill">
+                      <span class="label">${modelBrandLabel}</span>
+                      <span class="value">${car.modelBrand || '-'}</span>
+                    </div>
+                    <div class="spec-pill">
+                      <span class="label">${colorLabel}</span>
+                      <span class="value">${(currentLang === 'en' ? car.color : car.color_cn) || '-'}</span>
+                    </div>
+                    <div class="spec-pill">
+                      <span class="label">${seriesLabel}</span>
+                      <span class="value">${car.seriesNum || fallbackSeries}</span>
                     </div>
                   </div>
-                  ${yearHtml}
-                </div>
 
-                <div class="card-back-specs">
-                  <div class="spec-pill">
-                    <span class="label">${carBrandLabel}</span>
-                    <span class="value">${car.carBrand || '-'}</span>
+                  <div class="card-back-description">
+                    <div class="card-back-desc-label">${descLabel}</div>
+                    <p class="card-back-desc">${backDescText}</p>
                   </div>
-                  <div class="spec-pill">
-                    <span class="label">${modelBrandLabel}</span>
-                    <span class="value">${car.modelBrand || '-'}</span>
-                  </div>
-                  <div class="spec-pill">
-                    <span class="label">${colorLabel}</span>
-                    <span class="value">${(currentLang === 'en' ? car.color : car.color_cn) || '-'}</span>
-                  </div>
-                  <div class="spec-pill">
-                    <span class="label">${seriesLabel}</span>
-                    <span class="value">${car.seriesNum || fallbackSeries}</span>
-                  </div>
-                </div>
+                </section>
 
-                <div class="card-back-tags">${backTagsHTML}</div>
-              </div>
+                <section class="card-back-visual">
+                  <div class="card-back-note-row">${backNoteHtml}</div>
+                  ${realWorldLabelHtml}
+                  <div class="card-back-media-frame">
+                    <img
+                      src="${backImgSrc}"
+                      alt="${title}"
+                      loading="lazy"
+                      decoding="async"
+                      onload="this.classList.add('loaded')"
+                      onerror="this.onerror=null; this.src='${modelImgSrc}';"
+                    >
+                  </div>
+                  <div class="card-back-price">
+                    <span>${priceLabel}</span>
+                    <strong>${car.price || '-'}</strong>
+                  </div>
+                </section>
+                </div>
             </div>
           </div>
           <div class="card-sheen" aria-hidden="true"></div>
@@ -4440,7 +4870,7 @@
                     card.classList.toggle('is-flipped');
                 });
 
-                card.querySelectorAll('.card-back-title-link, .card-back-link-icon').forEach(link => {
+                card.querySelectorAll('.card-back-resource-link').forEach(link => {
                     link.addEventListener('click', (event) => {
                         event.stopPropagation();
                     });
@@ -4742,6 +5172,24 @@
                 ART: 'Art',
                 HIDDEN: 'Hidden gem'
             };
+
+            let myPickVehicleIds = new Set();
+
+            function refreshMyPickVehicleIds() {
+                const pickTags = new Set(Object.values(PICKS_TAGS));
+                myPickVehicleIds = new Set(
+                    carData
+                        .filter(c => c.visible !== false)
+                        .filter(c => (c.tags || '').split(';').map(s => s.trim()).some(tag => pickTags.has(tag)))
+                        .map(c => (c.id || '').toString().trim())
+                        .filter(Boolean)
+                );
+            }
+
+            function isMyPickCar(car) {
+                const id = (car?.id || '').toString().trim();
+                return Boolean(id && myPickVehicleIds.has(id));
+            }
 
             const PICKS_SECTIONS = [
                 {
