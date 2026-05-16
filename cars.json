@@ -6774,5 +6774,24 @@
     "realCarImage": "images/new2026/IMG_3110.webp",
     "realCarUrl": "",
     "note": "New!"
+  },
+  {
+    "id": "bmwkaidoblue",
+    "visible": true,
+    "category": "BMW",
+    "modelBrand": "MINI GT",
+    "carBrand": "BMW",
+    "modelName": "BMW M3 KAIDO TOURING CHAMP V1",
+    "seriesNum": "E30",
+    "price": "￥129",
+    "tags": "E30;2022;Blue;1/64",
+    "color": "Blue",
+    "color_cn": "蓝",
+    "description_en": "KHMG223",
+    "description_cn": "KHMG223",
+    "imagePath": "images/new2026/bmwkaidoblue.webp",
+    "realCarImage": "images/new2026/1991_BMW_E30_M3.webp",
+    "realCarUrl": "https://www.bmw-m.com/en/topics/magazine-article-pool/bmw-m3-e30-portraet.html",
+    "note": "New!"
   }
 ]
