@@ -2144,6 +2144,22 @@
             -webkit-backdrop-filter: blur(14px);
         }
 
+        footer .asset-credit {
+            margin-top: 8px;
+            font-size: 0.68rem;
+            letter-spacing: 0;
+            text-transform: none;
+        }
+
+        footer .asset-credit a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        footer .asset-credit a:hover {
+            text-decoration: underline;
+        }
+
         @keyframes slideUp {
             from {
                 opacity: 0;
@@ -3094,6 +3110,11 @@
             text-transform: uppercase;
         }
 
+        body.v2 footer .asset-credit {
+            letter-spacing: 0;
+            text-transform: none;
+        }
+
         body.v2 .back-to-top {
             position: fixed;
             right: clamp(18px, 3vw, 34px);
@@ -3346,6 +3367,13 @@
             pointer-events: none;
         }
 
+        .favorite-heart img {
+            display: block;
+            width: 1em;
+            height: 1em;
+            object-fit: contain;
+        }
+
         .favorite-heart-front {
             position: absolute;
             top: 12px;
@@ -3359,7 +3387,7 @@
             border: 0;
             background: transparent;
             box-shadow: none;
-            font-size: clamp(1rem, 1.6vw, 1.28rem);
+            font-size: clamp(1.05rem, 1.65vw, 1.32rem);
         }
 
         .favorite-heart-inline {
@@ -3459,7 +3487,7 @@
             font-size: clamp(0.62rem, 0.95vw, 0.78rem);
             font-weight: 500;
             letter-spacing: 0.02em;
-            color: rgba(240, 240, 250, 0.72);
+            color: #d9b45a;
             text-shadow: none;
         }
 
@@ -3962,6 +3990,7 @@
         <footer>
             <p>“Beyond my means, never beyond memory.”</p>
             <p>&copy; 2026 Laurence Diecast Collection</p>
+            <p class="asset-credit"><a href="https://www.flaticon.com/free-icons/heart" title="heart icons">Heart icons created by Vlad Szirka - Flaticon</a></p>
         </footer>
     </section>
 
@@ -4770,11 +4799,12 @@
                     ? `<div class="card-back-note">${noteText}</div>`
                     : '';
                 const isFavorite = isMyPickCar(car);
+                const favoriteHeartIconHtml = `<img src="images/icons/heart-vlad-szirka-flaticon-2589175.png" alt="" aria-hidden="true" loading="lazy" decoding="async">`;
                 const favoriteHeartFrontHtml = isFavorite
-                    ? `<span class="favorite-heart favorite-heart-front" aria-label="My Pick">&#10084;</span>`
+                    ? `<span class="favorite-heart favorite-heart-front" aria-label="My Pick">${favoriteHeartIconHtml}</span>`
                     : '';
                 const favoriteHeartInlineHtml = isFavorite
-                    ? `<span class="favorite-heart favorite-heart-inline" aria-label="My Pick">&#10084;</span>`
+                    ? `<span class="favorite-heart favorite-heart-inline" aria-label="My Pick">${favoriteHeartIconHtml}</span>`
                     : '';
 
                 const modelImgSrc = car.imagePath || 'images/logo_white.png';

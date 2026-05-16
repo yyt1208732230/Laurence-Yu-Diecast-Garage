@@ -2209,7 +2209,7 @@
     "imagePath": "images/diecast/79742edc32c63e0f083bf5d93ab9ed4d-1.webp",
     "realCarImage": "images/diecast/1770101688223.webp",
     "realCarUrl": "https://www.press.bmwgroup.com/canada/article/detail/T0377038EN/canadian-samantha-tan-claims-first-win-for-bmw-m4-gt3-bmw-m-motorsport-news-28th-march-2022?language=en",
-    "note": "none"
+    "note": "Unique"
   },
   {
     "id": "98",
@@ -2228,7 +2228,7 @@
     "imagePath": "images/diecast/20260201124925.webp",
     "realCarImage": "images/diecast/P90504015-bmw-m-team.webp",
     "realCarUrl": "https://www.press.bmwgroup.com/global/article/detail/T0447671EN/24h-daytona:-dries-vanthoor-drives-to-the-first-pole-position-for-the-bmw-m-hybrid-v8",
-    "note": "none"
+    "note": "Unique"
   },
   {
     "id": "99",
@@ -4037,7 +4037,7 @@
     "imagePath": "images/hotwheels/IMG_20260213_003723.jpg",
     "realCarImage": "",
     "realCarUrl": "",
-    "note": "none"
+    "note": "Unique"
   },
   {
     "id": "hw139",
@@ -6677,7 +6677,7 @@
     "imagePath": "images/new2026/IMG_3089.webp",
     "realCarImage": "images/new2026/IMG_3089.webp",
     "realCarUrl": "",
-    "note": "New!"
+    "note": "none"
   },
   {
     "id": "hw26051202",
@@ -6691,7 +6691,7 @@
     "imagePath": "images/new2026/IMG_3086.webp",
     "realCarImage": "images/new2026/IMG_3086.webp",
     "realCarUrl": "",
-    "note": "New!"
+    "note": "none"
   },
   {
     "id": "hw26051203",
@@ -6705,7 +6705,7 @@
     "imagePath": "images/new2026/IMG_3088.webp",
     "realCarImage": "images/new2026/IMG_3088.webp",
     "realCarUrl": "",
-    "note": "New!"
+    "note": "none"
   },
   {
     "id": "hw26051204",
@@ -6718,6 +6718,60 @@
     "tags": "Treasure Hunt",
     "imagePath": "images/new2026/IMG_3087.webp",
     "realCarImage": "images/new2026/IMG_3087.webp",
+    "realCarUrl": "",
+    "note": "none"
+  },
+  {
+    "id": "momscar",
+    "visible": true,
+    "category": "Other",
+    "modelBrand": "N/A",
+    "carBrand": "Volkswagen",
+    "modelName": "Volkswagen Beetle (Yellow)",
+    "price": "∞",
+    "tags": "1/36;My favour",
+    "color": "Yellow",
+    "color_cn": "黄",
+    "description_en": "Bought by my mother — she has always quietly supported my hobbies, even though she may not fully understand them.",
+    "description_cn": "母亲买的，她总是默默支持我的爱好，即便她可能一窍不通。",
+    "imagePath": "images/new2026/momscar.jpg",
+    "realCarImage": "images/new2026/uxjbsftna2f7ov.webp",
+    "realCarUrl": "",
+    "note": "Unique"
+  },
+  {
+    "id": "hw26051601",
+    "visible": true,
+    "category": "Hotwheels",
+    "modelBrand": "Hot Wheels",
+    "carBrand": "Volkswagen",
+    "modelName": "Tooned Volkswagen Golf MK1",
+    "price": "$3.00",
+    "tags": "Mainline/Silver/Premium",
+    "color": "White",
+    "color_cn": "白",
+    "description_en": "",
+    "description_cn": "",
+    "imagePath": "images/new2026/IMG_3100.webp",
+    "realCarImage": "",
+    "realCarUrl": "",
+    "note": "New!"
+  },
+  {
+    "id": "hw26051602",
+    "visible": true,
+    "category": "Hotwheels",
+    "modelBrand": "Hot Wheels",
+    "carBrand": "HW Originals",
+    "modelName": "Twin Tag",
+    "price": "$3.00",
+    "tags": "Mainline/Silver/Premium",
+    "color": "Red",
+    "color_cn": "红",
+    "description_en": "",
+    "description_cn": "",
+    "imagePath": "images/new2026/IMG_3101.webp",
+    "realCarImage": "images/new2026/IMG_3110.webp",
     "realCarUrl": "",
     "note": "New!"
   }
