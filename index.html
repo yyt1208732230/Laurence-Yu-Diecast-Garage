@@ -2132,7 +2132,7 @@
             box-shadow: 0 18px 50px rgba(15, 18, 22, 0.12);
         }
 
-        footer {
+        .site-footer {
             margin-top: 22px;
             padding: 28px var(--pad) 34px var(--pad);
             color: rgba(21, 22, 26, 0.50);
@@ -2144,19 +2144,44 @@
             -webkit-backdrop-filter: blur(14px);
         }
 
-        footer .asset-credit {
+        .site-footer.home-footer-mode {
+            margin-top: 0;
+        }
+
+        .site-footer.app-footer-mode {
+            margin-top: 22px;
+        }
+
+        .site-footer .asset-credit {
             margin-top: 8px;
             font-size: 0.68rem;
             letter-spacing: 0;
             text-transform: none;
         }
 
-        footer .asset-credit a {
+        .site-footer .visitor-counter {
+            margin: 10px 0 0 0;
+            display: inline-flex;
+            align-items: baseline;
+            justify-content: center;
+            gap: 6px;
+            font-size: 0.78rem;
+            letter-spacing: 0;
+            text-transform: none;
+        }
+
+        .site-footer .visitor-count {
+            color: rgba(21, 22, 26, 0.72);
+            font-weight: 650;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .site-footer .asset-credit a {
             color: inherit;
             text-decoration: none;
         }
 
-        footer .asset-credit a:hover {
+        .site-footer .asset-credit a:hover {
             text-decoration: underline;
         }
 
@@ -3102,7 +3127,7 @@
             border: 1px solid rgba(240, 240, 250, 0.35);
         }
 
-        body.v2 footer {
+        body.v2 .site-footer {
             background: #000;
             color: rgba(240, 240, 250, 0.54);
             border-top: 1px solid rgba(240, 240, 250, 0.16);
@@ -3110,9 +3135,17 @@
             text-transform: uppercase;
         }
 
-        body.v2 footer .asset-credit {
+        body.v2 .site-footer .asset-credit {
             letter-spacing: 0;
             text-transform: none;
+        }
+
+        body.v2 .site-footer .visitor-counter {
+            color: rgba(240, 240, 250, 0.58);
+        }
+
+        body.v2 .site-footer .visitor-count {
+            color: rgba(240, 240, 250, 0.78);
         }
 
         body.v2 .back-to-top {
@@ -3987,12 +4020,17 @@
             <div id="pagination-bottom" class="pagination-container"></div>
         </div>
 
-        <footer>
-            <p>“Beyond my means, never beyond memory.”</p>
-            <p>&copy; 2026 Laurence Diecast Collection</p>
-            <p class="asset-credit"><a href="https://www.flaticon.com/free-icons/heart" title="heart icons">Heart icons created by Vlad Szirka - Flaticon</a></p>
-        </footer>
     </section>
+
+    <footer id="site-footer" class="site-footer home-footer-mode">
+        <p>“Beyond my means, never beyond memory.”</p>
+        <p>&copy; 2026 Laurence Diecast Collection</p>
+        <p class="visitor-counter" data-i18n-preserve-children>
+            <span id="visitor-count-label" data-en="Historical visitors:" data-cn="历史访问人数：">Historical visitors:</span>
+            <span id="visitor-count" class="visitor-count" aria-live="polite">--</span>
+        </p>
+        <!-- <p class="asset-credit"><a href="https://www.flaticon.com/free-icons/heart" title="heart icons">Heart icons created by Vlad Szirka - Flaticon</a></p> -->
+    </footer>
 
     <div id="modal" class="modal">
         <div class="modal-content">
@@ -4066,6 +4104,7 @@
 
             const home = getEl('home');
             const app = getEl('app');
+            const siteFooter = getEl('site-footer');
 
             const brandHome = getEl('brand-home');
             const enterBimmer = getEl('enter-bimmer');
@@ -4084,6 +4123,7 @@
             const timelineView = getEl('timeline-view');
             const picksView = getEl('picks-view');
             const paginationContainers = [getEl('pagination-top'), getEl('pagination-bottom')];
+            const visitorCountValue = getEl('visitor-count');
 
             const toggleBtn = getEl('view-toggle-btn');
             const flipAllLabel = getEl('flip-all-label');
@@ -4146,12 +4186,20 @@
                 if (view === 'home') {
                     home.style.display = 'flex';
                     app.style.display = 'none';
+                    if (siteFooter) {
+                        siteFooter.classList.add('home-footer-mode');
+                        siteFooter.classList.remove('app-footer-mode');
+                    }
                     document.body.style.overflow = 'auto';
                     window.scrollTo(0, 0);
                     return;
                 }
                 home.style.display = 'none';
                 app.style.display = 'block';
+                if (siteFooter) {
+                    siteFooter.classList.add('app-footer-mode');
+                    siteFooter.classList.remove('home-footer-mode');
+                }
                 window.scrollTo(0, 0);
                 _initHeroScroller();
                 _refreshHeroScrubOnNextFrame();
@@ -5231,6 +5279,78 @@
             }
 
             /* =========================
+               Visitor counter
+            ========================== */
+            const VISITOR_COUNTER_ENDPOINT = 'https://diecast.ilovefuturemobility.org/api/visit';
+            const VISITOR_ID_STORAGE_KEY = 'laurenceDiecastVisitorId';
+            let visitorTotal = null;
+
+            function createVisitorId() {
+                if (window.crypto && typeof window.crypto.randomUUID === 'function') {
+                    return window.crypto.randomUUID();
+                }
+
+                const randomPart = Math.random().toString(36).slice(2);
+                const timePart = Date.now().toString(36);
+                return `visitor-${timePart}-${randomPart}`;
+            }
+
+            function getOrCreateVisitorId() {
+                const generatedId = createVisitorId();
+
+                try {
+                    const storedId = window.localStorage.getItem(VISITOR_ID_STORAGE_KEY);
+                    if (storedId) return storedId;
+
+                    window.localStorage.setItem(VISITOR_ID_STORAGE_KEY, generatedId);
+                    return generatedId;
+                } catch (e) {
+                    return generatedId;
+                }
+            }
+
+            function renderVisitorTotal() {
+                if (!visitorCountValue) return;
+
+                visitorCountValue.textContent = visitorTotal === null
+                    ? '--'
+                    : new Intl.NumberFormat(currentLang === 'en' ? 'en-US' : 'zh-CN').format(visitorTotal);
+            }
+
+            function setVisitorTotal(total) {
+                if (total === null || total === undefined || total === '') {
+                    visitorTotal = null;
+                    renderVisitorTotal();
+                    return;
+                }
+
+                const numericTotal = Number(total);
+                visitorTotal = Number.isFinite(numericTotal) ? numericTotal : null;
+                renderVisitorTotal();
+            }
+
+            async function initVisitorCounter() {
+                if (!visitorCountValue) return;
+
+                try {
+                    const response = await fetch(VISITOR_COUNTER_ENDPOINT, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ visitorId: getOrCreateVisitorId() }),
+                        cache: 'no-store'
+                    });
+
+                    if (!response.ok) throw new Error(`Visitor counter request failed: ${response.status}`);
+
+                    const data = await response.json();
+                    setVisitorTotal(data.total);
+                } catch (e) {
+                    console.warn('Visitor counter unavailable:', e);
+                    setVisitorTotal(null);
+                }
+            }
+
+            /* =========================
                NEW: Picks config + render
             ========================== */
             const PICKS_TAGS = {
@@ -5762,9 +5882,11 @@
                     e.target.classList.add('active');
 
                     document.querySelectorAll('[data-en]').forEach(el => {
+                        if (el.hasAttribute('data-i18n-preserve-children')) return;
                         el.textContent = currentLang === 'en' ? el.dataset.en : el.dataset.cn;
                     });
 
+                    renderVisitorTotal();
                     refreshOptions();
                     updateUI();
                     updateFlipAllButton();
@@ -5848,6 +5970,7 @@
 
             updateFlipAllButton();
             switchView('home');
+            initVisitorCounter();
         });
     </script>
 </body>

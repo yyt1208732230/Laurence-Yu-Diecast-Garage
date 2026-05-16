@@ -1,0 +1,13 @@
+name = "diecast-visitor-counter"
+main = "src/worker.js"
+compatibility_date = "2025-05-16"
+workers_dev = false
+
+[[routes]]
+pattern = "diecast.ilovefuturemobility.org/api/*"
+zone_name = "ilovefuturemobility.org"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "diecast_visitors"
+database_id = "9fae4bd9-5cc2-4dcf-a2c7-e6d8926aa9f9"
