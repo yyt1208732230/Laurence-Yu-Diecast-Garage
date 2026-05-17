@@ -2,3 +2,9 @@ CREATE TABLE IF NOT EXISTS visitors (
     id TEXT PRIMARY KEY,
     first_seen TEXT NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS visits (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    visitor_id TEXT NOT NULL,
+    visited_at TEXT NOT NULL
+);

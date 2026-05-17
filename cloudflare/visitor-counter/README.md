@@ -1,6 +1,6 @@
 # Diecast visitor counter
 
-Cloudflare Worker + D1 endpoint for the static site's historical visitor count.
+Cloudflare Worker + D1 endpoint for the static site's historical visit count.
 
 ## Cloudflare setup
 
@@ -35,6 +35,10 @@ diecast.ilovefuturemobility.org/api/*
 ```json
 { "visitorId": "browser-generated-id" }
 ```
+
+Every valid request inserts one visit event. The `visitorId` still comes from the
+browser's local storage, but repeated requests from the same `visitorId` are
+counted as additional visits.
 
 Response:
 

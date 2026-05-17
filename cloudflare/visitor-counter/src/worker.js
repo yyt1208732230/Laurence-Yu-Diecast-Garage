@@ -38,6 +38,14 @@ function validateVisitorId(visitorId) {
 
 async function ensureSchema(env) {
     await env.DB.prepare(`
+        CREATE TABLE IF NOT EXISTS visits (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            visitor_id TEXT NOT NULL,
+            visited_at TEXT NOT NULL
+        )
+    `).run();
+
+    await env.DB.prepare(`
         CREATE TABLE IF NOT EXISTS visitors (
             id TEXT PRIMARY KEY,
             first_seen TEXT NOT NULL
@@ -45,8 +53,8 @@ async function ensureSchema(env) {
     `).run();
 }
 
-async function getVisitorTotal(env) {
-    const row = await env.DB.prepare('SELECT COUNT(*) AS total FROM visitors').first();
+async function getVisitTotal(env) {
+    const row = await env.DB.prepare('SELECT COUNT(*) AS total FROM visits').first();
     return Number(row?.total || 0);
 }
 
@@ -64,16 +72,16 @@ async function recordVisit(request, env) {
     }
 
     await ensureSchema(env);
-    await env.DB.prepare('INSERT OR IGNORE INTO visitors (id, first_seen) VALUES (?, ?)')
+    await env.DB.prepare('INSERT INTO visits (visitor_id, visited_at) VALUES (?, ?)')
         .bind(payload.visitorId, new Date().toISOString())
         .run();
 
-    return jsonResponse(request, { total: await getVisitorTotal(env) });
+    return jsonResponse(request, { total: await getVisitTotal(env) });
 }
 
 async function readTotal(request, env) {
     await ensureSchema(env);
-    return jsonResponse(request, { total: await getVisitorTotal(env) });
+    return jsonResponse(request, { total: await getVisitTotal(env) });
 }
 
 export default {
