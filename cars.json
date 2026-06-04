@@ -6991,7 +6991,7 @@
     "imagePath": "images/new2026/IMG_3225.webp",
     "realCarImage": "images/new2026/alp_2537.webp",
     "realCarUrl": "https://en.wikipedia.org/wiki/Alpine_A110",
-    "note": "New!"
+    "note": "none"
   },
   {
     "id": "hw26053002",
@@ -7009,7 +7009,7 @@
     "imagePath": "images/new2026/IMG_3224.webp",
     "realCarImage": "images/new2026/2020_Mercedes-Benz_AMG_GT_R_Premium.jpg",
     "realCarUrl": "https://en.wikipedia.org/wiki/Mercedes-AMG_GT",
-    "note": "New!"
+    "note": "none"
   },
   {
     "id": "hw26053003",
@@ -7027,7 +7027,7 @@
     "imagePath": "images/new2026/IMG_3220.webp",
     "realCarImage": "images/new2026/1983.jpg",
     "realCarUrl": "https://en.wikipedia.org/wiki/Porsche_928",
-    "note": "New!"
+    "note": "none"
   },
   {
     "id": "hw26053004",
@@ -7045,7 +7045,7 @@
     "imagePath": "images/new2026/IMG_3221.webp",
     "realCarImage": "images/new2026/439a9cdb5efb65abcf7f6b73bb5baad137e3b8ad.webp",
     "realCarUrl": "https://news.dupontregistry.com/blogs/porsche-news/gt-silver-metallic-2024-porsche-911-gt3-rs-for-sale",
-    "note": "New!"
+    "note": "none"
   },
   {
     "id": "hw26053005",
@@ -7063,7 +7063,7 @@
     "imagePath": "images/new2026/IMG_3222.webp",
     "realCarImage": "images/new2026/audi-rs5-sportback-walkaround-lead.webp",
     "realCarUrl": "https://www.motor1.com/news/433514/sonoma-green-audi-rs5-walkaround-video/",
-    "note": "New!"
+    "note": "none"
   },
   {
     "id": "hw26053006",
@@ -7081,7 +7081,7 @@
     "imagePath": "images/new2026/IMG_3223.webp",
     "realCarImage": "images/new2026/photo-668831-s-original.avif",
     "realCarUrl": "https://www.caranddriver.com/reviews/a15099652/jaguar-f-type-project-7-first-drive-review/",
-    "note": "New!"
+    "note": "none"
   },
   {
     "id": "hw26053007",
@@ -7099,7 +7099,7 @@
     "imagePath": "images/new2026/IMG_3216.webp",
     "realCarImage": "images/new2026/BLUE-FJ45_01-scaled.jpg",
     "realCarUrl": "https://houseofcruisers.com/1982-fj45-troopy-blue/",
-    "note": "New!"
+    "note": "none"
   },
   {
     "id": "mb26053008",
@@ -7117,7 +7117,7 @@
     "imagePath": "images/new2026/IMG_3219.webp",
     "realCarImage": "images/new2026/Porsche-Taycan-GTS-2023-Justin-Pritchard-19.webp",
     "realCarUrl": "https://www.porsche.com/international/models/taycan/taycan-sport-turismo-models/taycan-gts-sport-turismo/",
-    "note": "New!"
+    "note": "none"
   },
   {
     "id": "hw26053009",
@@ -7136,7 +7136,7 @@
     "imagePath": "images/new2026/IMG_3217.webp",
     "realCarImage": "images/new2026/img_0199.webp",
     "realCarUrl": "https://www.thedrive.com/new-cars/23842/2018-bmw-m4-test-drive-review-the-gold-standard-of-ultimate-driving-machines-holds-its-luster-for-now",
-    "note": "New!"
+    "note": "none"
   },
   {
     "id": "hw26053010",
@@ -7155,7 +7155,7 @@
     "imagePath": "images/new2026/IMG_3218.webp",
     "realCarImage": "images/new2026/1-BMW-M3-Touring.webp",
     "realCarUrl": "https://www.topgear.com/car-reviews/bmw/m3-touring",
-    "note": "New!"
+    "note": "none"
   },
   {
     "id": "26053011",
@@ -7174,7 +7174,7 @@
     "imagePath": "images/new2026/20260530222649.webp",
     "realCarImage": "images/new2026/m3dtmyellow.jpg",
     "realCarUrl": "https://www.touringcartimes.com/2012/03/16/pictures-two-more-bmw-dtm-liveries-revealed/",
-    "note": "New!"
+    "note": "none"
   },
   {
     "id": "26053012",
@@ -7193,6 +7193,82 @@
     "imagePath": "images/new2026/20260530222628.webp",
     "realCarImage": "images/new2026/m3-dtm-02.jpg",
     "realCarUrl": "https://paultan.org/2012/01/31/bmw-unveils-first-dtm-2012-livery-featuring-castrol-edge/",
+    "note": "none"
+  },
+  {
+    "id": "26060401",
+    "visible": true,
+    "category": "BMW",
+    "modelBrand": "BMW Miniature",
+    "carBrand": "BMW",
+    "modelName": "BMW VISION NEXT 100",
+    "seriesNum": "Concept",
+    "price": "￥265",
+    "tags": "Concept;Orange;2016;1/43",
+    "color": "Orange",
+    "color_cn": "橙",
+    "description_en": "",
+    "description_cn": "",
+    "imagePath": "images/new2026/15ab959270638b4245cb993481690037.webp",
+    "realCarImage": "images/new2026/P90223179_lowRes_bmw-group-the-next-1.jpg",
+    "realCarUrl": "https://www.press.bmwgroup.com/global/article/detail/T0261088EN/bmw-group-the-next-100-years?language=en",
+    "note": "New!"
+  },
+  {
+    "id": "26060402",
+    "visible": true,
+    "category": "BMW",
+    "modelBrand": "MINI GT",
+    "carBrand": "BMW",
+    "modelName": "BMW M5 Alpine White",
+    "seriesNum": "G90",
+    "price": "￥76",
+    "tags": "G90;White;2025;1/64",
+    "color": "White",
+    "color_cn": "白",
+    "description_en": "",
+    "description_cn": "",
+    "imagePath": "images/new2026/e43cc87ff092c09aae87876c71335395.webp",
+    "realCarImage": "images/new2026/2025-BMW-M5-G90-rendering-1.jpg",
+    "realCarUrl": "https://www.bmwblog.com/2024/10/25/2025-bmw-m5-alpine-white/",
+    "note": "New!"
+  },
+  {
+    "id": "26060501",
+    "visible": true,
+    "category": "BMW",
+    "modelBrand": "Hot Wheels",
+    "carBrand": "BMW",
+    "modelName": "BMW 3.0 CSL RACE CAR",
+    "seriesNum": "E9",
+    "price": "AU$9.96",
+    "tags": "E9;Silver;te;1973;1/64",
+    "color": "Silver",
+    "color_cn": "银",
+    "description_en": "",
+    "description_cn": "",
+    "imagePath": "images/new2026/IMG_3271.webp",
+    "realCarImage": "images/new2026/51843-0.jpg.jpg",
+    "realCarUrl": "https://www.bmw-m.com/en/topics/magazine-article-pool/bmw-3-0-csl.html",
+    "note": "New!"
+  },
+  {
+    "id": "26060502",
+    "visible": true,
+    "category": "BMW",
+    "modelBrand": "Hot Wheels",
+    "carBrand": "BMW",
+    "modelName": "BMW M3 (Hotwheels 55th Anniversary)",
+    "seriesNum": "E30",
+    "price": "AU$9.96",
+    "tags": "E30;Black;1992;1/64",
+    "color": "Black",
+    "color_cn": "黑",
+    "description_en": "",
+    "description_cn": "磨砂质感很不错。",
+    "imagePath": "images/new2026/IMG_3270.webp",
+    "realCarImage": "images/new2026/FOR-SALE-BMW-M3-E30-1989-59-1000x667.webp",
+    "realCarUrl": "https://www.bmw-m.com/en/topics/magazine-article-pool/bmw-m3-e30-portraet.html",
     "note": "New!"
   }
 ]
