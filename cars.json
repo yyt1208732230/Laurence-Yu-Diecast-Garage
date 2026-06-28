@@ -7487,5 +7487,24 @@
     "realCarImage": "images/new2026/972835d9-d606-5a18-bea5-8d0c00f50000.avif",
     "realCarUrl": "https://www.drive.com.au/news/bmw-m3-touring-april-fools-joke-becomes-reality-as-nurburgring-racer/",
     "note": "New!"
+  },
+  {
+    "id": "26062801",
+    "visible": true,
+    "category": "BMW",
+    "modelBrand": "Mysterious",
+    "carBrand": "BMW",
+    "modelName": "BMW M4 GT3 #96 IMSA Daytona 24H 2024 Turner Motorsport",
+    "seriesNum": "G82",
+    "price": "￥128",
+    "tags": "G82;Yellow;2024;1/64",
+    "color": "Yellow",
+    "color_cn": "黄",
+    "description_en": "",
+    "description_cn": "",
+    "imagePath": "images/new2026/2682ba7a14c54b6.webp",
+    "realCarImage": "images/new2026/the-24-daytona-in-599px.jpg",
+    "realCarUrl": "https://www.press.bmwgroup.com/global/photo/detail/P90535963/Daytona-USA-19-21-January-2024-IMSA-WeatherTech-SportsCar-Championship-Roar-before-the-24-Daytona",
+    "note": "New!"
   }
 ]
