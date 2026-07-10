@@ -7286,7 +7286,7 @@
     "description_cn": "",
     "imagePath": "images/new2026/IMG_3596.webp",
     "realCarUrl": "",
-    "note": "New!"
+    "note": "none"
   },
   {
     "id": "hw26062702",
@@ -7303,7 +7303,7 @@
     "description_cn": "",
     "imagePath": "images/new2026/IMG_3595.webp",
     "realCarUrl": "",
-    "note": "New!"
+    "note": "none"
   },
   {
     "id": "hw26062703",
@@ -7320,7 +7320,7 @@
     "description_cn": "",
     "imagePath": "images/new2026/IMG_3527.webp",
     "realCarUrl": "",
-    "note": "New!"
+    "note": "none"
   },
   {
     "id": "26062704",
@@ -7338,7 +7338,7 @@
     "imagePath": "images/new2026/IMG_3426.webp",
     "realCarImage": "images/new2026/Gypsy Rose1964 Chevrolet Impala.jpg",
     "realCarUrl": "",
-    "note": "New!"
+    "note": "none"
   },
   {
     "id": "mb26062706",
@@ -7356,7 +7356,7 @@
     "imagePath": "images/new2026/IMG_3279.webp",
     "realCarImage": "",
     "realCarUrl": "",
-    "note": "New!"
+    "note": "none"
   },
   {
     "id": "hw26062707",
@@ -7374,7 +7374,7 @@
     "imagePath": "images/new2026/IMG_3277.webp",
     "realCarImage": "",
     "realCarUrl": "",
-    "note": "New!"
+    "note": "none"
   },
   {
     "id": "mb26062708",
@@ -7392,7 +7392,7 @@
     "imagePath": "images/new2026/IMG_3278.webp",
     "realCarImage": "",
     "realCarUrl": "",
-    "note": "New!"
+    "note": "none"
   },
   {
     "id": "mb26062709",
@@ -7410,7 +7410,7 @@
     "imagePath": "images/new2026/IMG_3276.webp",
     "realCarImage": "",
     "realCarUrl": "",
-    "note": "New!"
+    "note": "none"
   },
   {
     "id": "mb26062710",
@@ -7429,7 +7429,7 @@
     "imagePath": "images/new2026/IMG_3280.webp",
     "realCarImage": "images/new2026/tlFUd.jpg",
     "realCarUrl": "https://www.caranddriver.com/reviews/a45441923/1995-bmw-318ti-archive-test/",
-    "note": "New!"
+    "note": "none"
   },
   {
     "id": "mb26062711",
@@ -7448,7 +7448,7 @@
     "imagePath": "images/new2026/IMG_3281.webp",
     "realCarImage": "images/new2026/g70blue.jpg",
     "realCarUrl": "https://www.bmw.com.au/en/models/7-series/sedan/bmw-7-series-sedan.html",
-    "note": "New!"
+    "note": "none"
   },
   {
     "id": "hw26062712",
@@ -7467,7 +7467,7 @@
     "imagePath": "images/new2026/6ee3d565ba55c4a49d2b5b3e6a634612.webp",
     "realCarImage": "images/new2026/bpzuwysdaxr0r0mvxdhz.avif",
     "realCarUrl": "https://www.drive.com.au/caradvice/stranger-things-4-steve-harrington-car/",
-    "note": "New!"
+    "note": "none"
   },
   {
     "id": "legend26062713",
@@ -7486,7 +7486,7 @@
     "imagePath": "images/new2026/微信图片_20260626135529.webp",
     "realCarImage": "images/new2026/972835d9-d606-5a18-bea5-8d0c00f50000.avif",
     "realCarUrl": "https://www.drive.com.au/news/bmw-m3-touring-april-fools-joke-becomes-reality-as-nurburgring-racer/",
-    "note": "New!"
+    "note": "none"
   },
   {
     "id": "26062801",
@@ -7505,6 +7505,134 @@
     "imagePath": "images/new2026/2682ba7a14c54b6.webp",
     "realCarImage": "images/new2026/the-24-daytona-in-599px.jpg",
     "realCarUrl": "https://www.press.bmwgroup.com/global/photo/detail/P90535963/Daytona-USA-19-21-January-2024-IMSA-WeatherTech-SportsCar-Championship-Roar-before-the-24-Daytona",
+    "note": "none"
+  },
+  {
+    "id": "26071001",
+    "visible": true,
+    "category": "BMW",
+    "modelBrand": "MINI GT",
+    "carBrand": "BMW",
+    "modelName": "BMW M3 KAIDO WORKS LARRY CHEN V1 (Seven Eleven)",
+    "seriesNum": "E30",
+    "price": "￥160",
+    "tags": "E30;White;2025;1/64",
+    "color": "White",
+    "color_cn": "白",
+    "description_en": "",
+    "description_cn": "",
+    "imagePath": "images/new2026/bc474032ba1792f2bfb.webp",
+    "realCarImage": "images/new2026/711E30.jpg",
+    "realCarUrl": "https://www.instagram.com/p/DPfU_NoEa0m/",
+    "note": "New!"
+  },
+  {
+    "id": "hw26071002",
+    "visible": true,
+    "category": "BMW",
+    "modelBrand": "Hot Wheels",
+    "carBrand": "BMW",
+    "modelName": "BMW M4 GT3",
+    "seriesNum": "G80",
+    "price": "$1.6",
+    "tags": "G80;White;2021;1/64",
+    "color": "White",
+    "color_cn": "白",
+    "description_en": "",
+    "description_cn": "",
+    "imagePath": "images/new2026/IMG_3714.webp",
+    "realCarImage": "images/new2026/IMG_1768.webp",
+    "realCarUrl": "https://www.press.bmwgroup.com/global/photo/detail/P90424757/maisach-ger-2nd-june-2021-bmw-m4-gt3-photoshoot-livery-bmw-m-motorsport-design-presentation-launch",
+    "note": "New!"
+  },
+  {
+    "id": "hw26071003",
+    "visible": true,
+    "category": "Hotwheels",
+    "modelBrand": "Hot Wheels",
+    "carBrand": "Ferrari",
+    "modelName": "Ferrari 365 GTB4 Competizione",
+    "price": "$2",
+    "tags": "Mainline/Silver/Premium",
+    "color": "White",
+    "color_cn": "白",
+    "description_en": "",
+    "description_cn": "",
+    "imagePath": "images/new2026/IMG_3717.webp",
+    "realCarImage": "",
+    "realCarUrl": "",
+    "note": "New!"
+  },
+  {
+    "id": "hw26071004",
+    "visible": true,
+    "category": "Hotwheels",
+    "modelBrand": "Hot Wheels",
+    "carBrand": "HW Originals",
+    "modelName": "El Segundo Coupe Clip / A Attache",
+    "price": "$2",
+    "tags": "Mainline/Silver/Premium",
+    "color": "White",
+    "color_cn": "白",
+    "description_en": "",
+    "description_cn": "",
+    "imagePath": "images/new2026/IMG_3716.webp",
+    "realCarImage": "",
+    "realCarUrl": "",
+    "note": "New!"
+  },
+  {
+    "id": "hw26071005",
+    "visible": true,
+    "category": "Hotwheels",
+    "modelBrand": "Hot Wheels",
+    "carBrand": "Bugatti",
+    "modelName": "Bugatti Bolide",
+    "price": "$1.6",
+    "tags": "Mainline/Silver/Premium",
+    "color": "White",
+    "color_cn": "白",
+    "description_en": "",
+    "description_cn": "",
+    "imagePath": "images/new2026/IMG_3715.webp",
+    "realCarImage": "",
+    "realCarUrl": "",
+    "note": "New!"
+  },
+  {
+    "id": "hw26071006",
+    "visible": true,
+    "category": "Hotwheels",
+    "modelBrand": "Hot Wheels",
+    "carBrand": "Chevy",
+    "modelName": "'83 Chevy Sil Verado",
+    "price": "$2",
+    "tags": "Mainline/Silver/Premium",
+    "color": "Pink",
+    "color_cn": "粉",
+    "description_en": "",
+    "description_cn": "",
+    "imagePath": "images/new2026/IMG_3719.webp",
+    "realCarImage": "",
+    "realCarUrl": "",
+    "note": "New!"
+  },
+  {
+    "id": "hw26071007",
+    "visible": true,
+    "category": "Hotwheels",
+    "modelBrand": "Hot Wheels",
+    "carBrand": "HW Originals",
+    "modelName": "Uncertain-T",
+    "price": "$2",
+    "tags": "Mainline/Silver/Premium",
+    "color": "Red",
+    "color_cn": "红",
+    "description_en": "",
+    "description_cn": "",
+    "imagePath": "images/new2026/IMG_3718.webp",
+    "realCarImage": "",
+    "realCarUrl": "",
     "note": "New!"
   }
 ]
