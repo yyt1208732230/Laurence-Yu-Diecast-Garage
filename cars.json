@@ -4909,7 +4909,7 @@
     "modelName": "BMW 330i",
     "seriesNum": "G20",
     "price": "-",
-    "tags": "G20;2018;Purple;1/64;Special Edition",
+    "tags": "G20;2023;Purple;1/64;Special Edition",
     "color": "Purple",
     "color_cn": "紫",
     "description_en": "50 Years Edition",
@@ -7337,7 +7337,7 @@
     "description_cn": "🌹玫瑰之车🌹",
     "imagePath": "images/new2026/IMG_3426.webp",
     "realCarImage": "images/new2026/Gypsy Rose1964 Chevrolet Impala.jpg",
-    "realCarUrl": "",
+    "realCarUrl": "https://www.classicandsportscar.com/features/gypsy-rose-queen-lowriders",
     "note": "none"
   },
   {
@@ -7524,7 +7524,7 @@
     "imagePath": "images/new2026/bc474032ba1792f2bfb.webp",
     "realCarImage": "images/new2026/711E30.jpg",
     "realCarUrl": "https://www.instagram.com/p/DPfU_NoEa0m/",
-    "note": "New!"
+    "note": "none"
   },
   {
     "id": "hw26071002",
@@ -7543,7 +7543,7 @@
     "imagePath": "images/new2026/IMG_3714.webp",
     "realCarImage": "images/new2026/IMG_1768.webp",
     "realCarUrl": "https://www.press.bmwgroup.com/global/photo/detail/P90424757/maisach-ger-2nd-june-2021-bmw-m4-gt3-photoshoot-livery-bmw-m-motorsport-design-presentation-launch",
-    "note": "New!"
+    "note": "none"
   },
   {
     "id": "hw26071003",
@@ -7561,7 +7561,7 @@
     "imagePath": "images/new2026/IMG_3717.webp",
     "realCarImage": "",
     "realCarUrl": "",
-    "note": "New!"
+    "note": "none"
   },
   {
     "id": "hw26071004",
@@ -7579,7 +7579,7 @@
     "imagePath": "images/new2026/IMG_3716.webp",
     "realCarImage": "",
     "realCarUrl": "",
-    "note": "New!"
+    "note": "none"
   },
   {
     "id": "hw26071005",
@@ -7597,7 +7597,7 @@
     "imagePath": "images/new2026/IMG_3715.webp",
     "realCarImage": "",
     "realCarUrl": "",
-    "note": "New!"
+    "note": "none"
   },
   {
     "id": "hw26071006",
@@ -7615,7 +7615,7 @@
     "imagePath": "images/new2026/IMG_3719.webp",
     "realCarImage": "",
     "realCarUrl": "",
-    "note": "New!"
+    "note": "none"
   },
   {
     "id": "hw26071007",
@@ -7633,6 +7633,158 @@
     "imagePath": "images/new2026/IMG_3718.webp",
     "realCarImage": "",
     "realCarUrl": "",
+    "note": "none"
+  },
+  {
+    "id": "se202601",
+    "visible": true,
+    "category": "BMW",
+    "modelBrand": "Brekina",
+    "carBrand": "BMW",
+    "modelName": "BMW 1500 (Blue)",
+    "seriesNum": "NK-1500",
+    "price": "SK 179",
+    "tags": "NK-1500;Blue;1961;1/87;My favour",
+    "color": "Blue",
+    "color_cn": "蓝",
+    "description_en": "Priceless model car bought from Sweden. The first model in the BMW model series `New Class` (`Neue Klasse`)",
+    "description_cn": "从瑞典带回的爱心车车。宝马新时代的第一款车。",
+    "imagePath": "images/new2026/IMG_3743.webp",
+    "realCarImage": "images/new2026/original1500.jpg",
+    "realCarUrl": "https://www.bmwgroup-classic.com/en/models/bmw-classics/product-description-page.ad-24-1.bmw-1500.html",
+    "note": "New!"
+  },
+  {
+    "id": "se202602",
+    "visible": true,
+    "category": "BMW",
+    "modelBrand": "Wiking",
+    "carBrand": "BMW",
+    "modelName": "BMW 1600 GT Cabriolet (Red)",
+    "seriesNum": "NK-1600",
+    "price": "SK 179",
+    "tags": "NK-1600;Red;1967;1/87",
+    "color": "Red",
+    "color_cn": "红",
+    "description_en": "Priceless model car bought from Sweden.",
+    "description_cn": "从瑞典带回的爱心车车。",
+    "imagePath": "images/new2026/IMG_3740.webp",
+    "realCarImage": "images/new2026/BMW1600GT_03.jpg",
+    "realCarUrl": "https://www.press.bmwgroup.com/global/article/detail/T0288911EN/rebirth-in-dingolfing:-the-bmw-1600-gt-convertible?language=en",
+    "note": "New!"
+  },
+  {
+    "id": "se202603",
+    "visible": true,
+    "category": "BMW",
+    "modelBrand": "Wiking",
+    "carBrand": "BMW",
+    "modelName": "BMW 520i (Feuerwehr ELW)",
+    "seriesNum": "E34",
+    "price": "SK 119",
+    "tags": "E34;Red;1989;1/87",
+    "color": "Red",
+    "color_cn": "红",
+    "description_en": "Priceless model car bought from Sweden.",
+    "description_cn": "从瑞典带回的爱心车车。",
+    "imagePath": "images/new2026/IMG_3738.webp",
+    "realCarImage": "images/new2026/Feuerwehr ELW.jpg",
+    "realCarUrl": "https://bmwscene-magazin.de/1991er-bmw-e34-520i-einsatzfahrzeug/",
+    "note": "New!"
+  },
+  {
+    "id": "se202604",
+    "visible": true,
+    "category": "BMW",
+    "modelBrand": "Wiking",
+    "carBrand": "BMW",
+    "modelName": "BMW 325i Cabriolet",
+    "seriesNum": "E36",
+    "price": "SK 149",
+    "tags": "E36;Red;1993;1/87",
+    "color": "Red",
+    "color_cn": "红",
+    "description_en": "Priceless model car bought from Sweden.",
+    "description_cn": "从瑞典带回的爱心车车。",
+    "imagePath": "images/new2026/IMG_3739.webp",
+    "realCarImage": "images/new2026/1994-bmw-3-series-684c61deb3cca.webp",
+    "realCarUrl": "https://www.caranddriver.com/reviews/a45764551/1994-bmw-325i-convertible-archive-test/",
+    "note": "New!"
+  },
+  {
+    "id": "se202605",
+    "visible": true,
+    "category": "BMW",
+    "modelBrand": "Herpa",
+    "carBrand": "BMW",
+    "modelName": "BMW 5er Limousine",
+    "seriesNum": "G30",
+    "price": "SK 269",
+    "tags": "G30;Red;2017;1/87;Hidden gem",
+    "color": "Red",
+    "color_cn": "红",
+    "description_en": "Limited Edition (339/001). Priceless model car bought from Sweden.",
+    "description_cn": "限量版 (339/001)；从瑞典带回的爱心车车。",
+    "imagePath": "images/new2026/IMG_3737.webp",
+    "realCarImage": "images/new2026/BMW-5-Series-First-Drive-3.webp",
+    "realCarUrl": "https://practicalmotoring.com.au/car-reviews/2017-bmw-5-series-review-australian-drive/",
+    "note": "New!"
+  },
+  {
+    "id": "se202606",
+    "visible": true,
+    "category": "BMW",
+    "modelBrand": "Herpa",
+    "carBrand": "BMW",
+    "modelName": "BMW 3er TM",
+    "seriesNum": "G20",
+    "price": "SK 209",
+    "tags": "G20;Grey;2019;1/87",
+    "color": "Grey",
+    "color_cn": "灰",
+    "description_en": "Limited Edition (479/006). Priceless model car bought from Sweden.",
+    "description_cn": "限量版 (479/006)；从瑞典带回的爱心车车。",
+    "imagePath": "images/new2026/IMG_3731.webp",
+    "realCarImage": "images/new2026/e66cd52250384b4b26dae3b53428450d.webp",
+    "realCarUrl": "https://www.topspeed.com/cars/bmw/2019-bmw-320d-xdrive-driven/",
+    "note": "New!"
+  },
+  {
+    "id": "se202607",
+    "visible": true,
+    "category": "BMW",
+    "modelBrand": "Herpa",
+    "carBrand": "BMW",
+    "modelName": "BMW 3er Touring TM",
+    "seriesNum": "G21",
+    "price": "SK 209",
+    "tags": "G21;Black;2019;1/87",
+    "color": "Black",
+    "color_cn": "黑",
+    "description_en": "Limited Edition (400/003). Priceless model car bought from Sweden.",
+    "description_cn": "限量版 (400/003)；从瑞典带回的爱心车车。",
+    "imagePath": "images/new2026/IMG_3736.webp",
+    "realCarImage": "images/new2026/2019-BMW-3-Series-G21-Luxury-Line-10.jpg",
+    "realCarUrl": "https://www.bmwblog.com/2019/06/11/world-premiere-g21-bmw-3-series-touring-the-swiss-army-knife/",
+    "note": "New!"
+  },
+  {
+    "id": "se202608",
+    "visible": true,
+    "category": "BMW",
+    "modelBrand": "Wiking",
+    "carBrand": "BMW",
+    "modelName": "BMW 501",
+    "seriesNum": "501",
+    "price": "SK 275",
+    "tags": "501;Blue;1957;1/87;My favour",
+    "color": "Blue",
+    "color_cn": "蓝",
+    "description_en": "Priceless model car bought from Sweden.Bramd mew old car model.",
+    "description_cn": "从瑞典带回的爱心车车。全新开封的绝世老车。",
+    "imagePath": "images/new2026/IMG_3745.webp",
+    "realCarImage": "images/new2026/r-bmw-501-6-sedan-1950-1959.jpg",
+    "realCarUrl": "https://www.postwarclassic.com/668222-1957-bmw-501-6-sedan",
     "note": "New!"
   }
 ]
