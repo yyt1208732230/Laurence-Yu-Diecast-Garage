@@ -7652,7 +7652,7 @@
     "imagePath": "images/new2026/IMG_3743.webp",
     "realCarImage": "images/new2026/original1500.jpg",
     "realCarUrl": "https://www.bmwgroup-classic.com/en/models/bmw-classics/product-description-page.ad-24-1.bmw-1500.html",
-    "note": "New!"
+    "note": "Unique"
   },
   {
     "id": "se202602",
@@ -7671,7 +7671,7 @@
     "imagePath": "images/new2026/IMG_3740.webp",
     "realCarImage": "images/new2026/BMW1600GT_03.jpg",
     "realCarUrl": "https://www.press.bmwgroup.com/global/article/detail/T0288911EN/rebirth-in-dingolfing:-the-bmw-1600-gt-convertible?language=en",
-    "note": "New!"
+    "note": "Unique"
   },
   {
     "id": "se202603",
@@ -7690,7 +7690,7 @@
     "imagePath": "images/new2026/IMG_3738.webp",
     "realCarImage": "images/new2026/Feuerwehr ELW.jpg",
     "realCarUrl": "https://bmwscene-magazin.de/1991er-bmw-e34-520i-einsatzfahrzeug/",
-    "note": "New!"
+    "note": "Unique"
   },
   {
     "id": "se202604",
@@ -7709,7 +7709,7 @@
     "imagePath": "images/new2026/IMG_3739.webp",
     "realCarImage": "images/new2026/1994-bmw-3-series-684c61deb3cca.webp",
     "realCarUrl": "https://www.caranddriver.com/reviews/a45764551/1994-bmw-325i-convertible-archive-test/",
-    "note": "New!"
+    "note": "Unique"
   },
   {
     "id": "se202605",
@@ -7728,7 +7728,7 @@
     "imagePath": "images/new2026/IMG_3737.webp",
     "realCarImage": "images/new2026/BMW-5-Series-First-Drive-3.webp",
     "realCarUrl": "https://practicalmotoring.com.au/car-reviews/2017-bmw-5-series-review-australian-drive/",
-    "note": "New!"
+    "note": "Unique"
   },
   {
     "id": "se202606",
@@ -7747,7 +7747,7 @@
     "imagePath": "images/new2026/IMG_3731.webp",
     "realCarImage": "images/new2026/e66cd52250384b4b26dae3b53428450d.webp",
     "realCarUrl": "https://www.topspeed.com/cars/bmw/2019-bmw-320d-xdrive-driven/",
-    "note": "New!"
+    "note": "Unique"
   },
   {
     "id": "se202607",
@@ -7766,7 +7766,7 @@
     "imagePath": "images/new2026/IMG_3736.webp",
     "realCarImage": "images/new2026/2019-BMW-3-Series-G21-Luxury-Line-10.jpg",
     "realCarUrl": "https://www.bmwblog.com/2019/06/11/world-premiere-g21-bmw-3-series-touring-the-swiss-army-knife/",
-    "note": "New!"
+    "note": "Unique"
   },
   {
     "id": "se202608",
@@ -7785,6 +7785,190 @@
     "imagePath": "images/new2026/IMG_3745.webp",
     "realCarImage": "images/new2026/r-bmw-501-6-sedan-1950-1959.jpg",
     "realCarUrl": "https://www.postwarclassic.com/668222-1957-bmw-501-6-sedan",
+    "note": "Unique"
+  },
+  {
+    "id": "hw26080201",
+    "visible": true,
+    "category": "Hotwheels",
+    "modelBrand": "Hot Wheels",
+    "carBrand": "Corvette",
+    "modelName": "84' Corvette",
+    "price": "$8",
+    "tags": "Mainline/Silver/Premium;Pop Culture",
+    "color": "White",
+    "color_cn": "白",
+    "description_en": "",
+    "description_cn": "",
+    "imagePath": "images/new2026/IMG_3898.webp",
+    "realCarImage": "",
+    "realCarUrl": "",
+    "note": "New!"
+  },
+  {
+    "id": "hw26080202",
+    "visible": true,
+    "category": "Hotwheels",
+    "modelBrand": "Hot Wheels",
+    "carBrand": "DMC",
+    "modelName": "84' Corvette",
+    "price": "$8",
+    "tags": "Mainline/Silver/Premium;Pop Culture",
+    "color": "Silver",
+    "color_cn": "银",
+    "description_en": "",
+    "description_cn": "",
+    "imagePath": "images/new2026/IMG_3897.webp",
+    "realCarImage": "",
+    "realCarUrl": "",
+    "note": "New!"
+  },
+  {
+    "id": "hw26080203",
+    "visible": true,
+    "category": "Hotwheels",
+    "modelBrand": "Hot Wheels",
+    "carBrand": "Rick & Morty",
+    "modelName": "Rick's Ship / Bateau (Rick & Morty, adult swim)",
+    "price": "$8",
+    "tags": "Mainline/Silver/Premium;Pop Culture",
+    "color": "Silver",
+    "color_cn": "银",
+    "description_en": "",
+    "description_cn": "",
+    "imagePath": "images/new2026/IMG_3859.webp",
+    "realCarImage": "",
+    "realCarUrl": "",
+    "note": "New!"
+  },
+  {
+    "id": "hw26080203",
+    "visible": true,
+    "category": "Hotwheels",
+    "modelBrand": "Hot Wheels",
+    "carBrand": "Mario",
+    "modelName": "Standard Kart (Mariokart)",
+    "price": "$2",
+    "tags": "Mainline/Silver/Premium",
+    "color": "Red",
+    "color_cn": "红",
+    "description_en": "",
+    "description_cn": "",
+    "imagePath": "images/new2026/IMG_3783.webp",
+    "realCarImage": "",
+    "realCarUrl": "",
+    "note": "New!"
+  },
+  {
+    "id": "oz26080204",
+    "visible": true,
+    "category": "Other",
+    "modelBrand": "OZ Wheels",
+    "carBrand": "Holden",
+    "modelName": "HJ One Tonner",
+    "price": "$19",
+    "tags": "Limited Edition;1/64",
+    "color": "Black",
+    "color_cn": "黑",
+    "description_en": "Limited Edition Series 3",
+    "description_cn": "",
+    "imagePath": "images/new2026/IMG_3899.webp",
+    "realCarImage": "",
+    "realCarUrl": "",
+    "note": "Unripped"
+  },
+  {
+    "id": "mg26080205",
+    "visible": true,
+    "category": "Other",
+    "modelBrand": "MINI GT",
+    "carBrand": "Nissan",
+    "modelName": "Nissan GT-R (R32) Kaido Works TAS 2025",
+    "price": "￥88",
+    "tags": "1/64",
+    "color": "White",
+    "color_cn": "白",
+    "description_en": "",
+    "description_cn": "",
+    "imagePath": "images/new2026/60f9d28cd4b6e14940cdfe6c41271004.webp",
+    "realCarImage": "",
+    "realCarUrl": "",
+    "note": "New!"
+  },
+  {
+    "id": "BMW26080206",
+    "visible": true,
+    "category": "BMW",
+    "modelBrand": "Hot Wheels",
+    "carBrand": "BMW",
+    "modelName": "BMW M5 2010",
+    "seriesNum": "E60",
+    "price": "$ 6",
+    "tags": "E60;Black;2010;1/64",
+    "color": "Black",
+    "color_cn": "黑",
+    "description_en": "",
+    "description_cn": "",
+    "imagePath": "images/new2026/IMG_3858.webp",
+    "realCarImage": "images/new2026/30nGE60.jpg",
+    "realCarUrl": "https://www.rushmagazine.co.uk/post/e60-bmw-m5-review",
+    "note": "New!"
+  },
+  {
+    "id": "BMW26080207",
+    "visible": true,
+    "category": "BMW",
+    "modelBrand": "Majorette",
+    "carBrand": "BMW",
+    "modelName": "BMW X5M Competition",
+    "seriesNum": "G05",
+    "price": "$11",
+    "tags": "G05;Blue;2023;1/64",
+    "color": "Blue",
+    "color_cn": "蓝",
+    "description_en": "",
+    "description_cn": "",
+    "imagePath": "images/new2026/IMG_3895.webp",
+    "realCarImage": "images/new2026/ki2fyakxoytsx2xme4cz.avif",
+    "realCarUrl": "https://www.bmw-m.com/en/all-models/overview-m-and-m-performance/bmw-x5-m/2023/bmw-x5-m.html",
+    "note": "New!"
+  },
+  {
+    "id": "BMW26080208",
+    "visible": true,
+    "category": "BMW",
+    "modelBrand": "ixo",
+    "carBrand": "BMW",
+    "modelName": "BMW Art Car 07 (Michael Jagamara Neison)",
+    "seriesNum": "E30",
+    "price": "￥299",
+    "tags": "E30;Brown;1989;1/64;Art",
+    "color": "Brown",
+    "color_cn": "棕",
+    "description_en": "",
+    "description_cn": "",
+    "imagePath": "images/new2026/1aef7efc27e3a3757eb8f3515a0b6752.webp",
+    "realCarImage": "images/new2026/07-bmw-art-car-1989-m3-group-a-nelson-04-580-420.jpg",
+    "realCarUrl": "https://www.bmwartcarcollection.com/07-michael-jagamara-nelson-bmw-art-car/",
+    "note": "New!"
+  },
+  {
+    "id": "BMW26080209",
+    "visible": true,
+    "category": "BMW",
+    "modelBrand": "Norev",
+    "carBrand": "BMW",
+    "modelName": "BMW 328 Hommage",
+    "seriesNum": "Concept",
+    "price": "￥530",
+    "tags": "Concept;Black;2010;1/64;Hidden gem",
+    "color": "Black",
+    "color_cn": "黑",
+    "description_en": "",
+    "description_cn": "",
+    "imagePath": "images/new2026/b804b45eb74e8cf79ec57a5e032e3132.webp",
+    "realCarImage": "images/new2026/p90076741_highres_bmw-328-hommage-05-2.jpg",
+    "realCarUrl": "https://www.press.bmwgroup.com/latin-america-caribbean/article/detail/T0111593EN/bmw-328-hommage?language=en",
     "note": "New!"
   }
 ]
