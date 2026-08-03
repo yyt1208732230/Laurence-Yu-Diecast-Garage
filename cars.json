@@ -7970,5 +7970,24 @@
     "realCarImage": "images/new2026/p90076741_highres_bmw-328-hommage-05-2.jpg",
     "realCarUrl": "https://www.press.bmwgroup.com/latin-america-caribbean/article/detail/T0111593EN/bmw-328-hommage?language=en",
     "note": "New!"
+  },
+  {
+    "id": "BMW26080310",
+    "visible": true,
+    "category": "BMW",
+    "modelBrand": "Almost Real",
+    "carBrand": "BMW",
+    "modelName": "BMW 7 Series E66",
+    "seriesNum": "E66",
+    "price": "￥150",
+    "tags": "E66;Grey;2001;1/64",
+    "color": "Grey",
+    "color_cn": "灰",
+    "description_en": "",
+    "description_cn": "",
+    "imagePath": "images/new2026/E66.jpg",
+    "realCarImage": "images/new2026/BMW-7-Series-E65-2002-Photo-16.jpg",
+    "realCarUrl": "https://www.bmwblog.com/2020/02/04/buyers-guide-the-infamous-bmw-e65-e66-7-series/",
+    "note": "New!"
   }
 ]
