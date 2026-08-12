@@ -7803,7 +7803,7 @@
     "imagePath": "images/new2026/IMG_3898.webp",
     "realCarImage": "",
     "realCarUrl": "",
-    "note": "New!"
+    "note": "none"
   },
   {
     "id": "hw26080202",
@@ -7821,7 +7821,7 @@
     "imagePath": "images/new2026/IMG_3897.webp",
     "realCarImage": "",
     "realCarUrl": "",
-    "note": "New!"
+    "note": "none"
   },
   {
     "id": "hw26080203",
@@ -7839,7 +7839,7 @@
     "imagePath": "images/new2026/IMG_3859.webp",
     "realCarImage": "",
     "realCarUrl": "",
-    "note": "New!"
+    "note": "none"
   },
   {
     "id": "hw26080203",
@@ -7857,7 +7857,7 @@
     "imagePath": "images/new2026/IMG_3783.webp",
     "realCarImage": "",
     "realCarUrl": "",
-    "note": "New!"
+    "note": "none"
   },
   {
     "id": "oz26080204",
@@ -7893,7 +7893,7 @@
     "imagePath": "images/new2026/60f9d28cd4b6e14940cdfe6c41271004.webp",
     "realCarImage": "",
     "realCarUrl": "",
-    "note": "New!"
+    "note": "none"
   },
   {
     "id": "BMW26080206",
@@ -7912,7 +7912,7 @@
     "imagePath": "images/new2026/IMG_3858.webp",
     "realCarImage": "images/new2026/30nGE60.jpg",
     "realCarUrl": "https://www.rushmagazine.co.uk/post/e60-bmw-m5-review",
-    "note": "New!"
+    "note": "none"
   },
   {
     "id": "BMW26080207",
@@ -7931,7 +7931,7 @@
     "imagePath": "images/new2026/IMG_3895.webp",
     "realCarImage": "images/new2026/ki2fyakxoytsx2xme4cz.avif",
     "realCarUrl": "https://www.bmw-m.com/en/all-models/overview-m-and-m-performance/bmw-x5-m/2023/bmw-x5-m.html",
-    "note": "New!"
+    "note": "none"
   },
   {
     "id": "BMW26080208",
@@ -7950,7 +7950,7 @@
     "imagePath": "images/new2026/1aef7efc27e3a3757eb8f3515a0b6752.webp",
     "realCarImage": "images/new2026/07-bmw-art-car-1989-m3-group-a-nelson-04-580-420.jpg",
     "realCarUrl": "https://www.bmwartcarcollection.com/07-michael-jagamara-nelson-bmw-art-car/",
-    "note": "New!"
+    "note": "none"
   },
   {
     "id": "BMW26080209",
@@ -7969,7 +7969,7 @@
     "imagePath": "images/new2026/b804b45eb74e8cf79ec57a5e032e3132.webp",
     "realCarImage": "images/new2026/p90076741_highres_bmw-328-hommage-05-2.jpg",
     "realCarUrl": "https://www.press.bmwgroup.com/latin-america-caribbean/article/detail/T0111593EN/bmw-328-hommage?language=en",
-    "note": "New!"
+    "note": "none"
   },
   {
     "id": "BMW26080310",
@@ -7988,6 +7988,171 @@
     "imagePath": "images/new2026/E66.jpg",
     "realCarImage": "images/new2026/BMW-7-Series-E65-2002-Photo-16.jpg",
     "realCarUrl": "https://www.bmwblog.com/2020/02/04/buyers-guide-the-infamous-bmw-e65-e66-7-series/",
+    "note": "none"
+  },
+  {
+    "id": "hw26081301",
+    "visible": true,
+    "category": "Hotwheels",
+    "modelBrand": "Hot Wheels",
+    "carBrand": "HW Originals",
+    "modelName": "Time Attaxi",
+    "price": "AU$2.99",
+    "tags": "Mainline/Silver/Premium;Spring Series",
+    "color": "Blue",
+    "color_cn": "蓝",
+    "description_en": "",
+    "description_cn": "",
+    "imagePath": "images/new2026/IMG_3986.webp",
+    "realCarImage": "images/new2026/IMG_3978.webp",
+    "realCarUrl": "",
+    "note": "New!"
+  },
+  {
+    "id": "hw26081302",
+    "visible": true,
+    "category": "Hotwheels",
+    "modelBrand": "Hot Wheels",
+    "carBrand": "HW Originals",
+    "modelName": "Evil Twin",
+    "price": "AU$2.99",
+    "tags": "Mainline/Silver/Premium;Winter Series",
+    "color": "Red",
+    "color_cn": "红",
+    "description_en": "",
+    "description_cn": "",
+    "imagePath": "images/new2026/IMG_3985.webp",
+    "realCarImage": "images/new2026/IMG_3975.webp",
+    "realCarUrl": "",
+    "note": "New!"
+  },
+  {
+    "id": "hw26081303",
+    "visible": true,
+    "category": "Hotwheels",
+    "modelBrand": "Hot Wheels",
+    "carBrand": "HW Originals",
+    "modelName": "Muscle Bound",
+    "price": "AU$2.99",
+    "tags": "Mainline/Silver/Premium;Spring Series",
+    "color": "White",
+    "color_cn": "白",
+    "description_en": "",
+    "description_cn": "",
+    "imagePath": "images/new2026/IMG_3984.webp",
+    "realCarImage": "images/new2026/IMG_3978.webp",
+    "realCarUrl": "",
+    "note": "New!"
+  },
+  {
+    "id": "hw26081304",
+    "visible": true,
+    "category": "Hotwheels",
+    "modelBrand": "Hot Wheels",
+    "carBrand": "HW Originals",
+    "modelName": "Formular 1 2026 Concept Car",
+    "price": "AU$28.49",
+    "tags": "Mattle Creation;F1",
+    "color": "Black",
+    "color_cn": "黑",
+    "description_en": "",
+    "description_cn": "",
+    "imagePath": "images/new2026/IMG_4005.webp",
+    "realCarImage": "images/new2026/949cfa8e06df07295dd6c1b77be04502.webp",
+    "realCarUrl": "",
+    "note": "New!"
+  },
+  {
+    "id": "hw26081305",
+    "visible": true,
+    "category": "Hotwheels",
+    "modelBrand": "Hot Wheels",
+    "carBrand": "BMW",
+    "modelName": "'92 BMW M3 (Polizei)",
+    "seriesNum": "E30",
+    "price": "AU$3",
+    "tags": "E30;White;1992;1/64",
+    "color": "White",
+    "color_cn": "白",
+    "description_en": "",
+    "description_cn": "",
+    "imagePath": "images/new2026/IMG_4004.webp",
+    "realCarImage": "images/new2026/e30Polizei.jpg",
+    "realCarUrl": "https://www.youtube.com/watch?v=cN-hZ42DCBs",
+    "note": "New!"
+  },
+  {
+    "id": "BMW26081306",
+    "visible": true,
+    "category": "BMW",
+    "modelBrand": "Almost Real",
+    "carBrand": "BMW",
+    "modelName": "BMW 7 Series E38",
+    "seriesNum": "E38",
+    "price": "￥58",
+    "tags": "E38;Silve;1994;1/64",
+    "color": "Silve",
+    "color_cn": "银",
+    "description_en": "",
+    "description_cn": "",
+    "imagePath": "images/new2026/54a555e08b59c32aff79611305db44af.webp",
+    "realCarImage": "images/new2026/500px-BMW_750iL_E38.jpg",
+    "realCarUrl": "https://www.the-intercooler.com/library/blog/woman-maths-bmw-7-series-e38/",
+    "note": "New!"
+  },
+  {
+    "id": "BMW26081307",
+    "visible": true,
+    "category": "BMW",
+    "modelBrand": "Almost Real",
+    "carBrand": "BMW",
+    "modelName": "BMW 7 Series F02",
+    "seriesNum": "F02",
+    "price": "￥158",
+    "tags": "F02;Black;2008;1/64",
+    "color": "Black",
+    "color_cn": "黑",
+    "description_en": "",
+    "description_cn": "",
+    "imagePath": "images/new2026/223eca61ec43767804de872f4f18340b.webp",
+    "realCarImage": "images/new2026/BMW7Series-F01-02--3696_1.jpg",
+    "realCarUrl": "https://www.autoevolution.com/cars/bmw-7-series-f01-02-2008.html#aeng_bmw-7-series-f01-02-2008-730i",
+    "note": "New!"
+  },
+  {
+    "id": "hw26081308",
+    "visible": true,
+    "category": "Hotwheels",
+    "modelBrand": "Hot Wheels",
+    "carBrand": "HW Originals",
+    "modelName": "Cone Shaker",
+    "price": "AU$2",
+    "tags": "Treasure Hunt",
+    "color": "Green",
+    "color_cn": "绿",
+    "description_en": "",
+    "description_cn": "",
+    "imagePath": "images/new2026/IMG_4012.webp",
+    "realCarImage": "images/new2026/IMG_4012.webp",
+    "realCarUrl": "",
+    "note": "New!"
+  },
+  {
+    "id": "hw26081309",
+    "visible": true,
+    "category": "Hotwheels",
+    "modelBrand": "Hot Wheels",
+    "carBrand": "Ferrari",
+    "modelName": "Ferrari 12Cilindri",
+    "price": "AU$3.75",
+    "tags": "Mainline/Silver/Premium",
+    "color": "Red",
+    "color_cn": "红",
+    "description_en": "",
+    "description_cn": "",
+    "imagePath": "images/new2026/IMG_4010.webp",
+    "realCarImage": "images/new2026/IMG_4010.webp",
+    "realCarUrl": "",
     "note": "New!"
   }
 ]
