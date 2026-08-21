@@ -8006,7 +8006,7 @@
     "imagePath": "images/new2026/IMG_3986.webp",
     "realCarImage": "images/new2026/IMG_3978.webp",
     "realCarUrl": "",
-    "note": "New!"
+    "note": "none"
   },
   {
     "id": "hw26081302",
@@ -8024,7 +8024,7 @@
     "imagePath": "images/new2026/IMG_3985.webp",
     "realCarImage": "images/new2026/IMG_3975.webp",
     "realCarUrl": "",
-    "note": "New!"
+    "note": "none"
   },
   {
     "id": "hw26081303",
@@ -8042,7 +8042,7 @@
     "imagePath": "images/new2026/IMG_3984.webp",
     "realCarImage": "images/new2026/IMG_3978.webp",
     "realCarUrl": "",
-    "note": "New!"
+    "note": "none"
   },
   {
     "id": "hw26081304",
@@ -8060,7 +8060,7 @@
     "imagePath": "images/new2026/IMG_4005.webp",
     "realCarImage": "images/new2026/949cfa8e06df07295dd6c1b77be04502.webp",
     "realCarUrl": "",
-    "note": "New!"
+    "note": "none"
   },
   {
     "id": "hw26081305",
@@ -8079,7 +8079,7 @@
     "imagePath": "images/new2026/IMG_4004.webp",
     "realCarImage": "images/new2026/e30Polizei.jpg",
     "realCarUrl": "https://www.youtube.com/watch?v=cN-hZ42DCBs",
-    "note": "New!"
+    "note": "none"
   },
   {
     "id": "BMW26081306",
@@ -8098,7 +8098,7 @@
     "imagePath": "images/new2026/54a555e08b59c32aff79611305db44af.webp",
     "realCarImage": "images/new2026/500px-BMW_750iL_E38.jpg",
     "realCarUrl": "https://www.the-intercooler.com/library/blog/woman-maths-bmw-7-series-e38/",
-    "note": "New!"
+    "note": "none"
   },
   {
     "id": "BMW26081307",
@@ -8117,7 +8117,7 @@
     "imagePath": "images/new2026/223eca61ec43767804de872f4f18340b.webp",
     "realCarImage": "images/new2026/BMW7Series-F01-02--3696_1.jpg",
     "realCarUrl": "https://www.autoevolution.com/cars/bmw-7-series-f01-02-2008.html#aeng_bmw-7-series-f01-02-2008-730i",
-    "note": "New!"
+    "note": "none"
   },
   {
     "id": "hw26081308",
@@ -8135,7 +8135,7 @@
     "imagePath": "images/new2026/IMG_4012.webp",
     "realCarImage": "images/new2026/IMG_4012.webp",
     "realCarUrl": "",
-    "note": "New!"
+    "note": "none"
   },
   {
     "id": "hw26081309",
@@ -8153,6 +8153,25 @@
     "imagePath": "images/new2026/IMG_4010.webp",
     "realCarImage": "images/new2026/IMG_4010.webp",
     "realCarUrl": "",
+    "note": "none"
+  },
+  {
+    "id": "BMW26082100",
+    "visible": true,
+    "category": "BMW",
+    "modelBrand": "Minichamps",
+    "carBrand": "BMW",
+    "modelName": "BMW Andretti Motorsport Formula E Season 5 (Alexander Sims)",
+    "seriesNum": "iFE.18",
+    "price": "€19.95",
+    "tags": "iFE.18;Blue;2023;1/43",
+    "color": "Blue",
+    "color_cn": "蓝",
+    "description_en": "",
+    "description_cn": "",
+    "imagePath": "images/new2026/IMG_4117.webp",
+    "realCarImage": "images/new2026/P90327413.webp",
+    "realCarUrl": "https://www.press.bmwgroup.com/global/article/detail/T0288481EN/green-light-for-new-challenge:-bmw-i-andretti-motorsport-enters-its-first-formula-e-season?language=en",
     "note": "New!"
   }
 ]
