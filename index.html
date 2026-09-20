@@ -5167,7 +5167,7 @@
                         const picked = cars[0];
 
                         const card = document.createElement("div");
-                        let imgSrc = picked.imagePath || 'images/logo_white.png';
+                        let imgSrc = picked.realCarImage || picked.imagePath || 'images/logo_white.png';
                         const title = `${picked.modelName || 'Unknown'}`;
                         const carNameLabel = currentLang === 'en' ? 'Showing' : '正在展示';
                         const countLabel = currentLang === 'en' ? 'Series In Garage' : '系列在库';
