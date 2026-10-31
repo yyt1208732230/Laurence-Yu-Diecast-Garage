@@ -3842,6 +3842,7 @@
             }
         }
     </style>
+    <link rel="stylesheet" href="styles/bmw-series-index.css">
 </head>
 
 <body class="v2">
@@ -4081,6 +4082,7 @@
         </svg>
     </button>
 
+    <script src="scripts/bmw-series-index.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/scrolly-video@0.0.24/dist/scrolly-video.js"></script>
 
@@ -4863,11 +4865,11 @@
                     : '';
 
                 const modelImgSrc = car.imagePath || 'images/logo_white.png';
+                const defaultImgSrc = car.imageBGPath || modelImgSrc;
                 const realImgSrc = car.realCarImage || '';
-                const displayImgSrc = (showRealCarImages && realImgSrc) ? realImgSrc : modelImgSrc;
+                const displayImgSrc = showRealCarImages ? (realImgSrc || modelImgSrc) : defaultImgSrc;
                 const frontImgSrc = displayImgSrc;
-                const backImgSrc = realImgSrc || modelImgSrc;
-                const hasRealBackImage = Boolean(realImgSrc);
+                const backImgSrc = modelImgSrc;
 
                 const title = `${car.modelName || 'Unknown'}`;
                 const collectionId = (car.id || '').toString().trim() || '--';
@@ -4884,8 +4886,8 @@
                 const linkLabel = currentLang === 'en' ? 'link' : '链接';
                 const priceLabel = currentLang === 'en' ? 'Model Est. Price' : '模型估价';
                 const fallbackSeries = currentLang === 'en' ? 'Not set' : '暂无';
-                const realWorldLabelHtml = hasRealBackImage
-                    ? `<div class="card-back-real-label">${currentLang === 'en' ? 'Car in Real-world' : '真实车辆'}</div>`
+                const modelImageLabelHtml = car.imagePath
+                    ? `<div class="card-back-real-label">${currentLang === 'en' ? 'Model Image' : '模型图片'}</div>`
                     : '';
                 const resourceLinkHtml = car.realCarUrl
                     ? `<a class="card-back-resource-link" href="${car.realCarUrl}" target="_blank" rel="noopener noreferrer" aria-label="Explore Model">
@@ -4965,7 +4967,7 @@
 
                 <section class="card-back-visual">
                   <div class="card-back-note-row">${backNoteHtml}</div>
-                  ${realWorldLabelHtml}
+                  ${modelImageLabelHtml}
                   <div class="card-back-media-frame">
                     <img
                       src="${backImgSrc}"
@@ -5113,6 +5115,30 @@
                 // New logic: carBrand === "BMW"
                 const bmwCars = carData.filter(c => c.carBrand === "BMW" && c.visible !== false);
 
+                // Optional, standalone dictionary; disable in scripts/bmw-series-index.js.
+                const seriesIndex = window.BMWSeriesIndex?.render(bmwCars, currentLang, (filter, label) => {
+                    currentCategory = 'BMW';
+                    currentPage = 1;
+                    currentSearchQuery = '';
+                    searchInput.value = '';
+                    showRealCarImages = false;
+                    document.querySelectorAll('.nav-btn').forEach(button => {
+                        button.classList.toggle('active', button.getAttribute('data-filter') === 'BMW');
+                    });
+                    refreshOptions();
+                    bmwFilters = { series: filter, color: '', decade: '' };
+                    if (tsSeries) {
+                        tsSeries.addOption({ value: filter, text: label });
+                        tsSeries.setValue(filter, true);
+                    }
+                    if (tsColor) tsColor.clear(true);
+                    if (tsYear) tsYear.clear(true);
+                    updateUI();
+                    window.scrollTo(0, 0);
+                    document.querySelector('#bmw-series-select + .ts-wrapper input')?.focus({ preventScroll: true });
+                });
+                if (seriesIndex) timelineView.appendChild(seriesIndex);
+
                 const decadeMap = {};
 
                 bmwCars.forEach(car => {
@@ -5167,7 +5193,7 @@
                         const picked = cars[0];
 
                         const card = document.createElement("div");
-                        let imgSrc = picked.realCarImage || picked.imagePath || 'images/logo_white.png';
+                        let imgSrc = picked.imageBGPath || picked.realCarImage || picked.imagePath || 'images/logo_white.png';
                         const title = `${picked.modelName || 'Unknown'}`;
                         const carNameLabel = currentLang === 'en' ? 'Showing' : '正在展示';
                         const countLabel = currentLang === 'en' ? 'Series In Garage' : '系列在库';
@@ -5755,7 +5781,8 @@
 
                     if (currentCategory === 'BMW') {
                         if (bmwFilters.series) {
-                            filtered = filtered.filter(c => c.seriesNum === bmwFilters.series);
+                            filtered = filtered.filter(c =>
+                                window.BMWSeriesIndex?.matches(c, bmwFilters.series) ?? (c.seriesNum === bmwFilters.series));
                         }
                         if (bmwFilters.color) {
                             filtered = filtered.filter(c => {
