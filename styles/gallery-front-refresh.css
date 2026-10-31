@@ -1,0 +1,34 @@
+/* Reversible gallery-front refresh.
+   Disable by removing/commenting this stylesheet's link in index.html. */
+body.v2 #gallery .card-front .card-title {
+    position: absolute;
+    top: 44px; /* Below the heart and note badges, including on mobile. */
+    left: clamp(18px, 3vw, 34px);
+    font-size: 12px; /* Matches the existing .card-front-desc. */
+    font-weight: 700;
+    line-height: 1.55;
+    letter-spacing: 0.08em;
+    align-self: flex-start;
+    max-width: calc(100% - 2 * clamp(18px, 3vw, 34px));
+    margin: 0;
+    padding: 4px 8px;
+    background: rgba(0, 0, 0, 0.55);
+    border-radius: 3px;
+}
+
+body.v2 #gallery .card-front .mini-tag {
+    background: rgba(0, 0, 0, 0.55);
+}
+
+body.v2 #gallery .card-front .card-front-desc {
+    margin: 0 clamp(18px, 3vw, 34px) clamp(18px, 3vw, 28px);
+    padding: 6px 8px;
+    background: rgba(0, 0, 0, 0.55);
+    border-radius: 3px;
+    color: #f0f0fa;
+}
+
+/* Remove the full-image tint, retaining the image's original colors. */
+body.v2 #gallery .card-front .card-image-wrapper::after {
+    display: none;
+}

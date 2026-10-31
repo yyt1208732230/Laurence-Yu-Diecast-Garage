@@ -1357,6 +1357,44 @@
         }
 
         /* ================= Pagination ================= */
+        #pagination-bottom {
+            flex-wrap: wrap;
+        }
+
+        .page-jump {
+            flex-basis: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 8px;
+            color: var(--text);
+            font-size: 12px;
+        }
+
+        .page-jump input {
+            width: 76px;
+            min-height: 44px;
+            padding: 6px 8px;
+            border: 1px solid var(--stroke2);
+            border-radius: 3px;
+            background: var(--bg);
+            color: var(--text);
+            font: inherit;
+            text-align: center;
+        }
+
+        .page-jump input:focus-visible {
+            outline: 2px solid var(--text);
+            outline-offset: 2px;
+        }
+
+        .page-jump .page-btn {
+            min-height: 44px;
+            padding: 0 14px;
+        }
+
         .pagination-container {
             display: flex;
             justify-content: center;
@@ -3843,6 +3881,8 @@
         }
     </style>
     <link rel="stylesheet" href="styles/bmw-series-index.css">
+    <!-- Revert the gallery front refresh by commenting out the following link. -->
+    <link rel="stylesheet" href="styles/gallery-front-refresh.css">
 </head>
 
 <body class="v2">
@@ -4876,7 +4916,7 @@
                 const descText = currentLang === 'en'
                     ? (`${car.modelName || 'Unknown'} from ${car.modelBrand || 'Unknown'}. ${car.description_en || car.description_cn || ''}`)
                     : (`模型品牌${car.modelBrand || '未知'}的${car.modelName || '未知品牌'} 。${car.description_cn || car.description_en || ''}`);
-                const backDescText = (currentLang === 'en' ? car.description_en : car.description_cn) || '-';
+                const backDescText = descText;
 
                 const carBrandLabel = currentLang === 'en' ? 'Car Brand' : '车品牌';
                 const modelBrandLabel = currentLang === 'en' ? 'Model Brand' : '模型品牌';
@@ -5308,6 +5348,43 @@
                     container.innerHTML = '';
                     const clone = createButtons();
                     while (clone.firstChild) container.appendChild(clone.firstChild);
+                    if (container.id === 'pagination-bottom' && totalPages > 1) {
+                        const form = document.createElement('form');
+                        form.className = 'page-jump';
+                        const label = document.createElement('label');
+                        label.htmlFor = 'page-jump-input';
+                        label.textContent = currentLang === 'en' ? 'Go to page' : '跳转到页';
+                        const input = document.createElement('input');
+                        input.id = 'page-jump-input';
+                        input.type = 'number';
+                        input.inputMode = 'numeric';
+                        input.min = '1';
+                        input.max = String(totalPages);
+                        input.step = '1';
+                        input.required = true;
+                        input.value = String(currentPage);
+                        input.setAttribute('aria-describedby', 'page-jump-total');
+                        const total = document.createElement('span');
+                        total.id = 'page-jump-total';
+                        total.textContent = currentLang === 'en' ? `of ${totalPages}` : `/ ${totalPages} 页`;
+                        const button = document.createElement('button');
+                        button.type = 'submit';
+                        button.className = 'page-btn';
+                        button.textContent = currentLang === 'en' ? 'Go' : '跳转';
+                        form.append(label, input, total, button);
+                        form.addEventListener('submit', event => {
+                            event.preventDefault();
+                            const page = input.valueAsNumber;
+                            if (!Number.isInteger(page) || page < 1 || page > totalPages) {
+                                input.reportValidity();
+                                return;
+                            }
+                            currentPage = page;
+                            updateUI();
+                            window.scrollTo(0, 0);
+                        });
+                        container.appendChild(form);
+                    }
                 });
             }
 
