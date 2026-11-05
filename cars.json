@@ -10207,5 +10207,43 @@
     "realCarImage": "",
     "realCarUrl": "",
     "note": "New!"
+  },
+  {
+    "id": "26110501",
+    "visible": true,
+    "category": "Hotwheels",
+    "modelBrand": "Hot Wheels",
+    "carBrand": "HW Originals",
+    "modelName": "Twin Tag",
+    "price": "AU$1.8",
+    "tags": "Mainline/Silver/Premium",
+    "color": "",
+    "color_cn": "",
+    "description_en": "",
+    "description_cn": "",
+    "imagePath": "images/new2027/IMG_4981.webp",
+    "imageBGPath": "images/genereatedBG/26110501.jpg",
+    "realCarImage": "",
+    "realCarUrl": "",
+    "note": "New!"
+  },
+  {
+    "id": "26110502",
+    "visible": true,
+    "category": "Other",
+    "modelBrand": "CarTuned",
+    "carBrand": "Toyota",
+    "modelName": "2021 Toyota Tacoma Tro Pro",
+    "price": "AU$8",
+    "tags": "Cute cars",
+    "color": "",
+    "color_cn": "",
+    "description_en": "",
+    "description_cn": "",
+    "imagePath": "images/new2027/IMG_4982.webp",
+    "imageBGPath": "images/genereatedBG/26110502-2.jpg",
+    "realCarImage": "",
+    "realCarUrl": "",
+    "note": "New!"
   }
 ]
