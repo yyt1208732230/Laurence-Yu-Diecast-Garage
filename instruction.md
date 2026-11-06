@@ -200,6 +200,7 @@ English:
 - `PICKS_TAGS` 定义精选标签映射：
   - `BEST_LOVE` -> `Best Love`
   - `MY_FAV` -> `My favour`
+  - `CHARITY` -> `Charity`
   - `CUTE` -> `Cute cars`
   - `ART` -> `Art`
   - `HIDDEN` -> `Hidden gem`
@@ -213,6 +214,7 @@ English:
 - `PICKS_TAGS` defines curated tag mappings:
   - `BEST_LOVE` -> `Best Love`
   - `MY_FAV` -> `My favour`
+  - `CHARITY` -> `Charity`
   - `CUTE` -> `Cute cars`
   - `ART` -> `Art`
   - `HIDDEN` -> `Hidden gem`
